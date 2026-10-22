@@ -8431,12 +8431,13 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     return "https://firestore.googleapis.com/v1/projects/" + encodeURIComponent(FIREBASE.projectId) +
       "/databases/(default)/documents/records/" + cloudId(name) + "?key=" + encodeURIComponent(FIREBASE.apiKey);
   }
+  let cloudErr = "";
   let cloudState = CLOUD_ON ? "idle" : "off"; // off | idle | loading | synced | saving | error
   function setCloud(s) { cloudState = s; paintChip(); }
   async function cloudGet(name) {
     const r = await fetch(docUrl(name), { cache: "no-store" });
     if (r.status === 404) return null;
-    if (!r.ok) throw new Error("get " + r.status);
+    if (!r.ok) { let m = ""; try { m = (await r.json()).error.message; } catch (e) {} throw new Error("讀取 " + r.status + " " + m); }
     const d = await r.json();
     const raw = d && d.fields && d.fields.data && d.fields.data.stringValue;
     if (!raw) return null;
@@ -8446,7 +8447,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   async function cloudPut(name, s) {
     const body = { fields: { data: { stringValue: JSON.stringify(s) }, updatedAt: { integerValue: String(s.updatedAt || Date.now()) } } };
     const r = await fetch(docUrl(name), { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-    if (!r.ok) throw new Error("put " + r.status);
+    if (!r.ok) { let m = ""; try { m = (await r.json()).error.message; } catch (e) {} throw new Error("寫入 " + r.status + " " + m); }
   }
   let pushTimer = null, pushing = false, pushAgain = false;
   async function pushNow() {
@@ -8461,7 +8462,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
       if (remote) { store = merge(store, remote); writeLocal(); }
       await cloudPut(name, store);
       setCloud("synced");
-    } catch (e) { setCloud("error"); }
+    } catch (e) { cloudErr = String(e && e.message || e); setCloud("error"); renderAcct(); }
     finally { pushing = false; if (pushAgain) { pushAgain = false; schedulePush(); } }
   }
   function schedulePush() { if (!CLOUD_ON || profiles.cur === "預設") return; clearTimeout(pushTimer); pushTimer = setTimeout(pushNow, 1500); }
@@ -8477,7 +8478,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
       const nC = remote ? Object.keys(remote.rec).length + Object.keys(remote.calc || {}).length : 0;
       if (nR > nC) { setCloud("idle"); schedulePush(); } else setCloud("synced");
       renderAcct(); // 更新面板
-    } catch (e) { setCloud("error"); renderAcct(); }
+    } catch (e) { cloudErr = String(e && e.message || e); setCloud("error"); renderAcct(); }
   }
 
   function save() { store.updatedAt = Date.now(); writeLocal(); schedulePush(); }
@@ -8518,7 +8519,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
       <p>目前已作答選擇題 ${n} 題、計算題 ${c} 題。${CLOUD_ON ? "" : "要換裝置時，先「匯出紀錄」存成檔案，到另一台裝置打開網站再「匯入紀錄」，兩邊的紀錄會合併。"}</p>
       <details${CLOUD_ON ? "" : " open"}><summary>匯出、匯入紀錄檔</summary>
       <div class="prow"><button class="btn" id="pExp">匯出紀錄</button><button class="btn" id="pImp">匯入紀錄</button><input type="file" id="pFile" accept=".json,application/json" hidden></div></details>
-      <div class="msg">${msg || (cloudState === "error" && profiles.cur !== "預設" ? "現在連不到雲端，紀錄先存在這台裝置，下次作答時會再試著上傳。" : "")}</div>
+      <div class="msg">${msg || (cloudState === "error" && profiles.cur !== "預設" ? "現在連不到雲端，紀錄先存在這台裝置，下次作答時會再試著上傳。" + (cloudErr ? `<br><small class="muted">原因：${esc(cloudErr)}（網址：${esc(location.hostname || "本機檔案")}）</small>` : "") : "")}</div>
       <div class="pclose"><button class="linkbtn" id="pClose">收起 ▴</button></div>`;
     $("#pClose").onclick = () => setPanel(false);
     const sel = $("#pSel"); if (sel) sel.onchange = e => switchProfile(e.target.value);
