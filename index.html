@@ -241,6 +241,10 @@ sub, sup { font-size: .72em; }
 .fig .tx-b { fill: currentColor; font-size: 14px; font-weight: 600; stroke: none; font-family: var(--f-body); }
 .fig text.c-q, .fig text.c-ds, .fig text.c-ov, .fig text.c-acc { stroke: none; }
 .acctpanel .muted { color: var(--muted); font-size: .85rem; }
+.acct .caret { font-style: normal; color: var(--muted); font-size: .8rem; margin-left: 2px; flex: none; }
+.acct .caret::after { content: "▾"; }
+.acct[aria-expanded="true"] .caret::after { content: "▴"; }
+.acctpanel .pclose { text-align: right; margin-top: 4px; }
 .acctpanel details { margin: 0 0 8px; }
 .acctpanel summary { cursor: pointer; color: var(--muted); font-size: .85rem; }
 
@@ -341,7 +345,7 @@ body.deckfull { overflow: hidden; }
       <h1>基礎工程題庫</h1>
       <small>Ch8 淺基礎沉陷 · Ch9 筏式基礎 · Ch11 基樁 · Ch12 場鑄樁</small>
     </div>
-    <button class="acct" id="acct" aria-expanded="false" aria-controls="acctPanel"><i class="dot"></i><span><span id="acctName">使用者</span><small id="sync">紀錄存在這台裝置</small></span></button>
+    <button class="acct" id="acct" aria-expanded="false" aria-controls="acctPanel"><i class="dot"></i><span><span id="acctName">使用者</span><small id="sync">紀錄存在這台裝置</small></span><i class="caret" aria-hidden="true"></i></button>
     <div class="acctpanel" id="acctPanel" hidden></div>
     <nav class="tabs" role="tablist">
       <button role="tab" id="tab-practice" aria-selected="true" data-view="practice">練習</button>
@@ -7561,6 +7565,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   }
 
   function save() { store.updatedAt = Date.now(); writeLocal(); schedulePush(); }
+  function setPanel(open) { const pn = $("#acctPanel"); if (!pn) return; pn.hidden = !open; $("#acct").setAttribute("aria-expanded", String(open)); }
   function switchProfile(name) {
     name = String(name).trim().slice(0, 30); if (!name) return;
     const hit = profiles.list.find(p => p.toLowerCase() === name.toLowerCase());
@@ -7570,6 +7575,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     store = { v: 1, rec: {}, calc: {}, updatedAt: 0 };
     const l = readLocal(); if (l) store = merge(store, l);
     cur = null; renderAcct(); buildQueue(); refreshAll();
+    setPanel(false);
     pullCloud(name);
   }
   function chipText() {
@@ -7596,7 +7602,9 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
       <p>目前已作答選擇題 ${n} 題、計算題 ${c} 題。${CLOUD_ON ? "" : "要換裝置時，先「匯出紀錄」存成檔案，到另一台裝置打開網站再「匯入紀錄」，兩邊的紀錄會合併。"}</p>
       <details${CLOUD_ON ? "" : " open"}><summary>匯出、匯入紀錄檔</summary>
       <div class="prow"><button class="btn" id="pExp">匯出紀錄</button><button class="btn" id="pImp">匯入紀錄</button><input type="file" id="pFile" accept=".json,application/json" hidden></div></details>
-      <div class="msg">${msg || (cloudState === "error" && profiles.cur !== "預設" ? "現在連不到雲端，紀錄先存在這台裝置，下次作答時會再試著上傳。" : "")}</div>`;
+      <div class="msg">${msg || (cloudState === "error" && profiles.cur !== "預設" ? "現在連不到雲端，紀錄先存在這台裝置，下次作答時會再試著上傳。" : "")}</div>
+      <div class="pclose"><button class="linkbtn" id="pClose">收起 ▴</button></div>`;
+    $("#pClose").onclick = () => setPanel(false);
     const sel = $("#pSel"); if (sel) sel.onchange = e => switchProfile(e.target.value);
     const go = () => { const v = $("#pNew").value.trim(); if (v) switchProfile(v); };
     $("#pAdd").onclick = go;
