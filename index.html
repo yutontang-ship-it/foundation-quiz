@@ -282,6 +282,16 @@ table.nt small { color: var(--muted); font-family: var(--f-mono); }
 /* deck */
 .deck { outline: none; }
 .dtop { display: flex; gap: 8px; margin-bottom: 10px; }
+.dtopic { margin-bottom: 8px; }
+.dhead { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.dhead b { font-size: 1.1rem; }
+.dhead .meta { color: var(--muted); font-size: .85rem; }
+.tbar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; -webkit-overflow-scrolling: touch; }
+.tchip { flex: none; font: inherit; font-size: .82rem; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; white-space: nowrap; }
+.tchip.prac { color: var(--muted); border-style: dashed; }
+.tchip.on { background: var(--accent); border-color: var(--accent); color: #1a1206; font-weight: 600; }
+.deck.full .dtopic { display: none; }
+@media (min-width: 700px) { .tbar { flex-wrap: wrap; overflow: visible; } }
 .dtop select { flex: 1; min-width: 0; font: inherit; font-size: .88rem; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; }
 .dstage { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; min-height: 420px; display: flex; touch-action: pan-y; }
 .slide { padding: 20px 22px 14px; width: 100%; display: flex; flex-direction: column; }
@@ -8014,7 +8024,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     const weak = allCards.filter(x => (revMark(x.k) || {}).ok === 0).length;
     const head = `<div class="filters"><label>章節<select id="rCh">${chOptions()}</select></label>
       <label>模式<select id="rMode"><option value="deck">總複習投影片</option><option value="numbers">必背數字表</option><option value="notes">分節重點筆記</option><option value="flash">閃卡自我測驗</option></select></label></div>
-      <p class="lead">${revMode === "deck" ? (HAS_HO ? "依講義從 Ch8 講到 Ch12 的總複習講義頁：每段先講動機與定義，再看圖解、公式卡和例題，每 2–3 段有練習，解答在下一頁。" : "依講義順序從頭講到尾的總複習。") + "用 ← → 鍵、左右滑動或下方按鈕翻頁，按「全螢幕」可以一次看一整頁。" : revMode === "numbers" ? "必背數字依主題分組，每個數字都寫出它是什麼、什麼時候用。打開「遮住數值」可以自我測驗，點一下數值才會顯示。" : revMode === "flash" ? `閃卡共 ${allCards.length} 張，記得 ${known} 張、不熟 ${weak} 張。答不出來的標「不熟」，下次可以只練不熟的卡。` : "依講義每一節整理的重點、公式、數字與陷阱。"}</p>`;
+      <p class="lead">${revMode === "deck" ? (HAS_HO ? "點主題按鈕直接跳到那一段，用 ← → 鍵、左右滑動或下方按鈕翻頁。" : "用 ← → 鍵、左右滑動或下方按鈕翻頁。") : revMode === "numbers" ? "必背數字依主題分組，每個數字都寫出它是什麼、什麼時候用。打開「遮住數值」可以自我測驗，點一下數值才會顯示。" : revMode === "flash" ? `閃卡共 ${allCards.length} 張，記得 ${known} 張、不熟 ${weak} 張。答不出來的標「不熟」，下次可以只練不熟的卡。` : "依講義每一節整理的重點、公式、數字與陷阱。"}</p>`;
     let body = "";
     if (revMode === "notes") {
       body = `<nav class="toc">${list.map((r, i) => `<a href="#rv-${i}">${r.sec} ${r.title}</a>`).join("")}</nav>` + list.map((r, i) => `
@@ -8089,6 +8099,62 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     const c = $("#hideVals"); if (c) c.onchange = e => { hideVals = e.target.checked; renderReview(); };
     $("#reviewArea").querySelectorAll(".nval").forEach(b => b.onclick = () => b.classList.toggle("hid"));
   }
+  // 考前複習講義頁的主題分區：[主題, [起始頁索引, ...每頁短標題]]
+  const HO_TOPICS = [
+    ["本章導覽", 0, ["章節地圖"]],
+    ["沉陷的組成", 1, ["三種沉陷與計算深度"]],
+    ["立即沉陷", 2, ["飽和黏土", "彈性理論法", "彈性理論法（續）"]],
+    ["練習 1–3", 5, ["題目", "解答"]],
+    ["Schmertmann 法", 7, ["應變影響因子", "例題"]],
+    ["SPT 法", 9, ["容許承載力"]],
+    ["練習 4–6", 10, ["題目", "解答"]],
+    ["壓密沉陷", 12, ["主要壓密", "主要壓密（續）", "次要壓密"]],
+    ["載重試驗與容許沉陷", 15, ["平鈑載重試驗", "容許沉陷", "容許沉陷（續）"]],
+    ["練習 7–9", 18, ["題目", "解答"]],
+    ["本章總整理", 20, ["重點", "公式一覽", "必背數字", "必背數字（續）", "自我檢查"]],
+
+    ["本章導覽", 25, ["章節地圖"]],
+    ["聯合基腳", 26, ["矩形", "矩形（續）", "梯形", "梯形（續）", "懸臂基腳"]],
+    ["練習 1–3", 31, ["題目", "解答"]],
+    ["筏式基礎", 33, ["型式"]],
+    ["筏基承載力", 34, ["飽和黏土", "飽和黏土（續）", "砂土", "砂土（續）"]],
+    ["練習 4–6", 38, ["題目", "解答"]],
+    ["差異沉陷", 40, ["筏基勁度 Kr", "現地沉陷觀測"]],
+    ["補償式基礎", 42, ["觀念", "例題"]],
+    ["練習 7–9", 44, ["題目", "解答"]],
+    ["本章總整理", 46, ["重點", "公式一覽", "必背數字", "術語對照"]],
+
+    ["本章導覽", 50, ["章節地圖"]],
+    ["樁的種類與施工", 51, ["為什麼用樁", "樁材與施工"]],
+    ["荷重傳遞", 53, ["摩擦先、端承後", "讀軸力圖"]],
+    ["練習 1–3", 55, ["題目", "解答"]],
+    ["樁底承載 Qp", 57, ["砂土 Meyerhof", "黏土、SPT、岩盤", "例題"]],
+    ["樁身摩擦 Qs", 60, ["砂土", "砂土例題", "黏土 α、λ、β", "黏土例題"]],
+    ["練習 4–6", 64, ["題目", "解答"]],
+    ["載重試驗與沉陷", 66, ["載重試驗", "單樁彈性沉陷"]],
+    ["負摩擦與群樁", 68, ["負摩擦", "群樁效率", "群樁例題"]],
+    ["練習 7–9", 71, ["題目", "解答"]],
+    ["本章總整理", 73, ["重點", "公式一覽", "術語對照"]],
+
+    ["本章導覽", 76, ["章節地圖"]],
+    ["型式", 77, ["三種型式"]],
+    ["施工法", 78, ["三種施工法", "穩定液"]],
+    ["國內工法與品管", 80, ["反循環與全套管", "選工法與順序", "沉泥與樁底灌漿"]],
+    ["練習 1–3", 83, ["題目", "解答"]],
+    ["承載力架構", 85, ["荷重傳遞", "四種算法"]],
+    ["砂土承載力", 87, ["樁底 Qp", "Fqc 與側阻 Qs", "例題", "沉陷法"]],
+    ["練習 4–6", 91, ["題目", "解答"]],
+    ["黏土承載力", 93, ["極限承載力", "例題", "沉陷法", "沉陷法（續）"]],
+    ["練習 7–9", 97, ["題目", "解答"]],
+    ["本章總整理", 99, ["重點", "必背數字", "自我檢查"]],
+  ];
+  if (typeof HANDOUT !== "undefined" && HANDOUT.pages) {
+    let tn = 0;
+    HO_TOPICS.forEach(([name, start, labels]) => {
+      tn++;
+      labels.forEach((lb, k) => { const p = HANDOUT.pages[start + k]; if (p) { p.topic = name; p.tid = tn; p.label = lb; p.tk = k; p.tn = labels.length; } });
+    });
+  }
   const HAS_HO = typeof HANDOUT !== "undefined" && HANDOUT.pages && HANDOUT.pages.length;
   function deckSlides() {
     if (HAS_HO) return HANDOUT.pages.filter(p => revCh === "all" || String(p.ch) === revCh).map(p => Object.assign({ ho: true }, p));
@@ -8124,13 +8190,31 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
       </div>${fig ? `<figure class="fig sfig">${fig}</figure>` : ""}</div>
       ${s.src ? `<div class="src">出處：${s.src}</div>` : ""}</div>`;
   }
+  function topicBar(S, s) {
+    const seen = new Map();
+    S.forEach((x, i) => { if (x.ch === s.ch && x.tid && !seen.has(x.tid)) seen.set(x.tid, { name: x.topic, i, prac: /^練習/.test(x.topic) }); });
+    const chips = [...seen.entries()].map(([tid, t]) => `<button type="button" class="tchip${tid === s.tid ? " on" : ""}${t.prac ? " prac" : ""}" data-go="${t.i}">${t.name}</button>`).join("");
+    return `<div class="dtopic"><div class="dhead"><span class="chip c${s.ch}">Ch${s.ch}</span><b>${s.topic}</b><span class="meta">${s.label}${s.tn > 1 ? `　${s.tk + 1}/${s.tn}` : ""}</span></div>
+      <div class="tbar" id="tBar">${chips}</div></div>`;
+  }
+  function jumpSelect(S) {
+    if (!HAS_HO) return `<select id="dJump" aria-label="跳到投影片">${S.map((x, i) => `<option value="${i}"${i === deckPos ? " selected" : ""}>${i + 1}. ${x.cover ? "【" + x.title + "】" : (x.title || "").replace(/<[^>]+>/g, "")}</option>`).join("")}</select>`;
+    let out = "", g = null;
+    S.forEach((x, i) => {
+      const key = x.ch + "|" + x.tid;
+      if (key !== g) { if (g) out += "</optgroup>"; g = key; out += `<optgroup label="Ch${x.ch}｜${x.topic || ""}">`; }
+      out += `<option value="${i}"${i === deckPos ? " selected" : ""}>${x.label || x.title}</option>`;
+    });
+    return `<select id="dJump" aria-label="跳到頁面">${out}</optgroup></select>`;
+  }
   function renderDeck() {
     const S = deckSlides();
     if (!S.length) return '<p class="empty">這個範圍還沒有投影片。</p>';
     if (deckPos >= S.length) deckPos = S.length - 1;
     const s = S[deckPos];
     return `<div class="deck" id="deck" tabindex="0">
-      <div class="dtop"><select id="dJump" aria-label="跳到投影片">${S.map((x, i) => `<option value="${i}"${i === deckPos ? " selected" : ""}>${i + 1}. ${x.ho ? `Ch${x.ch}｜` : ""}${x.cover ? "【" + x.title + "】" : (x.title || "").replace(/<[^>]+>/g, "")}</option>`).join("")}</select>
+      ${s.ho && s.topic ? topicBar(S, s) : ""}
+      <div class="dtop">${jumpSelect(S)}
         <button class="btn" id="dFull" type="button">全螢幕</button></div>
       <div class="dstage" id="dStage">${slideHtml(s)}</div>
       <div class="dnav"><button class="btn" id="dPrev" type="button"${deckPos === 0 ? " disabled" : ""}>← 上一張</button>
@@ -8147,6 +8231,8 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     $("#dPrev").onclick = () => go(deckPos - 1);
     $("#dNext").onclick = () => go(deckPos + 1);
     $("#dJump").onchange = e => go(+e.target.value);
+    deck.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go(+b.dataset.go));
+    const on = deck.querySelector(".tchip.on"), tb = $("#tBar"); if (on && tb) tb.scrollLeft = on.offsetLeft - tb.clientWidth / 2 + on.clientWidth / 2;
     $("#dFull").textContent = deckFull ? "離開全螢幕" : "全螢幕";
     $("#dFull").onclick = () => { deckFull = !deckFull; renderReview(); };
     deck.onkeydown = e => {
