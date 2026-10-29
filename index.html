@@ -242,6 +242,26 @@ sub, sup { font-size: .72em; }
 .fig text.c-q, .fig text.c-ds, .fig text.c-ov, .fig text.c-acc { stroke: none; }
 .acctpanel .muted { color: var(--muted); font-size: .85rem; }
 .chip.exam { color: var(--accent); border-color: var(--accent); font-weight: 600; }
+.chip.focus { color: var(--ink); border-color: var(--line); background: var(--panel-2); }
+.fcs { margin: 18px 0 8px; }
+.fc { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin: 10px 0; }
+.fc.s3 { border-color: var(--accent); }
+.fch { display: flex; gap: 8px; align-items: baseline; margin-bottom: 4px; }
+.fch .stars { color: var(--accent); letter-spacing: 1px; flex: none; }
+.fch b { font-size: 1.05rem; }
+.fc p { margin: 4px 0; }
+.fc .fx { font-size: .8rem; color: var(--muted); }
+.fc .hook { font-size: 1.25rem; font-weight: 700; color: var(--accent); margin: 6px 0 8px; line-height: 1.4; }
+.fc .fk { font-size: .92rem; }
+.fc .fk span { display: inline-block; font-size: .75rem; font-weight: 600; padding: 1px 7px; border-radius: 999px; background: var(--panel-2); margin-right: 8px; }
+.fc .fk.trap span { color: var(--bad); }
+.fmore summary { cursor: pointer; color: var(--muted); font-size: .82rem; }
+.fmore p { font-size: .88rem; color: var(--muted); }
+@media (min-width: 760px) { .fcs { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; } .fcs > h2 { grid-column: 1 / -1; } }
+.fc .fx span { display: inline-block; min-width: 3.2em; font-weight: 600; color: var(--ink); margin-right: 6px; }
+.fbtn { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; margin-top: 8px; }
+.tchip .st { font-style: normal; color: var(--accent); margin-right: 3px; font-size: .75rem; }
+.tchip.on .st { color: #1a1206; }
 .dhead .chip.exam { font-size: .75rem; }
 .acct .caret { font-style: normal; color: var(--muted); font-size: .8rem; margin-left: 2px; flex: none; }
 .acct .caret::after { content: "▾"; }
@@ -375,7 +395,7 @@ body.deckfull { overflow: hidden; }
       <label>章節<select id="fCh"></select></label>
       <label>主題<select id="fTopic"></select></label>
       <label>題型<select id="fKind"><option value="all">全部</option><option value="觀念">觀念</option><option value="計算">計算</option><option value="判讀">判讀</option><option value="數字">必背數字</option></select></label>
-      <label>出題方式<select id="fMode"><option value="seq">依序</option><option value="rand">隨機</option><option value="new">只出沒做過的</option><option value="wrong">只練未訂正的錯題</option><option value="ever">曾經錯過的題</option><option value="exam">只練考古題</option></select></label>
+      <label>出題方式<select id="fMode"><option value="seq">依序</option><option value="rand">隨機</option><option value="new">只出沒做過的</option><option value="wrong">只練未訂正的錯題</option><option value="ever">曾經錯過的題</option><option value="exam">只練考古題</option><option value="focus">只練考古重點觀念</option></select></label>
     </div>
     <div class="runbar">
       <span class="meta" id="runMeta"></span>
@@ -1981,6 +2001,332 @@ const EXAM_TAGS = {
   "level": "同題型"
  }
 };
+const FOCUS = {8: [
+ { "star": 3, "concept": "沉陷影響深度",
+   "detail": "算到 Δσ'/q≈0.1；Schmertmann 方 2B、條 4B。",
+   "hook": "方2B、條4B，0.1q就停",
+   "key": "Δσ'/q≈0.1；z<sub>2</sub>/B：方 2、長條 4",
+   "trap": "把峰值深度 z<sub>1</sub>（0.5B／B）當計算深度",
+   "exam": ["2025 期中二 第 1 題", "2025 期中二 第 2 題", "2025 期中二 第 3 題"],
+   "angle": "考數字：連三題問應力增量比下限與長條、方形的 z/B。",
+   "mc": ["S1-N1", "S1-X1", "S4-N3", "S4-N4", "S4-X1", "S4-X2", "S4-06", "S4-N1", "S4-01", "S3-03"],
+   "calc": ["C-S4"], "pages": [1, 7, 10, 11, 22] },
+ { "star": 3, "concept": "黏土立即沉陷參數",
+   "detail": "飽和黏土不排水：μ<sub>s</sub>=0.5，E<sub>s</sub> 由 c<sub>u</sub> 估。",
+   "hook": "水沒排：μ 0.5、E 靠 cu",
+   "key": "μ<sub>s</sub>=0.5；E<sub>s</sub>=βc<sub>u</sub>（β 查 PI、OCR）",
+   "trap": "誤取 μ=0.3，或用 C<sub>c</sub>、c<sub>v</sub> 估 E<sub>s</sub>",
+   "exam": ["2025 期中二 第 4 題", "2025 期中二 第 5 題"],
+   "angle": "考參數選擇：μ<sub>s</sub> 取多少、E<sub>s</sub> 由哪個土壤參數估。",
+   "mc": ["S2-N1", "S2-N2", "S2-03", "S2-N3", "S2-05", "S2-06", "S2-M1", "S2-M3", "S2-02", "S1-M1"],
+   "calc": ["C-S2"], "pages": [2, 5, 6, 22] },
+ { "star": 3, "concept": "平鈑試驗尺寸換算",
+   "detail": "黏土平鈑：承載力比 1、沉陷比 B<sub>F</sub>/B<sub>P</sub>；砂土對照。",
+   "hook": "黏土 q 不變、S 跟 B 走",
+   "key": "黏土 q<sub>u(F)</sub>=q<sub>u(P)</sub>；S<sub>F</sub>=S<sub>P</sub>·B<sub>F</sub>/B<sub>P</sub>",
+   "trap": "黏土套砂土式，承載力也乘 B<sub>F</sub>/B<sub>P</sub>",
+   "exam": ["2025 期中二 第 7 題", "2025 期中二 第 8 題"],
+   "angle": "考比值關係：四個選項都是 1、B 比、反比、平方的變形。",
+   "mc": ["S8-01", "S8-02", "S8-06", "S8-N3", "S8-X1", "S8-X2", "S8-05", "S8-03", "S8-04", "S8-N2", "S8-M1"],
+   "calc": ["C-S8"], "pages": [15, 18, 19, 21, 23] },
+ { "star": 2, "concept": "剛性與柔性沉陷",
+   "detail": "剛性愈大各點沉陷愈一致；柔性中心沉最多。",
+   "hook": "柔中最深，剛性齊沉",
+   "key": "柔性：壓力均勻、中心沉最多；剛性：沉陷均勻",
+   "trap": "以為各點同沉，或基腳外土不變形",
+   "exam": ["2025 期中二 第 6 題"],
+   "angle": "考判斷：敘述何者為真，比較剛性與柔性的沉陷分布。",
+   "mc": ["S3-01", "S3-M2", "S3-X1", "S3-F1", "S3-F2"],
+   "calc": ["C-S3"], "pages": [3, 6, 20] }
+]
+,
+9: [
+ { "star": 3, "concept": "飽和黏土短期最不利", "detail": "飽和黏土完工當下最危險，短期承載力用 cu 算。",
+   "hook": "黏土剛蓋好最危險，越放越強", "key": "短期：c<sub>u</sub>、φ = 0（UU）；q<sub>u</sub> = 5.14c<sub>u</sub>(…)", "trap": "以為長期較低，或短期用 c′、φ′",
+   "exam": ["2025 期中二 第 10 題", "2025 期中二 第 11 題"], "angle": "兩題連考（共 5 分）：先問短期與長期承載力誰高，再問短期要用哪組強度參數；延伸是拿 cu 代入 qu = 5.14cu(1 + 0.195B/L)(1 + 0.4Df/B) 計算。",
+   "mc": ["M2-05", "M3-N11", "M3-X1", "M3-X2", "M3-02", "M3-N10", "M3-N1", "M3-M5", "M3-M4"], "calc": ["C-M3a", "C-HW91"], "pages": [34, 35, 38, 46, 47] },
+ { "star": 2, "concept": "筏基取代獨立基腳", "detail": "改筏基為了承載力與沉陷，不是為了省錢。",
+   "hook": "筏基撐得住、沉得少，但不便宜", "key": "理由：↑承載力、↓總沉陷、↓差異沉陷", "trap": "把「成本較低」當成改用筏基的理由",
+   "exam": ["2025 期中二 第 9 題"], "angle": "「何者不是」理由的選項判斷，正解是「成本較低」；可能換成「何者是理由」或「哪種情況最不需要筏基」。",
+   "mc": ["M2-04", "M2-X1", "M2-M2", "M2-M4", "M2-F1", "M2-F2"], "calc": [], "pages": [33, 46] },
+ { "star": 2, "concept": "補償式基礎分類", "detail": "比較建物重 Q/A 與挖掉的土重 γDf 來分類。",
+   "hook": "挖掉的土≥建物重 → 完全補償", "key": "p<sub>net</sub> = Q/A − γD<sub>f</sub>；D<sub>f</sub> = Q/(Aγ)", "trap": "把挖除土重 γD<sub>f</sub> 當成淨增應力",
+   "exam": ["2025 期中二 第 12 題"], "angle": "考名稱定義（結構總重小於開挖土重叫什麼）；延伸是給 Q、A、Df、γ 算 pnet 判斷類別，或反求完全補償深度。",
+   "mc": ["M5-N1", "M5-03", "M5-X1", "M5-01", "M5-02", "M5-M1", "M5-M2", "M5-X2", "M5-M3", "M5-M4"], "calc": ["C-M5b", "C-M5"], "pages": [42, 43, 44, 45, 46, 47] }
+]
+,
+11: [
+ {
+  "star": 3,
+  "concept": "黏土摩擦三法",
+  "detail": "飽和黏土樁身 Q<sub>s</sub> 用 α、λ、β 三法各算一次。",
+  "exam": [
+   "2025 期中二 計算第 2 題 (B)(C)(D)"
+  ],
+  "angle": "計算大題（約 15%）：c<sub>u</sub> 隨深度變，三法分別求 Q<sub>s</sub>。",
+  "mc": [
+   "P5-N1",
+   "P5-N2",
+   "P5-M1",
+   "P5-M2",
+   "P5-X1",
+   "P5-01",
+   "P5-02",
+   "P5-03",
+   "P5-04",
+   "P5-M3"
+  ],
+  "calc": [
+   "C-P5"
+  ],
+  "pages": [
+   62,
+   63,
+   64,
+   65
+  ],
+  "hook": "α分層、λ全長、β長期",
+  "key": "f=αc<sub>u</sub>；f<sub>av</sub>=λ(σ̄′<sub>o</sub>+2c̄<sub>u</sub>)；f=βσ′<sub>o</sub>",
+  "trap": "λ 法分層算、β 法用總應力"
+ },
+ {
+  "star": 3,
+  "concept": "砂中摩擦 15D",
+  "detail": "砂中 f 隨深度增加，到 L′＝15D 後定值。",
+  "exam": [
+   "2025 期中二 第 16 題",
+   "2025 期中二 計算第 1 題（Q<sub>s</sub>）"
+  ],
+  "angle": "選擇題考 f–深度關係；計算題給 K、δ′、L′ 算 Q<sub>s</sub>。",
+  "mc": [
+   "P4-01",
+   "P4-N1",
+   "P4-X1",
+   "P4-N3",
+   "P4-M1",
+   "P4-F1"
+  ],
+  "calc": [
+   "C-P4"
+  ],
+  "pages": [
+   60,
+   61
+  ],
+  "hook": "砂中摩擦 15D 封頂",
+  "key": "f=Kσ′<sub>o</sub>tanδ′，σ′<sub>o</sub> 只算到 L′=15D",
+  "trap": "L′ 以下仍用實際深度算 σ′<sub>o</sub>"
+ },
+ {
+  "star": 3,
+  "concept": "載重試驗軸力圖",
+  "detail": "從樁身軸力–深度圖讀 Q<sub>p</sub>、Q<sub>s</sub>、分段 f。",
+  "exam": [
+   "2025 期中二 第 21 題",
+   "2025 期中二 第 22 題",
+   "2025 期中二 第 23 題",
+   "2025 期中二 第 24 題"
+  ],
+  "angle": "同一張圖連考 4 題：讀數字、相減、算 f、判斷斜率突變原因。",
+  "mc": [
+   "P2-03",
+   "P2-N1",
+   "P2-N2",
+   "P2-X1",
+   "P7-X1",
+   "P7-M4"
+  ],
+  "calc": [],
+  "pages": [
+   54,
+   55,
+   56,
+   66
+  ],
+  "hook": "底讀 Q<sub>p</sub>，頂減底 Q<sub>s</sub>",
+  "key": "f=ΔQ/(πD·ΔL)；軸力驟降＝進入硬層",
+  "trap": "Q<sub>p</sub>、Q<sub>s</sub> 對調，用軸力大小判 f"
+ },
+ {
+  "star": 3,
+  "concept": "樁種與施工比較",
+  "detail": "分辨預鑄／打擊樁與場鑄樁、高／低排土樁的優缺點。",
+  "exam": [
+   "2025 期中二 第 13 題",
+   "2025 期中二 第 14 題",
+   "2025 期中二 第 15 題",
+   "2025 期中二 第 18 題"
+  ],
+  "angle": "4 題選擇題考判斷：哪個是優點、哪種屬低排土、哪句敘述正確。",
+  "mc": [
+   "P1-06",
+   "P1-X1",
+   "P1-03",
+   "P1-M1",
+   "P1-N4",
+   "P1-M3"
+  ],
+  "calc": [],
+  "pages": [
+   52
+  ],
+  "hook": "預鑄品質好，截接難",
+  "key": "H 型鋼樁＝低排土；預鑄樁品質易控、截接不易",
+  "trap": "以為預鑄樁好截好接"
+ },
+ {
+  "star": 3,
+  "concept": "砂中樁底 Q<sub>p</sub>",
+  "detail": "砂中 Q<sub>p</sub> 用 Meyerhof 與 C&amp;C 兩法計算。",
+  "exam": [
+   "2025 期中二 計算第 1 題（Q<sub>p</sub>、Q<sub>u</sub>）"
+  ],
+  "angle": "計算大題：同一支樁兩種方法算 Q<sub>p</sub>，再加 Q<sub>s</sub> 得 Q<sub>u</sub>。",
+  "mc": [
+   "P3-01",
+   "P3-N2",
+   "P3-N4",
+   "P3-M3",
+   "P3-F1",
+   "P3-F2"
+  ],
+  "calc": [
+   "C-P3a"
+  ],
+  "pages": [
+   57,
+   59
+  ],
+  "hook": "M 法封頂，C&amp;C 查圖",
+  "key": "q<sub>l</sub>=0.5p<sub>a</sub>N<sub>q</sub>*tanφ′，取小者",
+  "trap": "Meyerhof 忘了檢核 q<sub>l</sub> 上限"
+ },
+ {
+  "star": 2,
+  "concept": "黏土樁底 9c<sub>u</sub>",
+  "detail": "飽和黏土短期 Q<sub>p</sub>＝9c<sub>u</sub>A<sub>p</sub>，取樁尖 c<sub>u</sub>。",
+  "exam": [
+   "2025 期中二 計算第 2 題 (A)"
+  ],
+  "angle": "計算小題：從 c<sub>u</sub>–深度圖讀樁尖值代公式。",
+  "mc": [
+   "P3-03",
+   "P3-N1",
+   "P3-X1",
+   "P3-F3"
+  ],
+  "calc": [],
+  "pages": [
+   58,
+   63
+  ],
+  "hook": "黏土樁底九倍 c<sub>u</sub>",
+  "key": "Q<sub>p</sub>=9c<sub>u</sub>A<sub>p</sub>，c<sub>u</sub> 取樁尖處",
+  "trap": "用平均 c<sub>u</sub> 或 N<sub>c</sub>=5.14"
+ },
+ {
+  "star": 2,
+  "concept": "黏土樁越放越強",
+  "detail": "飽和黏土打樁後承載力逐漸升高至穩定。",
+  "exam": [
+   "2025 期中二 第 19 題"
+  ],
+  "angle": "判斷題：承載力與時間的關係（升、降、不變）。",
+  "mc": [
+   "P7-02",
+   "P7-X2",
+   "P7-M1",
+   "P7-F1"
+  ],
+  "calc": [],
+  "pages": [
+   62,
+   66
+  ],
+  "hook": "黏土打樁，越放越強",
+  "key": "孔隙水壓消散→再壓密→強度回升→趨穩",
+  "trap": "以為承載力隨時間遞減"
+ },
+ {
+  "star": 1,
+  "concept": "載重試驗目的",
+  "detail": "知道樁載重試驗要驗證什麼、不驗證什麼。",
+  "exam": [
+   "2025 期中二 第 20 題"
+  ],
+  "angle": "「何者不是」定義題。",
+  "mc": [
+   "P7-N1",
+   "P7-F2"
+  ],
+  "calc": [],
+  "pages": [
+   66
+  ],
+  "hook": "驗設計，不選機具",
+  "key": "驗設計荷重、回饋土參數、確認樁長、驗樁身",
+  "trap": "把驗證打樁機具當成目的"
+ },
+ {
+  "star": 1,
+  "concept": "基樁荷重形式",
+  "detail": "基樁可承受壓、側向、彎矩、拉拔與扭力。",
+  "exam": [
+   "2025 期中二 第 17 題"
+  ],
+  "angle": "「何者不包括」定義題，答案是都可能。",
+  "mc": [
+   "P1-X2",
+   "P1-F1"
+  ],
+  "calc": [],
+  "pages": [
+   51
+  ],
+  "hook": "壓拉側扭，樁都得扛",
+  "key": "垂直、側向、彎矩、拉拔、扭力皆可能",
+  "trap": "以為基樁只受垂直壓力"
+ }
+],
+12: [
+ { "star": 3, "concept": "側阻先、樁底後",
+   "detail": "側阻小沉陷就發揮，樁底要大沉陷；沉泥讓樁底更慢。",
+   "hook": "側阻先到、樁底後到",
+   "key": "側阻約 1% D 內到頂；樁底需 10–20% D<sub>b</sub>",
+   "trap": "以為兩者同時發揮或樁底先到",
+   "exam": ["2025 期末 第 6 題", "2025 期末 第 5 題"],
+   "angle": "考判斷：比較兩種阻抗所需沉陷（第 6 題），再用同一觀念解釋為何灌漿前要清沉泥（第 5 題）。",
+   "mc": ["D2-N2", "D1-N8", "D1-X3", "D2-X1", "D2-M3", "D4-02"], "calc": [], "pages": [85, 82] },
+ { "star": 3, "concept": "孔壁穩定：液與管",
+   "detail": "穩定液（皂土）與套管都是為了撐住孔壁、防坍孔。",
+   "hook": "水加皂土、套管防坍",
+   "key": "穩定液＝水＋皂土（bentonite）；套管功能＝防止坍孔",
+   "trap": "把套管當灌漿模板或以為加水泥",
+   "exam": ["2025 期末 第 1 題", "2025 期末 第 2 題"],
+   "angle": "考定義：穩定液加什麼材料、套管的功能；選項用水泥、模板等似是而非的東西當干擾。",
+   "mc": ["D1-N5", "D1-N6", "D1-X2", "D1-03", "D1-M2", "D1-08"], "calc": [], "pages": [78, 79, 80] },
+ { "star": 2, "concept": "擴座增大樁底",
+   "detail": "擴座是加大樁底面積，提高樁底承載力。",
+   "hook": "擴座擴底面、不擴摩擦",
+   "key": "A<sub>p</sub> = πD<sub>b</sub><sup>2</sup>/4（用擴座直徑）",
+   "trap": "以為擴座是減沉陷或增側阻",
+   "exam": ["2025 期末 第 3 題"],
+   "angle": "考目的：擴座的理由，干擾項為提高土壤強度、減少沉陷、維持垂直度。",
+   "mc": ["D1-N7", "D3-M9", "D1-X4", "D1-F1"], "calc": [], "pages": [77] },
+ { "star": 2, "concept": "場鑄 vs 打擊預鑄",
+   "detail": "場鑄樁可鑽穿並嵌入卵礫石或岩層，且無打樁噪音。",
+   "hook": "場鑄能嵌岩、預鑄品質穩",
+   "key": "場鑄優點：嵌入卵礫石/岩層、無噪音；缺點：品質看不到",
+   "trap": "誤選場鑄較快或承載力必較高",
+   "exam": ["2025 期末 第 4 題"],
+   "angle": "考比較：哪項是場鑄樁相對打擊預鑄樁的優點；干擾項是品質較好、承載力較高、速度較快（期中二第 13、14 題從預鑄/打擊樁那一側考過同一比較）。",
+   "mc": ["D1-02", "D1-X1", "D1-F2", "D1-F3"], "calc": [], "pages": [77] }
+]
+};
+const FOCUS_OF = {}, FOCUS_PAGE = {};
+Object.values(FOCUS).forEach(L => L.forEach(f => { (f.mc || []).forEach(id => { if (!FOCUS_OF[id] || FOCUS_OF[id].star < f.star) FOCUS_OF[id] = f; }); (f.pages || []).forEach(p => { FOCUS_PAGE[p] = Math.max(FOCUS_PAGE[p] || 0, f.star); }); }));
+let FOCUS_PICK = null, FOCUS_PICK_NAME = "";
+function focusChip(id) { const f = FOCUS_OF[id]; return f ? '<span class="chip focus">' + "★".repeat(f.star) + " " + f.concept + "</span>" : ""; }
 function examText(g) { return g.exam + " " + g.no; }
 function examChip(id) { const g = EXAM_TAGS[id]; return g ? '<span class="chip exam" title="' + (g.level === "原題" ? "考古原題" : "與考古題同題型") + '">考古' + (g.level === "原題" ? "" : g.level) + "｜" + examText(g) + "</span>" : ""; }
 MC_PATCH.push({
@@ -2723,6 +3069,27 @@ MC_PATCH.push({
       src: "講義 Ch8 p.94；2025 期中二 第 8 題延伸" }
   ]
 });
+
+MC_PATCH.push({ ch: 8, add: [
+  { id: "S3-F1", t: "S3", k: "觀念",
+    q: "柔性方形基腳置於均質黏土上，承受均布荷重 q<sub>0</sub>。下列對沉陷後地表形狀的描述，何者正確？",
+    o: ["沉陷只發生在基腳範圍內，基腳邊緣以外的地表完全不動",
+        "基腳範圍內各點沉陷相同，地表呈平底凹陷",
+        "基腳中心沉得最多、往邊緣遞減，且邊緣以外的地表也會被帶著下沉",
+        "基腳邊緣沉得最多、中心較少，地表呈中間隆起的碟形"],
+    a: 2,
+    e: "柔性基礎接觸壓力均勻，中心點受四周荷重疊加最多，沉陷最大，往邊緣遞減；應力會向外擴散，所以基腳外的土也受壓、地表跟著下沉（講義 Figure 8.2）。「範圍外完全不動」忽略了應力擴散，正是考古題的錯誤選項；「各點相同」是剛性基礎的行為；「邊緣最大」是把剛性基礎「接觸壓力在邊緣集中」誤當成沉陷形狀。",
+    src: "講義 Ch8 p.14、p.19，Figure 8.2；2025 期中二 第 6 題延伸" },
+  { id: "S3-F2", t: "S3", k: "判讀",
+    q: "同一矩形基腳承受均布荷重，比較中心點 C、長邊中點 M、角隅點 A 的彈性沉陷。若為完全柔性基腳，以及改為完全剛性基腳（總荷重相同），各點沉陷大小關係分別為何？",
+    o: ["柔性：A &gt; M &gt; C；剛性：各點相同",
+        "柔性：C &gt; M &gt; A；剛性：各點相同",
+        "柔性：C &gt; M &gt; A；剛性：仍是 C &gt; M &gt; A，只是差距變小",
+        "柔性：各點相同；剛性：C &gt; M &gt; A"],
+    a: 1,
+    e: "柔性基礎的沉陷用角隅解疊加：中心點是 4 塊矩形的共同角（α = 4），長邊中點是 2 塊（α = 2），角隅只有 1 塊（α = 1），受到的荷重疊加依序遞減，所以 C &gt; M &gt; A。完全剛性基礎本身不變形，強迫各點一起沉，所以各點相同。A &gt; M &gt; C 把順序弄反；「剛性仍有大小差」忽略了完全剛性不會彎曲；最後一項把柔性與剛性對調。",
+    src: "講義 Ch8 p.14、p.18–19；2025 期中二 第 6 題延伸" }
+] });
 
 MC_PATCH.push({
   ch: 9,
@@ -3474,6 +3841,27 @@ add: [
   src: "講義 Ch9 p.53–54" }
 ],
 remove: ["M1-04", "M1-06", "M1-N1", "M2-M5", "M3-01", "M3-03", "M3-06", "M3-N6", "M4-01"] });
+
+MC_PATCH.push({ ch: 9, add: [
+  { id: "M2-F1", t: "M2", k: "觀念",
+    q: "下列何者「是」以筏式基礎取代獨立基腳的可能理由？",
+    o: ["筏基混凝土與鋼筋用量較少，工程費一定比獨立基腳低",
+        "筏基常配合地下室開挖，移除的土重可抵銷部分建物荷重，使基底淨增應力變小、總沉陷量降低",
+        "筏基為一整片板，因此建物完全不會產生沉陷",
+        "筏基面積大，所以不必再檢核承載力與沉陷"],
+    a: 1,
+    e: "講義列出的理由是提高承載力、降低總沉陷量與差異沉陷；有地下室時 p<sub>net</sub> = Q/A − γD<sub>f</sub> 變小，總沉陷隨之降低。(A) 筏基通常較貴，成本不是改用的理由；(C) 筏基只是降低沉陷，不會消除；(D) 筏基仍須檢核承載力（黏土）與沉陷（砂土以沉陷控制）。",
+    src: "講義 Ch9 p.26–27、p.51–53；2025 期中二 第 9 題延伸" },
+  { id: "M2-F2", t: "M2", k: "觀念",
+    q: "某建物原設計為獨立基腳，後改為筏式基礎。下列哪一項通常會因此「增加」？",
+    o: ["各柱之間的差異沉陷",
+        "局部軟弱土造成的不均勻沉陷",
+        "基礎的混凝土、鋼筋用量與工程費",
+        "設有地下室時的基底淨增應力 Q/A − γD<sub>f</sub>"],
+    a: 2,
+    e: "筏基是一整片厚板，材料與施工費通常高於分散的獨立基腳，這正是期中二第 9 題「成本較低」不是理由的原因。(A)(B) 整片板有連續撓曲剛度，可跨越局部軟弱土，差異沉陷降低；(D) 地下室開挖移除土重，γD<sub>f</sub> 變大，淨增應力是降低而非增加。",
+    src: "講義 Ch9 p.27、p.46–48、p.53；2025 期中二 第 9 題延伸" }
+] });
 
 MC_PATCH.push({
   ch: 11,
@@ -4703,6 +5091,94 @@ MC_PATCH.push({
   ]
 });
 
+MC_PATCH.push({ ch: 11, add: [
+ {
+  "id": "P4-F1",
+  "t": "P4",
+  "k": "計算",
+  "q": "直徑 0.35 m 的打入樁位於均質乾砂中，γ = 17 kN/m<sup>3</sup>、φ′ = 32°，取 L′ = 15D、K = 1.3、δ′ = 0.8φ′（Meyerhof 法）。深度 z = 20 m 處的單位摩擦阻力 f 約為？",
+  "o": ["212 kPa", "73 kPa", "56 kPa", "43 kPa"],
+  "a": 2,
+  "e": "L′ = 15 × 0.35 = 5.25 m，z = 20 m 已在 L′ 以下，f 維持在 L′ 處的值：f = Kσ′<sub>o</sub>tanδ′ = 1.3 × (17 × 5.25) × tan(25.6°) ≈ <b>56 kPa</b>。212 kPa 是直接用 z = 20 m 算 σ′<sub>o</sub>，忘了 f 在 15D 封頂；73 kPa 是把 δ′ 誤用成 φ′；43 kPa 是漏乘 K。",
+  "src": "講義 Ch11 p.217–218（考前複習 p.60）；2025 期中二 第 16 題、計算第 1 題延伸"
+ },
+ {
+  "id": "P3-F1",
+  "t": "P3",
+  "k": "計算",
+  "q": "直徑 0.35 m 的打入樁貫入均質乾砂 20 m，γ = 18 kN/m<sup>3</sup>、φ′ = 30°（Table 11.5：N<sub>q</sub>* = 56.7），p<sub>a</sub> = 100 kN/m<sup>2</sup>。依 Meyerhof 法，Q<sub>p</sub> 約為？",
+  "o": ["157 kN", "1,964 kN", "273 kN", "201 kN"],
+  "a": 0,
+  "e": "先算 A<sub>p</sub>q′N<sub>q</sub>* = 0.0962 × (18 × 20) × 56.7 ≈ 1,964 kN，再檢核上限 q<sub>l</sub> = 0.5p<sub>a</sub>N<sub>q</sub>*tanφ′ = 0.5 × 100 × 56.7 × tan30° ≈ 1,637 kPa，A<sub>p</sub>q<sub>l</sub> ≈ <b>157 kN</b>，取兩者較小者。1,964 kN 是忘了 q<sub>l</sub> 上限；273 kN 是 q<sub>l</sub> 漏乘 tanφ′；201 kN 是把圓樁面積算成 D<sup>2</sup>。",
+  "src": "講義 Ch11 p.180–185（考前複習 p.57、p.59）；2025 期中二 計算第 1 題 (A) 延伸"
+ },
+ {
+  "id": "P3-F2",
+  "t": "P3",
+  "k": "計算",
+  "q": "同一支樁（D = 0.35 m、L = 20 m，乾砂 γ = 18 kN/m<sup>3</sup>、φ′ = 30°）改用 Coyle and Castello（1981）法，由 Figure 11.20 依 φ′ 與 L/D 查得 N<sub>q</sub>* ≈ 30。Q<sub>p</sub> 約為？",
+  "o": ["83 kN", "273 kN", "1,323 kN", "1,039 kN"],
+  "a": 3,
+  "e": "Coyle and Castello 法 Q<sub>p</sub> = q′N<sub>q</sub>*A<sub>p</sub>，q′ 取樁尖處有效應力 18 × 20 = 360 kPa，N<sub>q</sub>* 已隨 L/D 由圖反映，不另套 q<sub>l</sub> 上限：360 × 30 × 0.0962 ≈ <b>1,039 kN</b>。83 kN 是誤套 Meyerhof 的 q<sub>l</sub> 上限；273 kN 是把 q′ 誤取在 L′ = 15D 處（摩擦的封頂深度不適用於樁底）；1,323 kN 是把面積算成 D<sup>2</sup>。",
+  "src": "講義 Ch11 p.203–204（考前複習 p.57）；2025 期中二 計算第 1 題 (B) 延伸"
+ },
+ {
+  "id": "P3-F3",
+  "t": "P3",
+  "k": "計算",
+  "q": "直徑 0.35 m 的鋼管樁打入飽和黏土，c<sub>u</sub> 由地表附近約 20 kPa 隨深度增加到樁尖處 40 kPa（全長平均約 30 kPa）。估計短期樁底承載力 Q<sub>p</sub> 約為？",
+  "o": ["26 kN", "35 kN", "20 kN", "44 kN"],
+  "a": 1,
+  "e": "飽和黏土短期（φ = 0）Q<sub>p</sub> = 9c<sub>u</sub>A<sub>p</sub>，c<sub>u</sub> 取樁尖處的值：9 × 40 × 0.0962 ≈ <b>35 kN</b>。26 kN 是用全長平均 c<sub>u</sub>（那是 λ 法摩擦才用的）；20 kN 是把 N<sub>c</sub> 誤用淺基礎的 5.14；44 kN 是把圓樁面積算成 D<sup>2</sup>。",
+  "src": "講義 Ch11 p.189（考前複習 p.58、p.63）；2025 期中二 計算第 2 題 (A) 延伸"
+ },
+ {
+  "id": "P7-F1",
+  "t": "P7",
+  "k": "觀念",
+  "q": "預鑄樁打入均質飽和黏土後，其承載力隨時間變化的主要原因為何？",
+  "o": [
+   "打樁使黏土產生潛變，強度隨時間持續下降",
+   "混凝土樁身隨齡期硬化，樁身強度增加使承載力無限制地成長",
+   "打樁擾動產生的超額孔隙水壓逐漸消散，樁周黏土再壓密、強度回升，承載力逐漸增加後趨於穩定",
+   "打樁時土壤被擠密，承載力在打設完成當下最大，之後不再改變"
+  ],
+  "a": 2,
+  "e": "打樁會擾動並重塑樁周黏土、產生超額孔隙水壓；隨時間孔隙水壓消散，黏土再壓密、強度回升（set-up），承載力逐漸升高到某一程度後趨於穩定，這也是講義建議 EOID 後等一段時間再做載重試驗的原因。潛變遞減不是此現象；承載力受控於土壤而非樁身齡期，且不會無限成長；「打設當下最大」與事實相反，打設當下黏土正處於擾動狀態。",
+  "src": "講義 Ch11 p.246、p.293（考前複習 p.62、p.66）；2025 期中二 第 19 題延伸"
+ },
+ {
+  "id": "P7-F2",
+  "t": "P7",
+  "k": "觀念",
+  "q": "下列何者屬於講義所列樁載重試驗（pile load test）的目的？",
+  "o": [
+   "決定打樁機的錘重與型號",
+   "以試驗結果回饋分析土壤參數，供其他樁設計使用",
+   "取代地質鑽探，省去室內土壤試驗",
+   "量測打樁時的噪音與振動是否符合法規"
+  ],
+  "a": 1,
+  "e": "講義列出的目的：驗證設計荷重、回饋分析（back-figured）土壤參數供其他樁設計、確認樁長與工程費、對照承載力公式與打樁公式、取得荷重–沉陷行為、檢核樁體結構完整性。選打樁機具不是載重試驗的目的；載重試驗是驗證設計，不能取代鑽探；噪音振動屬施工管理，與承載力無關。",
+  "src": "講義 Ch11 p.274（考前複習 p.66）；2025 期中二 第 20 題延伸"
+ },
+ {
+  "id": "P1-F1",
+  "t": "P1",
+  "k": "觀念",
+  "q": "下列哪一種結構的基樁，設計時最需要同時考慮側向荷重與向上的拉拔力？",
+  "o": [
+   "一般住宅大樓地下室下方的基樁",
+   "均勻堆置貨物的倉庫基樁",
+   "只承受自重的低矮倉庫基樁",
+   "離岸平台、碼頭或高煙囪的基樁"
+  ],
+  "a": 3,
+  "e": "講義指出多數基礎的樁主要承受垂直荷重，但碼頭、橋墩、高煙囪與離岸結構的基樁，側向抵抗是重要考量；風力、波浪造成的傾覆彎矩還會讓部分基樁受拉拔。基樁可承受垂直壓力、側向推力、彎矩、拉拔甚至扭力（講義載重試驗也有拉拔、側向、扭力試驗）。其餘三者以垂直壓力為主。",
+  "src": "講義 Ch11 p.119–120、p.274（考前複習 p.51）；2025 期中二 第 17 題延伸"
+ }
+] });
+
 MC_PATCH.push({ ch: 12,
 remove: [],
 replace: {
@@ -5126,6 +5602,24 @@ add: [
   { id: "D2-X2", t: "D2", k: "計算", q: "直徑 1.0 m、長 20 m 的場鑄樁做荷重試驗，樁頂荷重 2,000 kN 時，以樁身應變計推得樁底軸力為 500 kN。假設側阻沿樁長均勻分布，平均單位側摩擦力 f 約為？",
     o: ["23.9 kN/m<sup>2</sup>", "31.8 kN/m<sup>2</sup>", "47.7 kN/m<sup>2</sup>", "75.0 kN/m<sup>2</sup>"],
     a: 0, e: "樁身側阻 Q<sub>s</sub> = 2,000 − 500 = 1,500 kN；f = Q<sub>s</sub>/(πDL) = 1,500/(π × 1.0 × 20) ≈ <b>23.9 kN/m<sup>2</sup></b>。31.8 是用樁頂總荷重 2,000 kN 沒扣樁底；47.7 是周長誤用半徑 π × 0.5；75.0 是漏了 π。", src: "講義 Ch12 p.126–129" }
+] });
+
+MC_PATCH.push({ ch: 12, add: [
+  { id: "D1-F1", t: "D1", k: "計算",
+    q: "砂土中場鑄樁，樁身直徑 D<sub>s</sub> = 1.0 m，底部擴座直徑 D<sub>b</sub> = 2.0 m。已知樁底淨單位承載力 q<sub>p</sub> = 1,500 kN/m<sup>2</sup>，擴座後的樁底承載力 Q<sub>p</sub> 約為多少？",
+    o: ["1,178 kN", "4,712 kN", "2,356 kN", "18,850 kN"], a: 1,
+    e: "擴座的目的就是增大樁底面積：A<sub>p</sub> = πD<sub>b</sub><sup>2</sup>/4 = π(2.0)<sup>2</sup>/4 = 3.14 m<sup>2</sup>，Q<sub>p</sub> = 1,500 × 3.14 ≈ 4,712 kN，是直樁的 (2/1)<sup>2</sup> = 4 倍。1,178 kN 是誤用樁身直徑 D<sub>s</sub>（沒有擴座效果）；2,356 kN 是把直徑當線性放大（只乘 2 倍，面積應乘直徑平方）；18,850 kN 是用 πD<sub>b</sub><sup>2</sup> 忘了除以 4。",
+    src: "講義 Ch12 p.5–6、p.130（考前複習講義頁 77）；2025 期末 第 3 題延伸" },
+  { id: "D1-F2", t: "D1", k: "觀念",
+    q: "比較打擊貫入的預鑄樁與場鑄樁，下列敘述何者正確？",
+    o: ["場鑄樁的樁徑受運輸與吊裝限制，通常比預鑄樁小", "預鑄樁可以輕易打穿堅硬卵礫石層並嵌入岩盤", "場鑄樁需要等混凝土硬化，所以完全無法承受側向荷重", "打擊預鑄樁會產生打樁噪音與振動，場鑄樁沒有打擊噪音"], a: 3,
+    e: "講義列場鑄樁的優點之一是施工時沒有打樁錘噪音，這正是打擊預鑄樁的缺點。受運輸、吊裝限制樁徑的是預鑄樁，場鑄樁才能做大口徑；預鑄樁遇堅硬卵礫石層不易貫入，要嵌入卵礫石或岩層是場鑄樁的強項；場鑄樁抵抗側向荷重的能力高，是優點而非缺點。",
+    src: "講義 Ch12 p.4（考前複習講義頁 77）；2025 期末 第 4 題延伸" },
+  { id: "D1-F3", t: "D1", k: "觀念",
+    q: "場鑄樁相較於打擊貫入的預鑄樁，最主要的「缺點」為何？",
+    o: ["樁身在孔內澆置、看不到，品質須靠沉泥處理與完整性試驗確保", "打樁時噪音與振動大，不適合靠近醫院與學校", "樁長必須事先決定，遇到較深的承載層無法調整", "樁徑受運輸與吊裝限制，無法做大口徑"], a: 0,
+    e: "場鑄樁是先鑽孔再在孔內澆置混凝土，樁身品質無法在入土前檢查，所以施工要做沉泥處理，澆置後約一星期還要做完整性試驗。打樁噪音振動、樁長事先決定（不夠長要續接、太長要切）、樁徑受運輸吊裝限制，都是預鑄打擊樁的缺點，正好是場鑄樁的優勢。",
+    src: "講義 Ch12 p.4、p.81（考前複習講義頁 77、81）；2025 期末 第 4 題延伸" }
 ] });
 
 DECK.push({ ch: 8, title: "Ch8 淺基礎沉陷", slides: [
@@ -8577,6 +9071,8 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     if (md === "wrong") list = list.filter(q => store.rec[q.id] && store.rec[q.id].last === 0);
     if (md === "ever") list = list.filter(q => store.rec[q.id] && store.rec[q.id].w > 0);
     if (md === "exam") list = list.filter(q => EXAM_TAGS[q.id]);
+    if (md === "focus") list = list.filter(q => FOCUS_OF[q.id] && (!FOCUS_PICK || FOCUS_PICK.has(q.id)));
+    if (md !== "focus") { FOCUS_PICK = null; FOCUS_PICK_NAME = ""; }
     if (md !== "seq") list = shuffle(list);
     queue = list.map(q => q.id); pos = 0; answers = {}; orders = {};
     const LETTER_RE = /[（(][A-D][)）]|選項\s*[（(]?[A-D]|(^|[^A-Za-z0-9_\/])[A-D](?=\s*[錯對（(：:、]|\s*是|\s*為|\s*項)/;
@@ -8609,7 +9105,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
       return;
     }
     const id = queue[pos], q = QMAP[id], ord = orders[id], ans = answers[id], rec = store.rec[id];
-    const hist = (rec && rec.w > 0 ? `<span class="chip hist">曾錯 ${rec.w} 次</span>` : "") + examChip(id);
+    const hist = (rec && rec.w > 0 ? `<span class="chip hist">曾錯 ${rec.w} 次</span>` : "") + examChip(id) + focusChip(id);
     const opts = ord.map((oi, k) => {
       let cls = "";
       if (ans) { if (oi === q.a) cls = "right"; else if (oi === ans.pick) cls = "wrong"; }
@@ -8920,7 +9416,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
 
 
   /* ---------- 考前複習 ---------- */
-  let revCh = "all", revMode = "deck", flash = null, deckPos = 0, hideVals = false;
+  let revCh = "all", revMode = "focus", flash = null, deckPos = 0, hideVals = false;
   const cardKey = (r, i) => r.ch + "|" + r.sec + "|" + i;
   function revList() { return REVIEW.filter(r => revCh === "all" || String(r.ch) === revCh); }
   function revMark(k) { return (store.rev || {})[k]; }
@@ -8931,8 +9427,8 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     const known = allCards.filter(x => (revMark(x.k) || {}).ok === 1).length;
     const weak = allCards.filter(x => (revMark(x.k) || {}).ok === 0).length;
     const head = `<div class="filters"><label>章節<select id="rCh">${chOptions()}</select></label>
-      <label>模式<select id="rMode"><option value="deck">總複習投影片</option><option value="numbers">必背數字表</option><option value="notes">分節重點筆記</option><option value="flash">閃卡自我測驗</option></select></label></div>
-      <p class="lead">${revMode === "deck" ? (HAS_HO ? "點主題按鈕直接跳到那一段，用 ← → 鍵、左右滑動或下方按鈕翻頁。" : "用 ← → 鍵、左右滑動或下方按鈕翻頁。") : revMode === "numbers" ? "必背數字依主題分組，每個數字都寫出它是什麼、什麼時候用。打開「遮住數值」可以自我測驗，點一下數值才會顯示。" : revMode === "flash" ? `閃卡共 ${allCards.length} 張，記得 ${known} 張、不熟 ${weak} 張。答不出來的標「不熟」，下次可以只練不熟的卡。` : "依講義每一節整理的重點、公式、數字與陷阱。"}</p>`;
+      <label>模式<select id="rMode"><option value="focus">考古速記卡</option><option value="deck">總複習投影片</option><option value="numbers">必背數字表</option><option value="notes">分節重點筆記</option><option value="flash">閃卡自我測驗</option></select></label></div>
+      <p class="lead">${revMode === "focus" ? "只收考古題考過的觀念，★ 越多考得越重。先背口訣，再看必背和陷阱。" : revMode === "deck" ? (HAS_HO ? "點主題按鈕直接跳到那一段，用 ← → 鍵、左右滑動或下方按鈕翻頁。" : "用 ← → 鍵、左右滑動或下方按鈕翻頁。") : revMode === "numbers" ? "必背數字依主題分組，每個數字都寫出它是什麼、什麼時候用。打開「遮住數值」可以自我測驗，點一下數值才會顯示。" : revMode === "flash" ? `閃卡共 ${allCards.length} 張，記得 ${known} 張、不熟 ${weak} 張。答不出來的標「不熟」，下次可以只練不熟的卡。` : "依講義每一節整理的重點、公式、數字與陷阱。"}</p>`;
     let body = "";
     if (revMode === "notes") {
       body = `<nav class="toc">${list.map((r, i) => `<a href="#rv-${i}">${r.sec} ${r.title}</a>`).join("")}</nav>` + list.map((r, i) => `
@@ -8944,6 +9440,8 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
         ${r.traps && r.traps.length ? `<h3>常見陷阱</h3><ul class="tr">${r.traps.map(p => `<li>${p}</li>`).join("")}</ul>` : ""}
         ${r.cards && r.cards.length ? `<h3>自我檢查</h3>${r.cards.map((c, j) => `<details class="qa"><summary>${c[0]}</summary><div>${c[1]}</div></details>`).join("")}` : ""}
         <div class="src">出處：${r.src || ""}</div></article>`).join("");
+    } else if (revMode === "focus") {
+      body = renderFocus();
     } else if (revMode === "numbers") {
       body = renderNums();
     } else if (revMode === "deck") {
@@ -8958,6 +9456,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     box.querySelectorAll(".toc a").forEach(a => a.onclick = e => { e.preventDefault(); const t = document.getElementById(a.getAttribute("href").slice(1)); if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 120 }); });
     if (revMode === "flash") bindFlash(allCards);
     if (revMode === "deck") bindDeck();
+    if (revMode === "focus") bindFocus();
     if (revMode === "numbers") bindNums();
   }
   function renderFlash(all) {
@@ -9104,10 +9603,41 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     return Object.entries(typeof EXAM_TAGS !== "undefined" ? EXAM_TAGS : {}).filter(([k]) => k.startsWith("H" + gi + "#"))
       .map(([k, g]) => `<span class="chip exam">練習 ${k.split("#")[1]}＝考古${g.level === "原題" ? "" : g.level}｜${examText(g)}</span>`).join("");
   }
+  function renderFocus() {
+    const chs = [8, 9, 11, 12].filter(c => revCh === "all" || String(c) === revCh);
+    return chs.map(c => {
+      const L = (FOCUS[c] || []);
+      if (!L.length) return "";
+      return `<section class="fcs"><h2 class="ctitle"><span class="chip c${c}">${CH_NAMES[c]}</span></h2>${L.map((f, i) => {
+        const n = (f.mc || []).filter(id => QMAP[id]).length;
+        const pg = (f.pages || []).filter(x => HANDOUT.pages[x]);
+        return `<article class="fc s${f.star}"><div class="fch"><span class="stars">${"★".repeat(f.star)}</span><b>${f.concept}</b></div>
+          ${f.hook ? `<div class="hook">${f.hook}</div>` : `<p>${f.detail}</p>`}
+          ${f.key ? `<p class="fk"><span>必背</span>${f.key}</p>` : ""}
+          ${f.trap ? `<p class="fk trap"><span>陷阱</span>${f.trap}</p>` : ""}
+          <p class="fx">考過：${(f.exam || []).map(e => e.replace("2025 ", "")).join("、")}</p>
+          <div class="fbtn">${n ? `<button class="btn primary" data-fq="${c}|${i}">練 ${n} 題</button>` : ""}
+          ${pg.slice(0, 2).map(x => `<button class="linkbtn" data-fp="${x}">看講義</button>`).slice(0, 1).join("")}
+          ${(f.calc || []).filter(id => CMAP[id]).slice(0, 1).map(id => `<button class="linkbtn" data-fc="${id}">算一題</button>`).join("")}
+          ${f.hook && (f.detail || f.angle) ? `<details class="fmore"><summary>說明</summary><p>${f.detail || ""}</p>${f.angle ? `<p>怎麼考：${f.angle}</p>` : ""}</details>` : ""}</div></article>`;
+      }).join("")}</section>`;
+    }).join("") || '<p class="empty">這個範圍還沒有整理。</p>';
+  }
+  function startFocus(set, name) {
+    FOCUS_PICK = set; FOCUS_PICK_NAME = name;
+    $("#fCh").value = "all"; fillTopics(); $("#fTopic").value = "all"; $("#fKind").value = "all"; $("#fMode").value = "focus";
+    show("practice"); buildQueue(); FOCUS_PICK = set; FOCUS_PICK_NAME = name;
+  }
+  function bindFocus() {
+    const box = $("#reviewArea");
+    box.querySelectorAll("[data-fq]").forEach(b => b.onclick = () => { const [c, i] = b.dataset.fq.split("|"); const f = FOCUS[c][+i]; startFocus(new Set(f.mc), f.concept); });
+    box.querySelectorAll("[data-fp]").forEach(b => b.onclick = () => { const gi = +b.dataset.fp; revCh = "all"; revMode = "deck"; deckPos = gi; renderReview(); window.scrollTo({ top: 0 }); });
+    box.querySelectorAll("[data-fc]").forEach(b => b.onclick = () => { show("calc"); const el = document.querySelector(`[data-cid="${b.dataset.fc}"]`); if (el) el.click(); });
+  }
   function topicBar(S, s) {
     const seen = new Map();
-    S.forEach((x, i) => { if (x.ch === s.ch && x.tid && !seen.has(x.tid)) seen.set(x.tid, { name: x.topic, i, prac: /^練習/.test(x.topic) }); });
-    const chips = [...seen.entries()].map(([tid, t]) => `<button type="button" class="tchip${tid === s.tid ? " on" : ""}${t.prac ? " prac" : ""}" data-go="${t.i}">${t.name}</button>`).join("");
+    S.forEach((x, i) => { if (x.ch === s.ch && x.tid && !seen.has(x.tid)) seen.set(x.tid, { name: x.topic, i, prac: /^練習/.test(x.topic), star: 0 }); if (x.tid && seen.has(x.tid) && FOCUS_PAGE[x.gi]) seen.get(x.tid).star = Math.max(seen.get(x.tid).star, FOCUS_PAGE[x.gi]); });
+    const chips = [...seen.entries()].map(([tid, t]) => `<button type="button" class="tchip${tid === s.tid ? " on" : ""}${t.prac ? " prac" : ""}" data-go="${t.i}">${t.star >= 2 && !t.prac && !/總整理|導覽/.test(t.name) ? `<i class="st">${"★".repeat(t.star)}</i>` : ""}${t.name}</button>`).join("");
     return `<div class="dtopic"><div class="dhead"><span class="chip c${s.ch}">Ch${s.ch}</span><b>${s.topic}</b><span class="meta">${s.label}${s.tn > 1 ? `　${s.tk + 1}/${s.tn}` : ""}</span>${hoExam(s)}</div>
       <div class="tbar" id="tBar">${chips}</div></div>`;
   }
