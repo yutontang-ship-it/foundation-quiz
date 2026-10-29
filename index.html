@@ -251,6 +251,9 @@ sub, sup { font-size: .72em; }
 .fch b { font-size: 1.05rem; }
 .fc p { margin: 4px 0; }
 .fc .fx { font-size: .8rem; color: var(--muted); }
+.fsub { grid-column: 1 / -1; font-size: .95rem; color: var(--muted); margin: 14px 0 2px; }
+.fc.lec { border-style: dashed; }
+.fch .lbadge { font-size: .72rem; font-weight: 600; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); flex: none; }
 .fc .hook { font-size: 1.25rem; font-weight: 700; color: var(--accent); margin: 6px 0 8px; line-height: 1.4; }
 .fc .fk { font-size: .92rem; }
 .fc .fk span { display: inline-block; font-size: .75rem; font-weight: 600; padding: 1px 7px; border-radius: 999px; background: var(--panel-2); margin-right: 8px; }
@@ -2321,6 +2324,50 @@ const FOCUS = {8: [
    "exam": ["2025 期末 第 4 題"],
    "angle": "考比較：哪項是場鑄樁相對打擊預鑄樁的優點；干擾項是品質較好、承載力較高、速度較快（期中二第 13、14 題從預鑄/打擊樁那一側考過同一比較）。",
    "mc": ["D1-02", "D1-X1", "D1-F2", "D1-F3"], "calc": [], "pages": [77] }
+]
+};
+const LECTURE = {8: [
+ {"star":0,"concept":"應變影響因子","hook":"峰值 0.5 起，埋深減潛變加","key":"I<sub>z(m)</sub>=0.5+0.1√[(q̄−q)/q′<sub>z(1)</sub>]","trap":"q′<sub>z(1)</sub> 用施工後應力或忘開根號","detail":"C<sub>1</sub> 埋深折減；C<sub>2</sub> 潛變：時間每 ×10 加 0.2。","lecture":"講義 p.38–44（8.5）","mc":["S4-05","S4-04","S4-M2","S4-08","S4-M1","S4-07"],"calc":["C-S4"],"pages":[7,8,10,11]},
+ {"star":0,"concept":"過壓密 Cs/Cc","hook":"σ′<sub>c</sub> 前用 Cs，之後換 Cc","key":"σ′<sub>0</sub>+Δσ′<sub>av</sub>≤σ′<sub>c</sub> 只用 C<sub>s</sub>；超過分兩段","trap":"過壓密黏土直接全段用 C<sub>c</sub>","detail":"正常壓密、過壓密未超、過壓密進入正常壓密三種算法。","lecture":"講義 p.68–74（8.9）","mc":["S6-03","S6-M2","S6-04","S6-M1","S6-02","S6-01"],"calc":["C-S6a","C-S6b","C-S6c"],"pages":[12,13,21]},
+ {"star":0,"concept":"SPT 容許淨壓","hook":"25mm 為準，N 取 0–2B","key":"q<sub>net</sub>∝N<sub>60</sub>·S<sub>e</sub>/25；F<sub>d</sub>≤1.33","trap":"N<sub>60</sub> 取錯深度或忘 F<sub>d</sub> 上限","detail":"Meyerhof：q<sub>net</sub>=q̄−γD<sub>f</sub>；B 越大容許淨壓越小。","lecture":"講義 p.58–64（8.6）","mc":["S5-01","S5-02","S5-03","S5-04","S5-N1","S5-N2","S5-N3","S5-M1","S5-M2","S5-M3"],"calc":["C-S5"],"pages":[9,10,11]},
+ {"star":0,"concept":"次要壓密","hook":"主壓密完才起算，每十倍時間等量","key":"S<sub>c(s)</sub>=C<sub>α</sub>H<sub>c</sub>log(t<sub>2</sub>/t<sub>1</sub>)/(1+e<sub>p</sub>)","trap":"t<sub>1</sub> 取 0，或用 e<sub>0</sub> 代 e<sub>p</sub>","detail":"C<sub>α</sub>/C<sub>c</sub>：無機 0.04、有機 0.05、泥炭 0.075。","lecture":"講義 p.77–84（8.11）","mc":["S7-01","S7-02","S7-03","S7-N1","S7-N2","S7-M1","S7-M2","S7-M3"],"calc":["C-S7"],"pages":[14,22]},
+ {"star":0,"concept":"差異沉陷限值","hook":"柔 1/300、剛 1/500","key":"β<sub>max</sub>=1/300；1/150 結構損壞","trap":"用總沉陷判斷，沒除柱距算角變量","detail":"β＝相鄰柱沉陷差÷柱距；柔性 &lt;1/300、剛性 &lt;1/500。","lecture":"講義 p.96–101（8.14）","mc":["S9-01","S9-N2","S9-N4","S9-M1","S9-N1","S9-M2","S9-N3","S9-M4","S9-02","S9-06","S9-M3"],"calc":["C-S9"],"pages":[16,17,23]},
+ {"star":0,"concept":"沉陷三分量","hook":"彈性、主壓密、次壓密三段相加","key":"S=S<sub>e</sub>+S<sub>c(p)</sub>+S<sub>c(s)</sub>","trap":"長期總沉陷漏算次要壓密","detail":"試驗曲線依序：彈性→主要壓密→次要壓縮。","lecture":"講義 p.3–7（8.1）","mc":["S1-01","S1-04","S1-M3","S1-M2","S1-06"],"calc":[],"pages":[0,1]},
+ {"star":0,"concept":"平均應力增量","hook":"頂底各一、中間乘四、除以六","key":"Δσ′<sub>av</sub>=(Δσ′<sub>t</sub>+4Δσ′<sub>m</sub>+Δσ′<sub>b</sub>)/6","trap":"三點直接平均或只取層中點","detail":"黏土層主要壓密用層內加權平均應力增量。","lecture":"講義 p.70–74（8.9）","mc":["S6-05","S6-M3"],"calc":["C-S6a"],"pages":[12,13]},
+ {"star":0,"concept":"砂土模數估計","hook":"8N；q<sub>c</sub> 乘 2.5／3.5","key":"E<sub>s</sub>/p<sub>a</sub>=8N<sub>60</sub>；E<sub>s</sub>=2.5q<sub>c</sub>（方）","trap":"方形、長條的 q<sub>c</sub> 倍數對調","detail":"長條基礎 E<sub>s</sub>=3.5q<sub>c</sub>；p<sub>a</sub>≈100 kPa。","lecture":"講義 p.44、53–55（8.5）","mc":["S4-09","S4-07","S3-M4","S3-08"],"calc":[],"pages":[7,8,22]}
+]
+,
+9: [
+ {"star":0,"concept":"矩形聯合基腳","hook":"合力過形心，L=2(L<sub>2</sub>+X)","key":"X=Q<sub>2</sub>L<sub>3</sub>/(Q<sub>1</sub>+Q<sub>2</sub>)；L=2(L<sub>2</sub>+X)","trap":"X 從基腳邊緣量，或漏加 L<sub>2</sub>","detail":"A=ΣQ/q<sub>net(all)</sub>，B=A/L，使基底壓力均勻。","lecture":"講義 p.4–6（9.2）","mc":["M1-01","M1-02","M1-03","M1-M1","M1-M4","M1-M5"],"calc":["C-M1a"],"pages":[26,27,31,32]},
+ {"star":0,"concept":"梯形聯合基腳","hook":"長度鎖死改寬度，重柱端放寬","key":"L/3 &lt; X+L<sub>2</sub> &lt; L/2 才有解","trap":"寬端放在荷重較小的柱","detail":"(B<sub>1</sub>+B<sub>2</sub>)L/2=A，再用形心位置解 B<sub>1</sub>、B<sub>2</sub>。","lecture":"講義 p.7–10（9.2）","mc":["M1-05","M1-M2","M1-M3","M1-M5"],"calc":["C-M1b"],"pages":[28,29,31,32]},
+ {"star":0,"concept":"剛性因子 Kr","hook":"Kr 過 0.5 就剛，δ 歸零","key":"K<sub>r</sub>=E′I<sub>b</sub>/(E<sub>s</sub>B<sup>3</sup>)；&gt;0.5 剛性","trap":"忘了 B 是三次方","detail":"K<sub>r</sub>=0.5→δ≈0.1；K<sub>r</sub>=0→方 0.35、長條 0.5。","lecture":"講義 p.46–48（9.5）","mc":["M4-N1","M4-N2","M4-02","M4-N3","M4-N4","M4-M1","M4-M3","M4-04","M4-03","M4-M2","M4-M4"],"calc":["C-M4"],"pages":[40,44,45]},
+ {"star":0,"concept":"砂土筏基 25N","hook":"筏基 50 mm，約 25N","key":"q<sub>net(all)</sub>≈25N<sub>60</sub>（kN/m<sup>2</sup>）","trap":"沿用獨立基腳 25 mm 基準","detail":"假設最大沉陷 50 mm、差異沉陷 19 mm、F<sub>d</sub>=1。","lecture":"講義 p.40–42（9.4）","mc":["M3-N7","M3-N8","M3-X3","M3-M6","M3-N9","M3-M3","M3-N5","M3-04","M3-M2"],"calc":["C-M3b"],"pages":[36,37,38,39]},
+ {"star":0,"concept":"懸臂基腳","hook":"繫梁扛偏心，外柱可貼地界","key":"適用：容許承載力高、柱距大","trap":"把繫梁當成承受土壓的基礎板","detail":"繫梁連接外柱偏心基腳與內柱基腳，抵抗彎矩。","lecture":"講義 p.11–12（9.2）","mc":["M1-07","M1-M6"],"calc":[],"pages":[30]},
+ {"star":0,"concept":"淨壓與總壓檢核","hook":"淨對淨、總對總","key":"Q/A−γD<sub>f</sub>≤q<sub>net(all)</sub>；Q/A≤q<sub>u</sub>","trap":"淨增應力拿去跟 q<sub>u</sub> 比","detail":"算黏土壓密沉陷也用淨荷重 Q/A−γD<sub>f</sub>。","lecture":"講義 p.43（9.4）","mc":["M3-05","M5-05"],"calc":[],"pages":[34]},
+ {"star":0,"concept":"筏基下加樁","hook":"樁撐筏基：減沉陷、抗浮力","key":"目的：減少沉陷、抵抗浮力","trap":"忽略空屋時浮力可能大於自重","detail":"深地下室遇高水位時，樁可受拉抵抗上浮。","lecture":"講義 p.26（9.3）","mc":["M2-02","M2-M3"],"calc":[],"pages":[33]},
+ {"star":0,"concept":"筏基五型式","hook":"平板、加厚、梁板、柱墩、牆","key":"平板、柱下加厚、梁板、柱墩、地下室牆","trap":"把懸臂（繫梁）基腳當成筏基","detail":"Figure 9.4 五型式，要能從剖面圖認出。","lecture":"講義 p.17–25（9.3）","mc":["M2-01","M2-M1"],"calc":[],"pages":[33]}
+]
+,
+11: [
+ {"star":0,"concept":"黏土群樁取小","hook":"單樁加總與塊體破壞，取小","key":"Q<sub>g(u)</sub>=min{n<sub>1</sub>n<sub>2</sub>Q<sub>u</sub>, 塊體破壞}","trap":"取兩者較大，或塊體仍用單樁周長","detail":"塊體：L<sub>g</sub>B<sub>g</sub>c<sub>u</sub>N<sub>c</sub>*＋2(L<sub>g</sub>+B<sub>g</sub>)c<sub>u</sub>L。","lecture":"講義 p.346–349（11.26）","mc":["P10-02","P10-N1","P10-M1","P10-M2"],"calc":["C-P10b"],"pages":[69,70]},
+ {"star":0,"concept":"負摩擦力","hook":"土往下沉，反把樁往下拖","key":"f<sub>n</sub>=K′σ′<sub>o</sub>tanδ′；K′=1−sinφ′","trap":"把負摩擦當成承載力加上去","detail":"黏土填土全高算；砂填土蓋黏土算到中性點 L<sub>1</sub>。","lecture":"講義 p.329–334（11.24）","mc":["P9-01","P9-02","P9-N1","P9-M1","P9-M2","P9-M3"],"calc":["C-P9"],"pages":[68]},
+ {"star":0,"concept":"單樁彈性沉陷","hook":"樁身壓縮＋樁底＋樁身傳遞","key":"S<sub>e(1)</sub>+S<sub>e(2)</sub>+S<sub>e(3)</sub>；ξ=0.5–0.67","trap":"樁身壓縮漏乘 ξ，或用極限荷重","detail":"S<sub>e(1)</sub>=(Q<sub>wp</sub>+ξQ<sub>ws</sub>)L/(A<sub>p</sub>E<sub>p</sub>)，用工作荷重。","lecture":"講義 p.307–311（11.19）","mc":["P8-01","P8-N1","P8-M1","P8-M2","P8-02","P8-M3"],"calc":["C-P8"],"pages":[67]},
+ {"star":0,"concept":"摩擦先、端承後","hook":"摩擦幾 mm，端承要一成樁徑","key":"摩擦 5–10 mm 到頂；端承需 10–25% D","trap":"以為摩擦與端承同時達到極限","detail":"小沉陷時荷重主要由樁身摩擦承擔。","lecture":"講義 p.156–164（11.6）","mc":["P2-01","P2-M1"],"calc":[],"pages":[53]},
+ {"star":0,"concept":"群樁效率","hook":"最小2.5D，常用3–3.5D","key":"η=Q<sub>g(u)</sub>/ΣQ<sub>u</sub>；d<sub>min</sub>=2.5D","trap":"以為 η 必小於 1（砂中打樁可＞1）","detail":"摩擦樁群樁效率可用 Converse–Labarre 式估。","lecture":"講義 p.341–345（11.25）","mc":["P10-01","P10-03","P10-M3"],"calc":["C-P10a"],"pages":[69]},
+ {"star":0,"concept":"載重試驗程序","hook":"等 30 天、分階加到 2 倍","key":"EOID 後≥30 天；每階約 ¼ 工作荷重","trap":"最大荷重只加到工作荷重","detail":"最大至少 2 倍工作荷重（設計荷重 250%）。","lecture":"講義 p.293–298（11.18）","mc":["P7-N2","P7-M1","P7-M2","P7-03"],"calc":[],"pages":[66]},
+ {"star":0,"concept":"SPT 估樁底","hook":"0.4N·L/D，4N 封頂","key":"q<sub>p</sub>=0.4p<sub>a</sub>N<sub>60</sub>L/D≤4p<sub>a</sub>N<sub>60</sub>","trap":"忘了上限，或 N 只取樁尖一點","detail":"N<sub>60</sub> 取樁尖上 10D 至下 4D 的平均。","lecture":"講義 p.187、211（11.8、11.12）","mc":["P3-04","P3-N3","P3-M1"],"calc":["C-P3b"],"pages":[58]},
+ {"star":0,"concept":"岩盤樁底","hook":"岩石強度先除五，FS 取三","key":"q<sub>u(design)</sub>=q<sub>u(lab)</sub>/5；FS≥3","trap":"直接用試體 q<sub>u</sub>，忽略尺寸效應","detail":"q<sub>p</sub>=q<sub>u</sub>(N<sub>φ</sub>+1)，N<sub>φ</sub>=tan<sup>2</sup>(45°+φ′/2)。","lecture":"講義 p.259（11.17）","mc":["P6-N1","P6-N2","P6-M1","P6-M2"],"calc":["C-P6"],"pages":[58]}
+]
+,
+12: [
+ {"star":0,"concept":"砂土樁底淨值","hook":"N<sub>q</sub> 減一，扣掉原覆土","key":"Q<sub>p(net)</sub>=A<sub>p</sub>q′(N<sub>q</sub>−1)F<sub>qs</sub>F<sub>qd</sub>F<sub>qc</sub>","trap":"N<sub>q</sub> 沒減 1，或 A<sub>p</sub> 用樁身徑","detail":"I<sub>rr</sub>≥I<sub>cr</sub> 時 F<sub>qc</sub>=1，否則用公式折減。","lecture":"講義 p.132–141（12.7）","mc":["D3-01","D3-02","D3-N1","D3-M1","D3-M2","D3-M3","D3-N2","D3-N3","D3-N4"],"calc":["C-D3"],"pages":[87,88,89]},
+ {"star":0,"concept":"沉泥處理","hook":"鑽完、吊籠後、澆置前各清一次","key":"三階段；後兩階段用氣昇式 Air Lift","trap":"以為只在澆置前清一次就好","detail":"樁底後灌漿：U 型管最便宜，高壓沖洗最好掌握。","lecture":"講義 p.81、86–92、120–121（12.3）","mc":["D1-M3","D1-09","D1-07"],"calc":[],"pages":[82]},
+ {"star":0,"concept":"黏土側阻扣段","hook":"頂 1.5 m、底 1D 不算","key":"α*=0：頂 1.5 m、底 1D；其餘 α*=0.55","trap":"全長都算側阻，或沿用 α*=0.4","detail":"12.9 用 α*=0.4；擴座樁另扣擴座頂上 1D<sub>b</sub>。","lecture":"講義 p.165、169（12.9–12.10）","mc":["D4-03","D4-N2","D4-M2","D4-M8"],"calc":["C-D4b","C-D4a"],"pages":[93,95,96]},
+ {"star":0,"concept":"黏土樁底 Nc*","hook":"1.33(lnI<sub>r</sub>+1)≤9","key":"N<sub>c</sub>*=1.33[(lnI<sub>r</sub>)+1]；I<sub>r</sub>=E<sub>s</sub>/3c<sub>u</sub>","trap":"直接套 9c<sub>u</sub>，不查 I<sub>r</sub>","detail":"適用 L≥3D<sub>b</sub>；L/D<sub>b</sub>&lt;3 要再乘折減式。","lecture":"講義 p.163–165（12.9）","mc":["D4-01","D4-N1","D4-M1","D4-M4","D4-M7"],"calc":["C-D4a"],"pages":[93,94]},
+ {"star":0,"concept":"黏土樁底上限","hook":"6c<sub>ub</sub> 起算，9c<sub>ub</sub> 封頂","key":"q<sub>p</sub>=6c<sub>ub</sub>(1+0.2L/D<sub>b</sub>)≤9c<sub>ub</sub>","trap":"c<sub>ub</sub> 取樁身平均強度","detail":"c<sub>ub</sub> 取樁底下 2D<sub>b</sub>；D<sub>b</sub>＞1.91 m 乘 F<sub>r</sub>。","lecture":"講義 p.170–172（12.10）","mc":["D4-N3","D4-N4","D4-M3","D4-M5","D4-M6"],"calc":["C-D4b"],"pages":[95,96]},
+ {"star":0,"concept":"反循環與全套管","hook":"反循環吸泥水，全迴式最垂直","key":"全迴式垂直度約 1/300，搖管式約 1/100","trap":"以為反循環靠套管撐住孔壁","detail":"反循環：泥水經鑽桿吸到沉澱池，再回流維持水頭。","lecture":"講義 p.56–61、78–80（12.3）","mc":["D1-04","D1-05","D1-M1","D1-N2"],"calc":[],"pages":[80,81]},
+ {"star":0,"concept":"砂土沉陷法","hook":"D<sub>b</sub>≥1.27 m 樁底要折減","key":"q<sub>p</sub>=β<sub>5</sub>N<sub>60</sub>≤β<sub>6</sub>；D<sub>b</sub>≥1.27 m 改 q<sub>pr</sub>","trap":"砂、黏土門檻 1.27、1.91 m 搞混","detail":"q<sub>pr</sub>=1.27q<sub>p</sub>/D<sub>b</sub>；側阻 f<sub>i</sub>=β<sub>1</sub>σ′<sub>ozi</sub>≤β<sub>2</sub>。","lecture":"講義 p.143–148（12.8）","mc":["D3-M4","D3-M5","D3-N6","D3-M6"],"calc":[],"pages":[90]},
+ {"star":0,"concept":"穩定液檢驗","hook":"漏斗量黏、比重計量重","key":"黏滯度：馬氏漏斗；含砂量：砂量測定瓶","trap":"把馬氏漏斗當成量比重","detail":"另驗比重（比重計）與酸鹼值（pH 試紙）。","lecture":"講義 p.108–109（12.3）","mc":["D1-06","D1-M7"],"calc":[],"pages":[79]}
 ]
 };
 const FOCUS_OF = {}, FOCUS_PAGE = {};
@@ -9071,7 +9118,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     if (md === "wrong") list = list.filter(q => store.rec[q.id] && store.rec[q.id].last === 0);
     if (md === "ever") list = list.filter(q => store.rec[q.id] && store.rec[q.id].w > 0);
     if (md === "exam") list = list.filter(q => EXAM_TAGS[q.id]);
-    if (md === "focus") list = list.filter(q => FOCUS_OF[q.id] && (!FOCUS_PICK || FOCUS_PICK.has(q.id)));
+    if (md === "focus") list = list.filter(q => FOCUS_PICK ? FOCUS_PICK.has(q.id) : FOCUS_OF[q.id]);
     if (md !== "focus") { FOCUS_PICK = null; FOCUS_PICK_NAME = ""; }
     if (md !== "seq") list = shuffle(list);
     queue = list.map(q => q.id); pos = 0; answers = {}; orders = {};
@@ -9428,7 +9475,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     const weak = allCards.filter(x => (revMark(x.k) || {}).ok === 0).length;
     const head = `<div class="filters"><label>章節<select id="rCh">${chOptions()}</select></label>
       <label>模式<select id="rMode"><option value="focus">考古速記卡</option><option value="deck">總複習投影片</option><option value="numbers">必背數字表</option><option value="notes">分節重點筆記</option><option value="flash">閃卡自我測驗</option></select></label></div>
-      <p class="lead">${revMode === "focus" ? "只收考古題考過的觀念，★ 越多考得越重。先背口訣，再看必背和陷阱。" : revMode === "deck" ? (HAS_HO ? "點主題按鈕直接跳到那一段，用 ← → 鍵、左右滑動或下方按鈕翻頁。" : "用 ← → 鍵、左右滑動或下方按鈕翻頁。") : revMode === "numbers" ? "必背數字依主題分組，每個數字都寫出它是什麼、什麼時候用。打開「遮住數值」可以自我測驗，點一下數值才會顯示。" : revMode === "flash" ? `閃卡共 ${allCards.length} 張，記得 ${known} 張、不熟 ${weak} 張。答不出來的標「不熟」，下次可以只練不熟的卡。` : "依講義每一節整理的重點、公式、數字與陷阱。"}</p>`;
+      <p class="lead">${revMode === "focus" ? "每章先列考古題考過的觀念（★ 越多考得越重），再列講義強調但考古還沒考的觀念。先背口訣，再看必背和陷阱。" : revMode === "deck" ? (HAS_HO ? "點主題按鈕直接跳到那一段，用 ← → 鍵、左右滑動或下方按鈕翻頁。" : "用 ← → 鍵、左右滑動或下方按鈕翻頁。") : revMode === "numbers" ? "必背數字依主題分組，每個數字都寫出它是什麼、什麼時候用。打開「遮住數值」可以自我測驗，點一下數值才會顯示。" : revMode === "flash" ? `閃卡共 ${allCards.length} 張，記得 ${known} 張、不熟 ${weak} 張。答不出來的標「不熟」，下次可以只練不熟的卡。` : "依講義每一節整理的重點、公式、數字與陷阱。"}</p>`;
     let body = "";
     if (revMode === "notes") {
       body = `<nav class="toc">${list.map((r, i) => `<a href="#rv-${i}">${r.sec} ${r.title}</a>`).join("")}</nav>` + list.map((r, i) => `
@@ -9603,24 +9650,29 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     return Object.entries(typeof EXAM_TAGS !== "undefined" ? EXAM_TAGS : {}).filter(([k]) => k.startsWith("H" + gi + "#"))
       .map(([k, g]) => `<span class="chip exam">練習 ${k.split("#")[1]}＝考古${g.level === "原題" ? "" : g.level}｜${examText(g)}</span>`).join("");
   }
+  function fcard(f, c, i, kind) {
+    const n = (f.mc || []).filter(id => QMAP[id]).length;
+    const pg = (f.pages || []).filter(x => HANDOUT.pages[x]);
+    const badge = kind === "lec" ? '<span class="lbadge">講義</span>' : `<span class="stars">${"★".repeat(f.star)}</span>`;
+    const where = kind === "lec" ? `講義：${(f.lecture || "").replace(/^講義\s*/, "")}` : `考過：${(f.exam || []).map(e => e.replace("2025 ", "")).join("、")}`;
+    return `<article class="fc ${kind === "lec" ? "lec" : "s" + f.star}"><div class="fch">${badge}<b>${f.concept}</b></div>
+      ${f.hook ? `<div class="hook">${f.hook}</div>` : `<p>${f.detail}</p>`}
+      ${f.key ? `<p class="fk"><span>必背</span>${f.key}</p>` : ""}
+      ${f.trap ? `<p class="fk trap"><span>陷阱</span>${f.trap}</p>` : ""}
+      <p class="fx">${where}</p>
+      <div class="fbtn">${n ? `<button class="btn primary" data-fq="${c}|${i}|${kind}">練 ${n} 題</button>` : ""}
+      ${pg.slice(0, 1).map(x => `<button class="linkbtn" data-fp="${x}">看講義</button>`).join("")}
+      ${(f.calc || []).filter(id => CMAP[id]).slice(0, 1).map(id => `<button class="linkbtn" data-fc="${id}">算一題</button>`).join("")}
+      ${f.hook && (f.detail || f.angle) ? `<details class="fmore"><summary>說明</summary><p>${f.detail || ""}</p>${f.angle ? `<p>怎麼考：${f.angle}</p>` : ""}</details>` : ""}</div></article>`;
+  }
   function renderFocus() {
     const chs = [8, 9, 11, 12].filter(c => revCh === "all" || String(c) === revCh);
     return chs.map(c => {
-      const L = (FOCUS[c] || []);
-      if (!L.length) return "";
-      return `<section class="fcs"><h2 class="ctitle"><span class="chip c${c}">${CH_NAMES[c]}</span></h2>${L.map((f, i) => {
-        const n = (f.mc || []).filter(id => QMAP[id]).length;
-        const pg = (f.pages || []).filter(x => HANDOUT.pages[x]);
-        return `<article class="fc s${f.star}"><div class="fch"><span class="stars">${"★".repeat(f.star)}</span><b>${f.concept}</b></div>
-          ${f.hook ? `<div class="hook">${f.hook}</div>` : `<p>${f.detail}</p>`}
-          ${f.key ? `<p class="fk"><span>必背</span>${f.key}</p>` : ""}
-          ${f.trap ? `<p class="fk trap"><span>陷阱</span>${f.trap}</p>` : ""}
-          <p class="fx">考過：${(f.exam || []).map(e => e.replace("2025 ", "")).join("、")}</p>
-          <div class="fbtn">${n ? `<button class="btn primary" data-fq="${c}|${i}">練 ${n} 題</button>` : ""}
-          ${pg.slice(0, 2).map(x => `<button class="linkbtn" data-fp="${x}">看講義</button>`).slice(0, 1).join("")}
-          ${(f.calc || []).filter(id => CMAP[id]).slice(0, 1).map(id => `<button class="linkbtn" data-fc="${id}">算一題</button>`).join("")}
-          ${f.hook && (f.detail || f.angle) ? `<details class="fmore"><summary>說明</summary><p>${f.detail || ""}</p>${f.angle ? `<p>怎麼考：${f.angle}</p>` : ""}</details>` : ""}</div></article>`;
-      }).join("")}</section>`;
+      const L = FOCUS[c] || [], M = (typeof LECTURE !== "undefined" && LECTURE[c]) || [];
+      if (!L.length && !M.length) return "";
+      return `<section class="fcs"><h2 class="ctitle"><span class="chip c${c}">${CH_NAMES[c]}</span></h2>
+        ${L.length ? `<h3 class="fsub">考古重點</h3>${L.map((f, i) => fcard(f, c, i, "exam")).join("")}` : ""}
+        ${M.length ? `<h3 class="fsub">講義重點（考古還沒考）</h3>${M.map((f, i) => fcard(f, c, i, "lec")).join("")}` : ""}</section>`;
     }).join("") || '<p class="empty">這個範圍還沒有整理。</p>';
   }
   function startFocus(set, name) {
@@ -9630,7 +9682,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   }
   function bindFocus() {
     const box = $("#reviewArea");
-    box.querySelectorAll("[data-fq]").forEach(b => b.onclick = () => { const [c, i] = b.dataset.fq.split("|"); const f = FOCUS[c][+i]; startFocus(new Set(f.mc), f.concept); });
+    box.querySelectorAll("[data-fq]").forEach(b => b.onclick = () => { const [c, i, k] = b.dataset.fq.split("|"); const f = (k === "lec" ? LECTURE : FOCUS)[c][+i]; startFocus(new Set(f.mc), f.concept); });
     box.querySelectorAll("[data-fp]").forEach(b => b.onclick = () => { const gi = +b.dataset.fp; revCh = "all"; revMode = "deck"; deckPos = gi; renderReview(); window.scrollTo({ top: 0 }); });
     box.querySelectorAll("[data-fc]").forEach(b => b.onclick = () => { show("calc"); const el = document.querySelector(`[data-cid="${b.dataset.fc}"]`); if (el) el.click(); });
   }
