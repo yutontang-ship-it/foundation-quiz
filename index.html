@@ -72,7 +72,8 @@ nav.tabs { display: flex; gap: 4px; width: 100%; }
 nav.tabs button { flex: 1; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); font: inherit; font-weight: 500; padding: 10px 4px; cursor: pointer; }
 nav.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
 nav.tabs button:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-nav.tabs .count { font-family: var(--f-mono); font-size: .75rem; color: var(--bad); margin-left: 4px; }
+nav.tabs .tablink { flex: 1; text-align: center; text-decoration: none; color: var(--accent); font-weight: 500; padding: 10px 6px; white-space: nowrap; font-size: .92rem; border-bottom: 2px solid transparent; }
+.tabs .count { font-family: var(--f-mono); font-size: .75rem; color: var(--bad); margin-left: 4px; }
 
 main { padding-block: 20px 64px; }
 section[hidden] { display: none !important; }
@@ -388,6 +389,7 @@ body.deckfull { overflow: hidden; }
       <button role="tab" id="tab-calc" aria-selected="false" data-view="calc">計算題</button>
       <button role="tab" id="tab-wrong" aria-selected="false" data-view="wrong">錯題本<span class="count" id="wrongCount"></span></button>
       <button role="tab" id="tab-stats" aria-selected="false" data-view="stats">統計</button>
+      <a class="tablink" href="mindmap/">心智圖講義</a>
     </nav>
   </div>
 </header>
