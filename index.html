@@ -72,8 +72,11 @@ nav.tabs { display: flex; gap: 4px; width: 100%; }
 nav.tabs button { flex: 1; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); font: inherit; font-weight: 500; padding: 10px 4px; cursor: pointer; }
 nav.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
 nav.tabs button:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-nav.tabs .tablink { flex: 1; text-align: center; text-decoration: none; color: var(--accent); font-weight: 500; padding: 10px 6px; white-space: nowrap; font-size: .92rem; border-bottom: 2px solid transparent; }
+nav.tabs .tablink { flex: 1 0 auto; text-align: center; text-decoration: none; color: var(--accent); font-weight: 500; padding: 10px 6px; white-space: nowrap; font-size: .92rem; border-bottom: 2px solid transparent; }
 .tabs .count { font-family: var(--f-mono); font-size: .75rem; color: var(--bad); margin-left: 4px; }
+nav.tabs { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+nav.tabs::-webkit-scrollbar { display: none; }
+nav.tabs button { flex: 1 0 auto; white-space: nowrap; padding-inline: 8px; }
 
 main { padding-block: 20px 64px; }
 section[hidden] { display: none !important; }
@@ -370,6 +373,68 @@ body.deckfull { overflow: hidden; }
 .nval.hid * { visibility: hidden; }
 
 .flash .meta { margin-left: auto; font-family: var(--f-mono); font-size: .8rem; color: var(--muted); }
+
+/* 模擬考 */
+.mock-setup .mh { margin: 0 0 6px; font-family: var(--f-serif, inherit); }
+.mock-setup .muted, .mock-paper .muted { color: var(--muted); font-size: .9rem; line-height: 1.6; }
+.mrow { display: grid; grid-template-columns: 3.2rem minmax(0, 1fr); gap: 10px; align-items: start; margin-top: 14px; }
+.mrow .ml { color: var(--muted); font-size: .9rem; padding-top: 8px; }
+.mopts { display: grid; gap: 8px; }
+.mopt { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; align-items: center; background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; cursor: pointer; }
+.mopt input { grid-row: span 2; accent-color: var(--accent); }
+.mopt small { color: var(--muted); font-size: .82rem; }
+.mopt.on { border-color: var(--accent); }
+.mchs { display: flex; flex-wrap: wrap; gap: 8px; }
+.mch { background: var(--panel-2); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font-size: .9rem; cursor: pointer; }
+.mch input { accent-color: var(--accent); }
+.mrow select { background: var(--panel-2); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font: inherit; justify-self: start; }
+.mock-hist { margin-top: 14px; overflow-x: auto; }
+.mock-hist h3 { margin: 0 0 8px; font-size: 1rem; }
+.mock-hist table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.mock-hist th, .mock-hist td { text-align: left; padding: 6px 8px 6px 0; border-top: 1px solid var(--line); white-space: nowrap; }
+.mock-hist th { color: var(--muted); font-weight: 500; border-top: 0; }
+.sc { font-family: var(--f-mono); font-weight: 500; } .sc.ok, .big.ok { color: var(--ok); } .sc.bad, .big.bad { color: var(--bad); }
+.mock-title h2 { margin: 0 0 4px; }
+.msec { margin: 22px 0 10px; font-size: 1.05rem; }
+.msub { margin: -4px 0 10px; }
+.mq, .mc-calc, .mr { margin-bottom: 12px; }
+.mqq { margin: 0 0 10px; line-height: 1.7; }
+.mno { font-family: var(--f-mono); color: var(--accent); margin-right: 4px; }
+.opt.picked { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--panel-2)); }
+.opt.picked .L { color: var(--accent); }
+.msteps { margin: 12px 0 0; padding-left: 1.4rem; display: grid; gap: 12px; }
+.msteps li p { margin: 0 0 6px; line-height: 1.6; }
+.minp { display: inline-flex; align-items: center; gap: 8px; }
+.minp input { width: 9rem; background: var(--panel-2); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font: inherit; font-family: var(--f-mono); }
+.minp span { color: var(--muted); font-size: .9rem; }
+.mcho { display: grid; gap: 6px; } .mcho label { display: flex; gap: 8px; align-items: baseline; font-size: .92rem; cursor: pointer; }
+.mock-end { display: flex; justify-content: space-between; gap: 10px; margin: 18px 0 8px; flex-wrap: wrap; }
+.mockbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; display: flex; align-items: center; gap: 14px; justify-content: center; background: var(--panel); border-top: 1px solid var(--line); padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); font-family: var(--f-mono); font-size: .92rem; }
+.mockbar #mockTime { font-weight: 500; color: var(--ink); }
+.mockbar.warn #mockTime { color: var(--bad); }
+.mockbar #mockDone { color: var(--muted); }
+body.inmock main { padding-bottom: 96px; }
+.mock-res .mwarn { color: var(--bad); margin: 0 0 8px; }
+.mscore { display: flex; align-items: baseline; gap: 6px; margin-bottom: 10px; }
+.mscore .big { font-family: var(--f-mono); font-size: 3rem; font-weight: 500; line-height: 1; }
+.of { color: var(--muted); font-size: .95rem; }
+.msum { display: flex; flex-wrap: wrap; gap: 12px 28px; }
+.msum > div { border-left: 3px solid var(--line); padding-left: 10px; }
+.msum .v { font-family: var(--f-mono); font-size: 1.5rem; font-weight: 500; }
+.msum .l { color: var(--muted); font-size: .82rem; }
+.mbych { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; font-size: .85rem; }
+.mr summary { cursor: pointer; line-height: 1.6; list-style: none; }
+.mr summary::-webkit-details-marker { display: none; }
+.mr .mark { font-weight: 700; } .mr.rok .mark { color: var(--ok); } .mr.rbad .mark { color: var(--bad); }
+.mr:not([open]) .mrq { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; color: var(--muted); }
+.mr[open] .mrq { display: inline; }
+.mr .meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; font-size: .78rem; }
+.mr .opts { display: grid; gap: 6px; }
+.mr .exp { margin-top: 10px; font-size: .92rem; line-height: 1.7; }
+.mr .exp .src { color: var(--muted); font-size: .8rem; }
+.msteps.res li.rok .mya { color: var(--ok); } .msteps.res li.rbad .mya { color: var(--bad); }
+.msteps.res .exp { margin-top: 4px; color: var(--muted); }
+.mr [data-copen] { margin-top: 12px; }
 </style>
 
 </head>
@@ -387,6 +452,7 @@ body.deckfull { overflow: hidden; }
       <button role="tab" id="tab-practice" aria-selected="true" data-view="practice">練習</button>
       <button role="tab" id="tab-review" aria-selected="false" data-view="review">考前複習</button>
       <button role="tab" id="tab-calc" aria-selected="false" data-view="calc">計算題</button>
+      <button role="tab" id="tab-mock" aria-selected="false" data-view="mock">模擬考</button>
       <button role="tab" id="tab-wrong" aria-selected="false" data-view="wrong">錯題本<span class="count" id="wrongCount"></span></button>
       <button role="tab" id="tab-stats" aria-selected="false" data-view="stats">統計</button>
       <a class="tablink" href="mindmap/">心智圖講義</a>
@@ -411,6 +477,10 @@ body.deckfull { overflow: hidden; }
 
   <section id="view-review" hidden>
     <div id="reviewArea"></div>
+  </section>
+
+  <section id="view-mock" hidden>
+    <div id="mockArea"></div>
   </section>
 
   <section id="view-calc" hidden>
@@ -8958,7 +9028,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   function writeLocal() { try { localStorage.setItem(keyFor(profiles.cur), JSON.stringify(store)); } catch (e) {} }
   function merge(a, b) {
     const out = { v: 1, rec: {}, updatedAt: Math.max(a.updatedAt || 0, b.updatedAt || 0) };
-    ["rec", "calc", "rev"].forEach(f => {
+    ["rec", "calc", "rev", "mock"].forEach(f => {
       out[f] = {};
       const ids = new Set([...Object.keys(a[f] || {}), ...Object.keys(b[f] || {})]);
       ids.forEach(id => { const x = (a[f] || {})[id], y = (b[f] || {})[id]; out[f][id] = !x ? y : !y ? x : ((x.ts || 0) >= (y.ts || 0) ? x : y); });
@@ -9034,7 +9104,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     saveProfiles();
     store = { v: 1, rec: {}, calc: {}, updatedAt: 0 };
     const l = readLocal(); if (l) store = merge(store, l);
-    cur = null; renderAcct(); buildQueue(); refreshAll();
+    cur = null; if (typeof mockReset === "function") mockReset(); renderAcct(); buildQueue(); refreshAll();
     setPanel(false);
     pullCloud(name);
   }
@@ -9746,14 +9816,251 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     st.addEventListener("touchend", e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null; if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) go(deckPos + (dx < 0 ? 1 : -1)); }, { passive: true });
     deck.focus({ preventScroll: true });
   }
+  /* ---------- 模擬考 ---------- */
+  // 依 2025 期中二格式：選擇題每題 2.5 分、計算大題每題 20 分。各章題數比例參考考古題分量。
+  const MOCK_W = { 8: 7, 9: 4, 11: 8, 12: 5 };
+  const MOCK_MODES = {
+    full: { name: "完整模擬", mc: 24, calc: 2, min: 100, desc: "選擇 24 題（每題 2.5 分）＋計算 2 大題（每題 20 分）" },
+    mc: { name: "選擇題快考", mc: 24, calc: 0, min: 40, desc: "選擇 24 題，換算成 100 分" },
+    short: { name: "15 分鐘小考", mc: 10, calc: 0, min: 15, desc: "選擇 10 題，換算成 100 分" },
+  };
+  const MOCK_LETTER = /[（(][A-D][)）]|選項\s*[（(]?[A-D]|(^|[^A-Za-z0-9_\/])[A-D](?=\s*[錯對（(：:、]|\s*是|\s*為|\s*項)/;
+  const LEC_IDS = new Set(); Object.values(LECTURE).forEach(L => L.forEach(f => (f.mc || []).forEach(id => LEC_IDS.add(id))));
+  let mockCfg = { mode: "full", chs: [8, 9, 11, 12], min: null };
+  let mock = null; // 進行中的考試
+  let mockView = null; // 剛交卷的結果
+  let mockTimer = null;
+  function mockKey() { return "foundation-quiz-mock::" + profiles.cur; }
+  function mockSaveLocal() { try { if (mock) localStorage.setItem(mockKey(), JSON.stringify(mock)); else localStorage.removeItem(mockKey()); } catch (e) {} }
+  function mockLoadLocal() { try { const m = JSON.parse(localStorage.getItem(mockKey()) || "null"); return m && m.mc ? m : null; } catch (e) { return null; } }
+
+  // 加權抽樣：考古重點觀念、考古題型優先，講義重點次之
+  function mockWeight(q) {
+    let w = 1;
+    const f = FOCUS_OF[q.id]; if (f) w += f.star;
+    if (EXAM_TAGS[q.id]) w += 1.5;
+    if (LEC_IDS.has(q.id)) w += 0.8;
+    return w;
+  }
+  function wpick(list, n, wf, cap) {
+    const pool = list.slice(), out = [], per = {};
+    while (out.length < n && pool.length) {
+      const tot = pool.reduce((s, x) => s + wf(x), 0);
+      let r = Math.random() * tot, i = 0;
+      for (; i < pool.length - 1; i++) { r -= wf(pool[i]); if (r <= 0) break; }
+      const x = pool.splice(i, 1)[0];
+      if (cap && (per[x.t] || 0) >= cap) continue;
+      per[x.t] = (per[x.t] || 0) + 1; out.push(x);
+    }
+    return out;
+  }
+  function splitCount(chs, n) {
+    const tot = chs.reduce((s, c) => s + MOCK_W[c], 0);
+    const raw = chs.map(c => ({ c, v: n * MOCK_W[c] / tot }));
+    raw.forEach(r => r.k = Math.floor(r.v));
+    let left = n - raw.reduce((s, r) => s + r.k, 0);
+    raw.slice().sort((a, b) => (b.v - b.k) - (a.v - a.k)).forEach(r => { if (left > 0) { r.k++; left--; } });
+    return Object.fromEntries(raw.map(r => [r.c, r.k]));
+  }
+  function startMock() {
+    const M = MOCK_MODES[mockCfg.mode], chs = mockCfg.chs.slice().sort((a, b) => a - b);
+    if (!chs.length) return;
+    const cnt = splitCount(chs, M.mc);
+    let mc = [];
+    chs.forEach(c => { mc = mc.concat(wpick(QUESTIONS.filter(q => TOPICS[q.t] && TOPICS[q.t].ch === c), cnt[c], mockWeight, 3)); });
+    // 依章節、講義順序排列，像正式考卷
+    const order = Object.keys(TOPICS);
+    mc.sort((a, b) => order.indexOf(a.t) - order.indexOf(b.t));
+    let calc = [];
+    if (M.calc) {
+      const cl = CALCS.filter(c => TOPICS[c.t] && chs.includes(TOPICS[c.t].ch));
+      const cw = c => (EXAM_TAGS[c.id] ? 4 : 1);
+      const first = wpick(cl, 1, cw);
+      const rest = cl.filter(c => !first.includes(c) && (chs.length === 1 || TOPICS[c.t].ch !== TOPICS[first[0].t].ch));
+      calc = first.concat(wpick(rest.length ? rest : cl.filter(c => !first.includes(c)), M.calc - 1, cw));
+    }
+    const min = mockCfg.min == null ? M.min : mockCfg.min;
+    mock = {
+      mode: mockCfg.mode, chs, start: Date.now(), end: min ? Date.now() + min * 60000 : 0, min,
+      mc: mc.map(q => ({ id: q.id, ord: MOCK_LETTER.test(q.e) ? [0, 1, 2, 3] : shuffle([0, 1, 2, 3]), pick: null })),
+      calc: calc.map(c => ({ id: c.id, ans: c.steps.map(() => "") })),
+    };
+    mockView = null; mockSaveLocal(); renderMock(); window.scrollTo({ top: 0 });
+  }
+
+  function mockScore(m) {
+    const M = MOCK_MODES[m.mode];
+    const mcPts = M.calc ? 2.5 : 100 / m.mc.length;
+    let mcGot = 0, mcRight = 0;
+    const byCh = {};
+    m.mc.forEach(x => {
+      const q = QMAP[x.id]; if (!q) return;
+      const ch = TOPICS[q.t].ch, ok = x.pick === q.a;
+      byCh[ch] = byCh[ch] || { n: 0, r: 0 }; byCh[ch].n++;
+      if (ok) { mcGot += mcPts; mcRight++; byCh[ch].r++; }
+    });
+    let calcGot = 0;
+    const calcRes = m.calc.map(x => {
+      const c = CMAP[x.id]; if (!c) return { ok: [], got: 0 };
+      const ok = c.steps.map((s, i) => {
+        const v = x.ans[i];
+        if (s.choice) return v !== "" && +v === s.ans;
+        const n = parseNum(v); return !isNaN(n) && close(n, s.ans);
+      });
+      // 每大題 20 分，最後一步（最終答案）佔一半，其餘步驟平分另一半
+      const k = c.steps.length;
+      const got = k === 1 ? (ok[0] ? 20 : 0) : ok.reduce((s, o, i) => s + (o ? (i === k - 1 ? 10 : 10 / (k - 1)) : 0), 0);
+      calcGot += got;
+      return { ok, got };
+    });
+    return { total: Math.round((mcGot + calcGot) * 10) / 10, mcGot: Math.round(mcGot * 10) / 10, mcRight, calcGot: Math.round(calcGot * 10) / 10, calcRes, byCh, mcMax: M.calc ? m.mc.length * 2.5 : 100 };
+  }
+
+  function submitMock(auto) {
+    if (!mock) return;
+    if (mockTimer) { clearInterval(mockTimer); mockTimer = null; }
+    const m = mock; m.done = Date.now();
+    const s = mockScore(m);
+    // 選擇題結果寫進作答紀錄，答錯或沒作答的題目會進錯題本
+    m.mc.forEach(x => { const q = QMAP[x.id]; if (q) record(x.id, x.pick == null ? -1 : x.pick, x.pick === q.a); });
+    store.mock = store.mock || {};
+    const id = "m" + m.start;
+    store.mock[id] = { ts: m.done, mode: m.mode, chs: m.chs, score: s.total, mcRight: s.mcRight, mcN: m.mc.length, calcGot: s.calcGot, calcN: m.calc.length, used: Math.round((m.done - m.start) / 1000), auto: !!auto };
+    save();
+    mock = null; mockSaveLocal();
+    mockView = { m, s, auto };
+    updateBadge(); renderMock(); window.scrollTo({ top: 0 });
+  }
+
+  function mmss(sec) { sec = Math.max(0, Math.round(sec)); const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = sec % 60; return (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(s).padStart(2, "0"); }
+  function mockAnswered(m) { return m.mc.filter(x => x.pick != null).length + m.calc.reduce((s, x) => s + (x.ans.every(a => a !== "") ? 1 : 0), 0); }
+  function tickMock() {
+    const bar = $("#mockBar"); if (!mock || !bar) { if (mockTimer) { clearInterval(mockTimer); mockTimer = null; } return; }
+    const t = $("#mockTime");
+    if (mock.end) {
+      const left = (mock.end - Date.now()) / 1000;
+      t.textContent = "剩 " + mmss(left);
+      bar.classList.toggle("warn", left <= 300);
+      if (left <= 0) { submitMock(true); return; }
+    } else t.textContent = "已用 " + mmss((Date.now() - mock.start) / 1000);
+    $("#mockDone").textContent = "已答 " + mockAnswered(mock) + " / " + (mock.mc.length + mock.calc.length);
+  }
+
+  function renderMock() {
+    const box = $("#mockArea"); if (!box) return;
+    if (!mock) { const l = mockLoadLocal(); if (l) mock = l; }
+    document.body.classList.toggle("inmock", !!mock);
+    if (mock) return renderMockPaper(box);
+    if (mockView) return renderMockResult(box);
+    renderMockSetup(box);
+  }
+
+  function renderMockSetup(box) {
+    const M = MOCK_MODES[mockCfg.mode];
+    const hist = Object.values(store.mock || {}).sort((a, b) => b.ts - a.ts).slice(0, 8);
+    const chName = { 8: "Ch8 淺基礎沉陷", 9: "Ch9 筏式基礎", 11: "Ch11 基樁", 12: "Ch12 場鑄樁" };
+    const mins = [15, 30, 40, 60, 80, 100, 120, 0];
+    const curMin = mockCfg.min == null ? M.min : mockCfg.min;
+    box.innerHTML = `<div class="card mock-setup">
+      <h2 class="mh">模擬考</h2>
+      <p class="muted">照 2025 期中二的格式出一份考卷：選擇題每題 2.5 分、計算大題每題 20 分。題目從題庫抽，考古題常考的觀念出現機率比較高。考試中看不到詳解，交卷後才對答案，答錯的選擇題會自動加進錯題本。</p>
+      <div class="mrow"><span class="ml">題型</span><div class="mopts">${Object.entries(MOCK_MODES).map(([k, v]) => `<label class="mopt${k === mockCfg.mode ? " on" : ""}"><input type="radio" name="mmode" value="${k}"${k === mockCfg.mode ? " checked" : ""}><b>${v.name}</b><small>${v.desc}</small></label>`).join("")}</div></div>
+      <div class="mrow"><span class="ml">範圍</span><div class="mchs">${[8, 9, 11, 12].map(c => `<label class="mch"><input type="checkbox" value="${c}"${mockCfg.chs.includes(c) ? " checked" : ""}> ${chName[c]}</label>`).join("")}</div></div>
+      <div class="mrow"><span class="ml">時間</span><select id="mMin">${mins.map(v => `<option value="${v}"${v === curMin ? " selected" : ""}>${v ? v + " 分鐘" : "不限時"}</option>`).join("")}</select></div>
+      <div class="mrow"><span class="ml"></span><button class="btn primary" id="mGo"${mockCfg.chs.length ? "" : " disabled"}>開始考試</button></div>
+    </div>
+    ${hist.length ? `<div class="card mock-hist"><h3>最近的模擬考</h3><table><tr><th>日期</th><th>題型</th><th>範圍</th><th>分數</th><th>用時</th></tr>${hist.map(h => `<tr><td>${new Date(h.ts).toLocaleDateString("zh-TW", { month: "numeric", day: "numeric" })} ${new Date(h.ts).toLocaleTimeString("zh-TW", { hour: "2-digit", minute: "2-digit", hour12: false })}</td><td>${(MOCK_MODES[h.mode] || {}).name || ""}</td><td>${h.chs.map(c => "Ch" + c).join("、")}</td><td class="sc ${h.score >= 60 ? "ok" : "bad"}">${h.score}</td><td>${mmss(h.used)}</td></tr>`).join("")}</table></div>` : ""}`;
+    box.querySelectorAll("input[name=mmode]").forEach(r => r.onchange = () => { mockCfg.mode = r.value; mockCfg.min = null; renderMockSetup(box); });
+    box.querySelectorAll(".mch input").forEach(cb => cb.onchange = () => { mockCfg.chs = [...box.querySelectorAll(".mch input:checked")].map(x => +x.value); $("#mGo").disabled = !mockCfg.chs.length; });
+    $("#mMin").onchange = e => { mockCfg.min = +e.target.value; };
+    $("#mGo").onclick = startMock;
+  }
+
+  function stepInput(c, s, i, val, name) {
+    if (s.choice) return `<div class="mcho">${s.choice.map((o, k) => `<label><input type="radio" name="${name}" value="${k}"${String(val) === String(k) ? " checked" : ""}> ${o}</label>`).join("")}</div>`;
+    return `<label class="minp"><input type="text" inputmode="decimal" autocomplete="off" name="${name}" value="${esc(val)}" placeholder="答案">${s.unit ? `<span>${s.unit}</span>` : ""}</label>`;
+  }
+  function calcFig(c) { const e = EDU[c.id]; return e && e.fig ? `<figure class="fig"><div class="swipe">← 左右滑動看完整圖 →</div>${e.fig}${e.figCap ? `<figcaption>${e.figCap}</figcaption>` : ""}</figure>` : ""; }
+
+  function renderMockPaper(box) {
+    const M = MOCK_MODES[mock.mode];
+    const mcPts = M.calc ? "每題 2.5 分" : "共 " + mock.mc.length + " 題，換算 100 分";
+    box.innerHTML = `<div class="mock-paper">
+      <div class="mock-title"><h2>${M.name}</h2><p class="muted">範圍 ${mock.chs.map(c => "Ch" + c).join("、")}${mock.min ? "　時間 " + mock.min + " 分鐘，時間到自動交卷" : "　不限時"}。可以隨時離開這頁，回來會接著考。</p></div>
+      <h3 class="msec">一、選擇題（${mcPts}）</h3>
+      ${mock.mc.map((x, n) => { const q = QMAP[x.id]; if (!q) return ""; return `<div class="card mq" id="mq${n}"><p class="mqq"><b class="mno">${n + 1}.</b> ${q.q}</p><div class="opts">${x.ord.map((oi, k) => `<button class="opt${x.pick === oi ? " picked" : ""}" data-mq="${n}" data-o="${oi}"><span class="L">(${"ABCD"[k]})</span><span>${q.o[oi]}</span></button>`).join("")}</div></div>`; }).join("")}
+      ${mock.calc.length ? `<h3 class="msec">二、計算題（每題 20 分）</h3><p class="muted msub">每一步填數字即可，誤差 2% 內算對。最後一步佔 10 分，其餘步驟平分 10 分。計算機自備，log 是以 10 為底。</p>` : ""}
+      ${mock.calc.map((x, n) => { const c = CMAP[x.id]; if (!c) return ""; return `<div class="card mc-calc"><p class="mqq"><b class="mno">${n + 1}.</b> ${c.title}</p>${calcFig(c)}<div class="given"><h3>已知</h3><p>${c.given}</p></div><ol class="msteps">${c.steps.map((s, i) => `<li><p>${s.q}</p>${stepInput(c, s, i, x.ans[i], "mc" + n + "_" + i)}</li>`).join("")}</ol></div>`; }).join("")}
+      <div class="mock-end"><button class="btn" id="mQuit">放棄這次考試</button><button class="btn primary" id="mSubmit2">交卷</button></div>
+    </div>
+    <div class="mockbar" id="mockBar"><span id="mockTime"></span><span id="mockDone"></span><button class="btn primary" id="mSubmit">交卷</button></div>`;
+    box.querySelectorAll("[data-mq]").forEach(b => b.onclick = () => {
+      const x = mock.mc[+b.dataset.mq], o = +b.dataset.o;
+      x.pick = x.pick === o ? null : o;
+      b.parentNode.querySelectorAll(".opt").forEach(e => e.classList.toggle("picked", x.pick === +e.dataset.o));
+      mockSaveLocal(); tickMock();
+    });
+    box.querySelectorAll(".msteps input").forEach(inp => {
+      const f = () => { const [n, i] = inp.name.slice(2).split("_").map(Number); if (inp.type === "radio" && !inp.checked) return; mock.calc[n].ans[i] = inp.value.trim(); mockSaveLocal(); tickMock(); };
+      inp.oninput = f; inp.onchange = f;
+    });
+    const ask = () => {
+      const left = mock.mc.length + mock.calc.length - mockAnswered(mock);
+      const btn = $("#mSubmit"), b2 = $("#mSubmit2");
+      if (btn.dataset.sure) { submitMock(false); return; }
+      [btn, b2].forEach(b => { b.dataset.sure = "1"; b.textContent = left ? "還有 " + left + " 題沒答，確定交卷？" : "確定交卷？"; });
+      setTimeout(() => { [btn, b2].forEach(b => { if (b) { delete b.dataset.sure; b.textContent = "交卷"; } }); }, 4000);
+    };
+    $("#mSubmit").onclick = ask; $("#mSubmit2").onclick = () => { if ($("#mSubmit2").dataset.sure) submitMock(false); else ask(); };
+    $("#mQuit").onclick = () => {
+      const b = $("#mQuit");
+      if (!b.dataset.sure) { b.dataset.sure = "1"; b.textContent = "再按一次放棄（不記分）"; setTimeout(() => { if (b.isConnected) { delete b.dataset.sure; b.textContent = "放棄這次考試"; } }, 4000); return; }
+      mock = null; mockSaveLocal(); renderMock();
+    };
+    if (mockTimer) clearInterval(mockTimer);
+    mockTimer = setInterval(tickMock, 1000); tickMock();
+  }
+
+  function renderMockResult(box) {
+    const { m, s, auto } = mockView, M = MOCK_MODES[m.mode];
+    const used = Math.round((m.done - m.start) / 1000);
+    const chName = { 8: "Ch8", 9: "Ch9", 11: "Ch11", 12: "Ch12" };
+    const wrongMc = m.mc.map((x, n) => ({ x, n, q: QMAP[x.id] })).filter(o => o.q && o.x.pick !== o.q.a);
+    box.innerHTML = `<div class="card mock-res">
+      ${auto ? `<p class="mwarn">時間到，已自動交卷。</p>` : ""}
+      <div class="mscore"><span class="big ${s.total >= 60 ? "ok" : "bad"}">${s.total}</span><span class="of">/ 100</span></div>
+      <div class="msum"><div><div class="v">${s.mcRight}<span class="of"> / ${m.mc.length}</span></div><div class="l">選擇題答對（${s.mcGot} 分）</div></div>
+      ${m.calc.length ? `<div><div class="v">${s.calcGot}<span class="of"> / ${m.calc.length * 20}</span></div><div class="l">計算題得分</div></div>` : ""}
+      <div><div class="v">${mmss(used)}</div><div class="l">用時${m.min ? "（限 " + m.min + " 分）" : ""}</div></div></div>
+      <div class="mbych">${Object.entries(s.byCh).map(([c, v]) => `<span class="chip c${c}">${chName[c]} 答對 ${v.r}/${v.n}</span>`).join("")}</div>
+      <div class="mock-end"><button class="btn" id="mBack">回模擬考首頁</button><button class="btn primary" id="mAgain">再考一份</button></div>
+    </div>
+    <h3 class="msec">選擇題：錯 ${wrongMc.length} 題${wrongMc.length ? "（已加進錯題本）" : ""}</h3>
+    ${m.mc.map((x, n) => { const q = QMAP[x.id]; if (!q) return ""; const ok = x.pick === q.a; const t = TOPICS[q.t];
+      return `<details class="card mr ${ok ? "rok" : "rbad"}"${ok ? "" : " open"}><summary><b class="mno">${n + 1}.</b> <span class="mark">${ok ? "✓" : x.pick == null ? "未答" : "✗"}</span> <span class="mrq">${q.q}</span></summary>
+        <div class="meta"><span class="chip c${t.ch}">${t.sec} ${t.name}</span>${examChip(q.id)}${focusChip(q.id)}</div>
+        <div class="opts">${x.ord.map((oi, k) => `<div class="opt${oi === q.a ? " right" : ""}${oi === x.pick && oi !== q.a ? " wrong" : ""}"><span class="L">(${"ABCD"[k]})</span><span>${q.o[oi]}</span></div>`).join("")}</div>
+        <div class="exp"><p>${q.e}</p>${q.src ? `<p class="src">${q.src}</p>` : ""}</div></details>`; }).join("")}
+    ${m.calc.length ? `<h3 class="msec">計算題</h3>` + m.calc.map((x, n) => { const c = CMAP[x.id]; if (!c) return ""; const r = s.calcRes[n];
+      return `<details class="card mr" open><summary><b class="mno">${n + 1}.</b> ${c.title}　<b>${Math.round(r.got * 10) / 10} / 20 分</b></summary>
+        <ol class="msteps res">${c.steps.map((st, i) => `<li class="${r.ok[i] ? "rok" : "rbad"}"><p>${st.q}</p><p class="mya">你的答案：${x.ans[i] === "" ? "（沒填）" : st.choice ? st.choice[+x.ans[i]] : esc(x.ans[i]) + " " + (st.unit || "")} ${r.ok[i] ? "✓" : "✗"}　正解：${st.choice ? st.choice[st.ans] : fmt(st.ans) + " " + (st.unit || "")}</p><div class="exp"><p>${st.exp || ""}</p></div></li>`).join("")}</ol>
+        <button class="btn" data-copen="${c.id}">到計算題逐步練這題</button></details>`; }).join("") : ""}`;
+    $("#mBack").onclick = () => { mockView = null; renderMock(); };
+    $("#mAgain").onclick = () => { mockView = null; mockCfg.mode = m.mode; mockCfg.chs = m.chs.slice(); startMock(); };
+    box.querySelectorAll("[data-copen]").forEach(b => b.onclick = () => { show("calc"); openCalc(b.dataset.copen); });
+  }
+
+  function mockReset() { if (mockTimer) { clearInterval(mockTimer); mockTimer = null; } mock = null; mockView = null; if (current === "mock") renderMock(); }
   /* ---------- tabs ---------- */
   let current = "practice";
   function show(v) {
     current = v;
     document.querySelectorAll("nav.tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.view === v)));
-    ["practice", "review", "calc", "wrong", "stats"].forEach(x => { $("#view-" + x).hidden = x !== v; });
+    ["practice", "review", "calc", "mock", "wrong", "stats"].forEach(x => { $("#view-" + x).hidden = x !== v; });
     if (v === "calc") renderCalcView();
     if (v === "review") renderReview();
+    if (v === "mock") renderMock();
+    if (v !== "mock") document.body.classList.remove("inmock");
     if (v !== "review") { deckFull = false; document.body.classList.remove("deckfull"); }
     if (v === "wrong") renderWrong();
     if (v === "stats") renderStats();
@@ -9768,7 +10075,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   /* ---------- boot ---------- */
   const local = readLocal(); if (local) store = merge(store, local);
   $("#fCh").innerHTML = chOptions(); fillTopics(); updateBadge(); buildQueue();
-  if (["#calc", "#wrong", "#stats", "#review"].includes(location.hash)) show(location.hash.slice(1));
+  if (["#calc", "#wrong", "#stats", "#review", "#mock"].includes(location.hash)) show(location.hash.slice(1));
   renderAcct();
   if (CLOUD_ON && profiles.cur !== "預設") pullCloud(profiles.cur);
   if (CLOUD_ON && profiles.cur === "預設") setTimeout(() => { $("#acctPanel").hidden = false; $("#acct").setAttribute("aria-expanded", "true"); }, 0);
