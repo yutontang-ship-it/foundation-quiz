@@ -446,6 +446,16 @@ body.inmock main { padding-bottom: 96px; }
 .stbl th, .stbl td { border-bottom: 1px solid var(--line); padding: 3px 10px 3px 0; text-align: left; }
 .stbl th { color: var(--muted); font-weight: 500; }
 .estnote { display: block; margin-top: 4px; color: var(--accent); font-size: .85em; }
+.guide { margin: 12px 0; }
+.guide .gh { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.guide .gx, .gopen { background: none; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); font-size: .8rem; padding: 2px 10px; cursor: pointer; }
+.gopen { display: block; margin: 8px 0 0 auto; }
+.guide .gsub { font-size: .9rem; margin: 6px 0; }
+.guide .gsteps { margin: 6px 0; padding-left: 1.4em; font-size: .9rem; line-height: 1.7; }
+.guide .gsteps li { margin: 4px 0; }
+.guide .gsteps button { background: var(--accent); color: #fff; border: 0; border-radius: 6px; font-size: .82rem; padding: 2px 10px; margin-right: 6px; cursor: pointer; }
+.guide .gnote { font-size: .8rem; color: var(--muted); margin: 4px 0 0; }
+@media (max-width: 640px) { header.top { position: static; } nav.tabs { flex-wrap: wrap; overflow: visible; } nav.tabs button, nav.tabs .tablink { flex: 1 0 25%; padding-inline: 4px; } }
 </style>
 
 </head>
@@ -471,7 +481,19 @@ body.inmock main { padding-bottom: 96px; }
   </div>
 </header>
 
-<main class="wrap">
+<main class="wrap"><div class="card guide" id="guide">
+    <div class="gh"><b>第一次來？照這個順序複習期末</b><button class="gx" id="guideX" aria-label="收起">收起</button></div>
+    <p class="gsub">期末 11/16：選擇 15 題（每題 4 分），筏基只出幾題；其餘都是 Ch11，計算 2 題是「樁打入砂土」「樁打入黏土」；Ch12 不考。考試會附公式、圖、表，重點是懂觀念、會選公式、會查表。</p>
+    <ol class="gsteps">
+      <li><button data-g="review">考前複習</button>先看紅框「老師說會考」與 ★ 多的速記卡，每張卡可以直接「練 10 題」。</li>
+      <li><button data-g="practice">練習</button>章節預設是期末範圍，選錯會看到詳解。</li>
+      <li><button data-g="calc">計算題</button>練砂土樁（Meyerhof、L′ = 15D）和黏土樁（α、λ、β 法、Vesic），一步一步填。</li>
+      <li><button data-g="mock">模擬考</button>照期末格式限時考一次，交卷才對答案。</li>
+      <li><button data-g="wrong">錯題本</button>考前把錯過的題目再做到對。</li>
+    </ol>
+    <p class="gnote">紀錄先存在這台裝置；要換裝置接著讀，點上方「輸入名稱找回紀錄」。</p>
+  </div>
+  <button class="gopen" id="guideO" hidden>新手指南</button>
   <section id="view-practice">
     <div class="filters">
       <label>章節<select id="fCh"></select></label>
@@ -9571,7 +9593,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   const QMAP = Object.fromEntries(QUESTIONS.map(q => [q.id, q]));
   const LETTERS = ["A", "B", "C", "D"];
   const CH_NAMES = { 8: "Ch8 淺基礎沉陷", 9: "Ch9 筏式基礎", 11: "Ch11 基樁", 12: "Ch12 場鑄樁" };
-  function chOptions() { return '<option value="all">全部章節</option>' + Object.entries(CH_NAMES).map(([k, n]) => `<option value="${k}">${n}</option>`).join(""); }
+  function chOptions() { return '<option value="9,11">期末 Ch9＋11</option><option value="all">全部章節</option>' + Object.entries(CH_NAMES).map(([k, n]) => `<option value="${k}">${n}</option>`).join(""); }
   const $ = s => document.querySelector(s);
 
   /* ---------- state & persistence ---------- */
@@ -9741,7 +9763,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   function fillTopics() {
     const ch = $("#fCh").value, sel = $("#fTopic"), prev = sel.value;
     sel.innerHTML = '<option value="all">全部主題</option>' + Object.entries(TOPICS)
-      .filter(([, t]) => ch === "all" || String(t.ch) === ch)
+      .filter(([, t]) => ch === "all" || ("," + ch + ",").includes("," + (t.ch) + ","))
       .map(([k, t]) => `<option value="${k}">${t.sec} ${t.name}</option>`).join("");
     if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
   }
@@ -9750,7 +9772,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   let queue = [], pos = 0, answers = {}, orders = {};
   function buildQueue() {
     const ch = $("#fCh").value, tp = $("#fTopic").value, kd = $("#fKind").value, md = $("#fMode").value;
-    let list = QUESTIONS.filter(q => (ch === "all" || String(TOPICS[q.t].ch) === ch) && (tp === "all" || q.t === tp) && (kd === "all" || q.k === kd));
+    let list = QUESTIONS.filter(q => (ch === "all" || ("," + ch + ",").includes("," + (TOPICS[q.t].ch) + ",")) && (tp === "all" || q.t === tp) && (kd === "all" || q.k === kd));
     if (md === "new") list = list.filter(q => !store.rec[q.id]);
     if (md === "wrong") list = list.filter(q => store.rec[q.id] && store.rec[q.id].last === 0);
     if (md === "ever") list = list.filter(q => store.rec[q.id] && store.rec[q.id].w > 0);
@@ -9891,7 +9913,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   { const order = Object.keys(TOPICS); CALCS.sort((x, y) => order.indexOf(x.t) - order.indexOf(y.t)); }
   const CMAP = Object.fromEntries(CALCS.map(c => [c.id, c]));
   let cur = null; // { id, step, tries:[], res:[] }  res: 1 first-try, 0 needed retry, -1 revealed
-  let calcFilter = "all";
+  let calcFilter = "9,11";
 
   function fmt(x) {
     const a = Math.abs(x);
@@ -9933,7 +9955,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
 
   function renderCalcList() {
     const area = $("#calcArea");
-    const list = CALCS.filter(c => calcFilter === "all" || String(TOPICS[c.t].ch) === calcFilter);
+    const list = CALCS.filter(c => calcFilter === "all" || ("," + calcFilter + ",").includes("," + (TOPICS[c.t].ch) + ","));
     area.innerHTML = `<div class="filters"><label>章節<select id="cCh">${chOptions()}</select></label></div>
       <p class="lead">每一題都是完整的大題，網站帶你一步一步算到最後答案。每題附示意圖和參數說明，每一步都附上要用的公式和為什麼這樣算，把數字填進空格後按「檢查」；答錯可以再算一次，連錯兩次會出現「看解答」。答案容許 ±2% 的四捨五入誤差，後面的步驟一律用正確的前一步數值接著算。</p>
       <div class="rows">${list.map(c => {
@@ -10046,7 +10068,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     renderCalc();
   }
   function nextCalcId() {
-    const list = CALCS.filter(c => calcFilter === "all" || String(TOPICS[c.t].ch) === calcFilter);
+    const list = CALCS.filter(c => calcFilter === "all" || ("," + calcFilter + ",").includes("," + (TOPICS[c.t].ch) + ","));
     const k = list.findIndex(c => c.id === cur.id);
     return k >= 0 && k < list.length - 1 ? list[k + 1].id : null;
   }
@@ -10100,9 +10122,9 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
 
 
   /* ---------- 考前複習 ---------- */
-  let revCh = "all", revMode = "focus", flash = null, deckPos = 0, hideVals = false;
+  let revCh = "9,11", revMode = "focus", flash = null, deckPos = 0, hideVals = false;
   const cardKey = (r, i) => r.ch + "|" + r.sec + "|" + i;
-  function revList() { return REVIEW.filter(r => revCh === "all" || String(r.ch) === revCh); }
+  function revList() { return REVIEW.filter(r => revCh === "all" || ("," + revCh + ",").includes("," + (r.ch) + ",")); }
   function revMark(k) { return (store.rev || {})[k]; }
   function setMark(k, ok) { store.rev = store.rev || {}; store.rev[k] = { ok: ok ? 1 : 0, ts: Date.now() }; save(); }
   function renderReview() {
@@ -10175,7 +10197,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   }
 
 
-  function numsList() { return NUMS.filter(n => revCh === "all" || String(n.ch) === revCh).sort((a, b) => a.ch - b.ch); }
+  function numsList() { return NUMS.filter(n => revCh === "all" || ("," + revCh + ",").includes("," + (n.ch) + ",")).sort((a, b) => a.ch - b.ch); }
   function renderNums() {
     const L = numsList();
     if (!L.length) return '<p class="empty">這個範圍沒有必背數字。</p>';
@@ -10249,8 +10271,8 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   }
   const HAS_HO = typeof HANDOUT !== "undefined" && HANDOUT.pages && HANDOUT.pages.length;
   function deckSlides() {
-    if (HAS_HO) return HANDOUT.pages.filter(p => revCh === "all" || String(p.ch) === revCh).map(p => Object.assign({ ho: true }, p));
-    const decks = DECK.filter(d => revCh === "all" || String(d.ch) === revCh).sort((a, b) => a.ch - b.ch);
+    if (HAS_HO) return HANDOUT.pages.filter(p => revCh === "all" || ("," + revCh + ",").includes("," + (p.ch) + ",")).map(p => Object.assign({ ho: true }, p));
+    const decks = DECK.filter(d => revCh === "all" || ("," + revCh + ",").includes("," + (d.ch) + ",")).sort((a, b) => a.ch - b.ch);
     const out = [];
     decks.forEach(d => {
       if (decks.length > 1) out.push({ ch: d.ch, cover: true, title: d.title, n: d.slides.length });
@@ -10259,7 +10281,17 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     return out;
   }
   const HO_HEAD = '<meta charset="utf-8"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;600&display=swap">';
-  function hoDoc(s) { return `<!doctype html><html lang="zh-Hant"><head>${HO_HEAD}<style>${HANDOUT.css}\nhtml,body{margin:0;overflow:hidden;background:var(--bg)}</style></head><body>${s.html}</body></html>`; }
+  function hoDoc(s) { return `<!doctype html><html lang="zh-Hant"><head>${HO_HEAD}<style>${HANDOUT.css}\nhtml,body{margin:0;overflow:hidden;background:var(--bg)}.guide { margin: 12px 0; }
+.guide .gh { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.guide .gx, .gopen { background: none; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); font-size: .8rem; padding: 2px 10px; cursor: pointer; }
+.gopen { display: block; margin: 8px 0 0 auto; }
+.guide .gsub { font-size: .9rem; margin: 6px 0; }
+.guide .gsteps { margin: 6px 0; padding-left: 1.4em; font-size: .9rem; line-height: 1.7; }
+.guide .gsteps li { margin: 4px 0; }
+.guide .gsteps button { background: var(--accent); color: #fff; border: 0; border-radius: 6px; font-size: .82rem; padding: 2px 10px; margin-right: 6px; cursor: pointer; }
+.guide .gnote { font-size: .8rem; color: var(--muted); margin: 4px 0 0; }
+@media (max-width: 640px) { header.top { position: static; } nav.tabs { flex-wrap: wrap; overflow: visible; } nav.tabs button, nav.tabs .tablink { flex: 1 0 25%; padding-inline: 4px; } }
+</style></head><body>${s.html}</body></html>`; }
   function fitHo() {
     const wrap = document.querySelector(".hwrap"), fr = wrap && wrap.querySelector("iframe"); if (!fr) return;
     const full = document.querySelector(".deck.full");
@@ -10303,7 +10335,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
       ${f.hook && (f.detail || f.angle) ? `<details class="fmore"><summary>說明</summary><p>${f.detail || ""}</p>${f.angle ? `<p>怎麼考：${f.angle}</p>` : ""}</details>` : ""}</div></article>`;
   }
   function renderFocus() {
-    const chs = [8, 9, 11, 12].filter(c => revCh === "all" || String(c) === revCh);
+    const chs = [8, 9, 11, 12].filter(c => revCh === "all" || ("," + revCh + ",").includes("," + (c) + ","));
     return chs.map(c => {
       const L = FOCUS[c] || [], M = (typeof LECTURE !== "undefined" && LECTURE[c]) || [], E = EMPH[c] || [], P = SUPP[c] || [];
       if (!L.length && !M.length && !E.length && !P.length) return "";
@@ -10664,11 +10696,18 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
 
   /* ---------- boot ---------- */
   const local = readLocal(); if (local) store = merge(store, local);
-  $("#fCh").innerHTML = chOptions(); fillTopics(); updateBadge(); buildQueue();
+  $("#fCh").innerHTML = chOptions(); fillTopics();
+  (function () {
+    const g = $("#guide"), o = $("#guideO"); let hid = false; try { hid = localStorage.getItem("fq-guide-hide") === "1"; } catch (e) {}
+    const set = v => { g.hidden = v; o.hidden = !v; try { localStorage.setItem("fq-guide-hide", v ? "1" : "0"); } catch (e) {} };
+    g.hidden = hid; o.hidden = !hid;
+    $("#guideX").onclick = () => set(true); o.onclick = () => set(false);
+    g.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { show(b.dataset.g); const t = document.querySelector("#view-" + b.dataset.g) || document.querySelector("nav.tabs"); if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 8, behavior: "smooth" }); });
+  })(); updateBadge(); buildQueue();
   if (["#calc", "#wrong", "#stats", "#review", "#mock"].includes(location.hash)) show(location.hash.slice(1));
   renderAcct();
   if (CLOUD_ON && profiles.cur !== "預設") pullCloud(profiles.cur);
-  if (CLOUD_ON && profiles.cur === "預設") setTimeout(() => { $("#acctPanel").hidden = false; $("#acct").setAttribute("aria-expanded", "true"); }, 0);
+  if (false) setTimeout(() => { $("#acctPanel").hidden = false; $("#acct").setAttribute("aria-expanded", "true"); }, 0);
   $("#acct").onclick = () => { const p = $("#acctPanel"); p.hidden = !p.hidden; $("#acct").setAttribute("aria-expanded", String(!p.hidden)); };
 })();
 </script>
