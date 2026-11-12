@@ -2684,7 +2684,7 @@ const EMPH = {
    "key": "Reese et al. 黏土中場鑄樁 D = 762 mm、L = 6.94 m：總荷重 1246 kN，側阻約 800 kN，樁底約 446 kN；軸力–深度曲線往下遞減，剩下的是樁底阻力",
    "trap": "以為樁底先發揮；把 800 kN 當成樁底",
    "source": "投影片 12.5 標「概念重要，考試會考」（講義 Ch12 p.126–129，Figure 12.8）",
-   "detail": "圖 (b)：荷重增加時，側阻在沉陷約 6 mm 就達到最大，之後再加的荷重幾乎都由樁底承擔，樁底要約 25 mm 才接近極限。圖 (c)：每一階段的軸力從樁頂往下遞減，減少量是各段側阻，到樁底剩下的就是 Q<sub>p</sub>。這也是孔底沉泥要清乾淨的原因。 圖 (c) 會考樁身阻抗：Q<sub>s</sub> = 樁頂軸力 − 樁底軸力（最後階段 1246 − 446 = 800 kN），平均 f ≈ 800/(π × 0.762 × 6.94) ≈ 48 kPa；曲線越斜的深度側阻越大，頂部 1.5 m 和樁底附近幾乎垂直。",
+   "detail": "圖 (b)：荷重增加時，側阻在沉陷約 6 mm 就達到最大，之後再加的荷重幾乎都由樁底承擔，樁底要約 25 mm 才接近極限。圖 (c)：每一階段的軸力從樁頂往下遞減，減少量是各段側阻，到樁底剩下的就是 Q<sub>p</sub>。這也是孔底沉泥要清乾淨的原因。 圖 (c) 會考樁身阻抗：Q<sub>s</sub> = 樁頂軸力 − 樁底軸力（最後階段 1246 − 446 = 800 kN），平均 f ≈ 800/(π × 0.762 × 6.94) ≈ 48 kPa；曲線越斜的深度側阻越大，頂部 1.5 m 和樁底附近幾乎垂直。 比較兩個階段：頂、底間距一樣大 → 側阻沒再增加、已到極限，新增荷重都到樁底。",
    "fig": "<svg viewBox=\"0 0 340 150\" class=\"efig\" role=\"img\" aria-label=\"Figure 12.8 荷重沉陷曲線\"><line x1=\"40\" y1=\"125\" x2=\"320\" y2=\"125\" stroke=\"var(--muted)\"/><line x1=\"40\" y1=\"125\" x2=\"40\" y2=\"10\" stroke=\"var(--muted)\"/><text x=\"320\" y=\"142\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--muted)\">樁頂沉陷 (mm) →</text><text x=\"36\" y=\"18\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--muted)\">kN</text><path d=\"M40,125 C55,40 80,28 300,22\" fill=\"none\" stroke=\"var(--ink)\" stroke-width=\"2\"/><text x=\"300\" y=\"16\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--ink)\">Total 1246</text><path d=\"M40,125 C48,50 60,48 300,52\" fill=\"none\" stroke=\"var(--ok)\" stroke-width=\"2\"/><text x=\"300\" y=\"66\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--ok)\">Sides ≈ 800（約 6 mm 就到頂）</text><path d=\"M40,125 C120,110 220,85 300,82\" fill=\"none\" stroke=\"var(--accent)\" stroke-width=\"2\"/><text x=\"300\" y=\"100\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--accent)\">Base ≈ 446（約 25 mm 才發揮）</text><line x1=\"62\" y1=\"125\" x2=\"62\" y2=\"50\" stroke=\"var(--muted)\" stroke-dasharray=\"3 3\"/><text x=\"62\" y=\"138\" font-size=\"9\" text-anchor=\"middle\" fill=\"var(--muted)\">6</text><line x1=\"270\" y1=\"125\" x2=\"270\" y2=\"84\" stroke=\"var(--muted)\" stroke-dasharray=\"3 3\"/><text x=\"270\" y=\"138\" font-size=\"9\" text-anchor=\"middle\" fill=\"var(--muted)\">25</text></svg>",
    "mc": [
     "D2-E1",
@@ -2694,6 +2694,7 @@ const EMPH = {
     "D2-E5",
     "D2-E6",
     "D2-E7",
+    "D2-E8",
     "D2-01",
     "D2-N2",
     "D2-M1",
@@ -2730,7 +2731,7 @@ const SUPP = {
    "key": "K<sub>r</sub> &gt; 0.5 → 剛性，δ = 0；K<sub>r</sub> = 0.5 → δ ≈ 0.1；K<sub>r</sub> = 0 → 方形 0.35、長條 0.5",
    "trap": "δ 是「差異沉陷 ÷ 總沉陷」，不是 mm",
    "source": "講義 Ch9 p.47–48（ACI 336）",
-   "detail": "講義只給這三個點。K<sub>r</sub> 介於 0 與 0.5 之間時，題目通常會直接問落在哪個區間（δ 介於 0.1 與 0.35 之間）；若要數字，可在兩點間線性內插估計。",
+   "detail": "講義只給這三個點。K<sub>r</sub> 介於 0 與 0.5 之間時，題目通常會直接問落在哪個區間（δ 介於 0.1 與 0.35 之間）；若要數字，可在兩點間線性內插估計。<br>E′I<sub>b</sub> = E′(I<sub>F</sub> + ΣI′<sub>b</sub> + Σah<sup>3</sup>/12)，最後一項是垂直於彎曲方向的剪力牆（例如和筏基做成一體的地下室外牆，Figure 9.4）。牆越多越高，E′I<sub>b</sub> 越大、K<sub>r</sub> 越大、差異沉陷越小。",
    "mc": [
     "M4-N1",
     "M4-N2",
@@ -2761,16 +2762,27 @@ const SUPP = {
    "pages": [
     36
    ]
+  },
+  {
+   "concept": "黏土上筏基 q<sub>net(u)</sub> 為何與 γ 無關",
+   "hook": "淨承載力把覆土 q 扣掉了",
+   "key": "φ = 0：q<sub>net(u)</sub> = q<sub>u</sub> − q = 5.14c<sub>u</sub>(1 + 0.195B/L)(1 + 0.4D<sub>f</sub>/B)。0.195 = (B/L)(N<sub>q</sub>/N<sub>c</sub>) = 1/5.14；q 項抵銷，所以和土的單位重 γ 無關",
+   "trap": "B 變大時 D<sub>f</sub>/B 變小，深度因子 F<sub>cd</sub> 下降；檢核時淨應力 Q/A − γD<sub>f</sub> 對 q<sub>net(all)</sub>，總應力才對 q<sub>u</sub>",
+   "source": "講義 Ch9 §9.4",
+   "detail": "題目問「哪些敘述正確」時，常考 0.195 怎麼來、與 γ 無關、F<sub>cd</sub> 隨 B 的變化、淨應力和總應力別混用。",
+   "mc": [],
+   "calc": [],
+   "pages": []
   }
  ],
  "11": [
   {
    "concept": "黏土樁底：Vesic N<sub>c</sub>*",
    "hook": "Q<sub>p</sub> = A<sub>p</sub>c<sub>u</sub>N<sub>c</sub>*",
-   "key": "N<sub>c</sub>* = (4/3)(ln I<sub>rr</sub> + 1) + π/2 + 1；φ = 0 時 I<sub>rr</sub> = I<sub>r</sub>，O′Neill &amp; Reese：I<sub>r</sub> = 347(c<sub>u</sub>/p<sub>a</sub>) + 33 ≤ 300",
+   "key": "N<sub>c</sub>* = (4/3)(ln I<sub>rr</sub> + 1) + π/2 + 1；φ = 0 時 I<sub>rr</sub> = I<sub>r</sub>，O′Neill &amp; Reese：I<sub>r</sub> = 347(c<sub>u</sub>/p<sub>a</sub>) + 33 ≤ 300；一般式 I<sub>r</sub> = E<sub>s</sub>/[2(1 + μ<sub>s</sub>)(c′ + q′tanφ′)]，黏土不排水（φ = 0、μ<sub>s</sub> ≈ 0.5）時 I<sub>r</sub> = E<sub>s</sub>/(3c<sub>u</sub>)",
    "trap": "Meyerhof 法直接用 N<sub>c</sub>* = 9（Q<sub>p</sub> = 9c<sub>u</sub>A<sub>p</sub>），題目指定 Vesic 才用這條",
    "source": "作業 11.7（課本 Vesic 法）",
-   "detail": "c<sub>u</sub> = 76.7 kPa：I<sub>r</sub> = 347×0.767 + 33 = 299，N<sub>c</sub>* = (4/3)(ln 299 + 1) + 2.571 = 11.51。I<sub>r</sub> 超過 300 就取 300，此時 N<sub>c</sub>* ≈ 11.5 是上限附近。",
+   "detail": "c<sub>u</sub> = 76.7 kPa：I<sub>r</sub> = 347×0.767 + 33 = 299，N<sub>c</sub>* = (4/3)(ln 299 + 1) + 2.571 = 11.51。I<sub>r</sub> 超過 300 就取 300，此時 N<sub>c</sub>* ≈ 11.5 是上限附近。<br>題目給 E<sub>s</sub> 和 c<sub>u</sub> 時用 I<sub>r</sub> = E<sub>s</sub>/[2(1 + μ<sub>s</sub>)c<sub>u</sub>]；ln 是自然對數，用 log₁₀ 會算錯。",
    "mc": [
     "P3-05",
     "P3-N1",
@@ -2869,7 +2881,7 @@ const SUPP = {
    "key": "(a) 黏性填土蓋在砂上（Fig. 11.50a）：Q<sub>n</sub> = pK′γ′<sub>f</sub>H<sub>f</sub><sup>2</sup>tan δ′/2（填土在水位以上用 γ<sub>f</sub>）；(b) 砂質填土蓋在黏土上（Fig. 11.50b）：負摩擦算到中性點 L<sub>1</sub>，Q<sub>n</sub> = pK′γ′<sub>f</sub>H<sub>f</sub>tan δ′·L<sub>1</sub> + pK′γ′L<sub>1</sub><sup>2</sup>tan δ′/2",
    "trap": "K′ = 1 − sin φ′、δ′ ≈ 0.5–0.7φ′；中性點以下才是正摩擦",
    "source": "講義 Ch11 11.24（作業 11.19 為 (a)）",
-   "detail": "中性點：L<sub>1</sub> = [(L − H<sub>f</sub>)/L<sub>1</sub>][(L − H<sub>f</sub>)/2 + γ′<sub>f</sub>H<sub>f</sub>/γ′] − 2γ′<sub>f</sub>H<sub>f</sub>/γ′（端承樁 L<sub>1</sub> = L − H<sub>f</sub>）。",
+   "detail": "中性點：L<sub>1</sub> = [(L − H<sub>f</sub>)/L<sub>1</sub>][(L − H<sub>f</sub>)/2 + γ′<sub>f</sub>H<sub>f</sub>/γ′] − 2γ′<sub>f</sub>H<sub>f</sub>/γ′<br>端承樁（樁尖坐在堅硬層、幾乎不沉）：課本建議把中性點直接取在樁尖，也就是 L<sub>1</sub> = L − H<sub>f</sub>，整段黏土都算負摩擦，這是偏保守的設計假設。摩擦樁才用上面的式子解 L<sub>1</sub>，中性點以下轉為正摩擦。<br>計算順序：先求 L<sub>1</sub>（二次式），再算 Q<sub>n</sub> = pK′γ′<sub>f</sub>H<sub>f</sub>tanδ′·L<sub>1</sub> + L<sub>1</sub><sup>2</sup>pK′γ′tanδ′/2，K′ = 1 − sinφ′，δ′ = 0.5–0.7φ′。L<sub>1</sub> 若跨到下一層黏土，題目通常會讓 L<sub>1</sub> 落在同一層，先驗算 L<sub>1</sub> 有沒有超過該層厚度。",
    "mc": [
     "P9-01",
     "P9-02",
@@ -2904,6 +2916,39 @@ const SUPP = {
    "pages": [
     69
    ]
+  },
+  {
+   "concept": "K/K<sub>o</sub> 與 δ′/φ′ 的兩套建議表",
+   "hook": "K 看施工方式，δ′ 看樁材表面",
+   "key": "Das (1990)：鑽掘或噴射 K/K<sub>o</sub> = 1；少量排土打入樁 1–1.4；大量排土打入樁 1–1.8。Kulhawy (1984)：噴射 1/2–2/3；鑽掘場鑄 2/3–1；少量排土打入 3/4–5/4；大量排土打入 1–2。δ′/φ′（Kulhawy）：粗糙混凝土 1.0、平滑混凝土 0.8–1.0、粗糙鋼 0.7–0.9、平滑（塗層）鋼 0.5–0.7、木樁 0.8–0.9；Broms：混凝土 0.75、木 0.66",
+   "trap": "把兩套表混用；題目給哪套就用哪套。比較「誰的摩擦最小」時要把 K 和 tanδ′ 一起看",
+   "source": "講義 Ch11 §11.13 p.218–224",
+   "detail": "單位摩擦 f = Kσ′<sub>o</sub>tanδ′，所以 K 越小、δ′ 越小，f 越小。排土越多的打入樁把周圍砂土擠得越密，K 越大；噴射法會鬆動土壤，K 最小。塗層、平滑的鋼樁 δ′ 最小。",
+   "mc": [],
+   "calc": [],
+   "pages": []
+  },
+  {
+   "concept": "CFA 樁（連續螺旋鑽樁）",
+   "hook": "一次鑽到底、邊拔邊灌",
+   "key": "鑽到設計深度後，邊拔螺旋鑽邊從中空鑽桿灌混凝土或水泥砂漿。直徑約 0.3–0.9 m、長可達約 30 m，鋼筋籠通常只放上部 10–15 m，樁距 3–5D。優點：噪音、振動小；不用續接也不用截樁。缺點：結構完整性較不可靠；鑽出的土要收集清運",
+   "trap": "以為鋼筋放滿全長；以為 CFA 和打入樁一樣會振動",
+   "source": "講義 Ch11 §11.3 p.109–115",
+   "detail": "情境題：醫院、精密儀器廠旁怕振動，就選 CFA 或鑽掘樁，不選打擊或振動打樁。",
+   "mc": [],
+   "calc": [],
+   "pages": []
+  },
+  {
+   "concept": "地下水位在 L′ 以內時的 Q<sub>s</sub>",
+   "hook": "σ′ 圖在水位處轉折，分段算面積",
+   "key": "f = Kσ′<sub>o</sub>tanδ′，σ′<sub>o</sub> 在水位以上用 γ、以下用 γ′ = γ<sub>sat</sub> − γ<sub>w</sub>；z ≥ L′ = 15D 後 f 固定為 f(L′)。Q<sub>s</sub> = p × (f–z 圖的面積)，水位處和 L′ 處各切一段，分段用梯形加總",
+   "trap": "直接套「0 到 L′ 一個三角形」的簡式，水位在 L′ 內時會少算",
+   "source": "講義 Ch11 §11.13；作業 11.4",
+   "detail": "例：0.45 m 方樁、L = 18 m、L′ = 6.75 m、水位 4 m、γ = 17、γ<sub>sat</sub> = 19.5、Ktanδ′ = 0.620。σ′(4) = 68.0、σ′(6.75) = 68.0 + 9.69×2.75 = 94.65；f(4) = 42.2、f(6.75) = 58.7 kPa。Q<sub>s</sub> = 1.8 × [42.2×4/2 + (42.2 + 58.7)/2×2.75 + 58.7×11.25] ≈ 1590 kN。",
+   "mc": [],
+   "calc": [],
+   "pages": []
   }
  ]
 };
@@ -6256,6 +6301,9 @@ MC_PATCH.push({ ch: 12, add: [
 { id: "D2-E7", t: "D2", k: "判讀", q: "Figure 12.8(c) 的軸力–深度曲線在樁頂約 1.5 m 內和樁底附近幾乎是垂直線。這說明了什麼？",
   o: ["這兩段的側阻最大", "這兩段幾乎沒有側阻，對應設計時黏土中鑽掘樁不計頂部 1.5 m 與底部 1D 的側阻", "樁身在這兩段斷掉", "這兩段軸力最大，所以要加大斷面"], a: 1,
   e: "曲線斜率 = 單位長度側阻；垂直表示軸力不減，<b>那段幾乎沒有側阻</b>。頂部是乾縮裂縫、擾動，底部受樁底沉陷影響，所以 12.10 節計算黏土中鑽掘樁 Q<sub>s</sub> 時不計頂部 1.5 m 與底部 1D。側阻主要發生在約 1.5–5 m，那段曲線最斜。", src: "講義 Ch12 Figure 12.8(c)、12.10 節（老師說會考）" },
+{ id: "D2-E8", t: "D2", k: "判讀", q: "比較 Figure 12.8(c) 最後兩個加載階段：樁頂軸力由約 1135 kN 增到 1246 kN，樁底軸力由約 370 kN 增到 446 kN 左右，兩條曲線在樁頂和樁底的間距差不多。這代表什麼？",
+  o: ["側阻還在大幅增加，樁底沒出力", "這一階段新增的荷重幾乎都傳到樁底，側阻已接近極限", "樁身斷裂", "荷重減少了"], a: 1,
+  e: "各階段側阻 = 樁頂軸力 − 樁底軸力。兩條曲線頂、底的間距差不多，代表樁頂增加多少，樁底就增加多少，<b>側阻幾乎沒變，已接近極限（約 800 kN）</b>，新增荷重改由樁底承擔。對應圖 (b)：側阻約 6 mm 就到頂，樁底要更大沉陷才發揮。", src: "講義 Ch12 Figure 12.8(b)(c)（老師說會考）" },
 ]});
 
 DECK.push({ ch: 8, title: "Ch8 淺基礎沉陷", slides: [
