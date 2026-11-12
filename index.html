@@ -3824,7 +3824,7 @@ MC_PATCH.push({
       q: "講義依「筏基最大沉陷 50 mm、差異沉陷 19 mm、F<sub>d</sub> = 1」的假設，得到砂土上筏基容許淨承載力的簡式為？",
       o: ["q<sub>net(all)</sub> ≈ 12.5N<sub>60</sub>", "q<sub>net(all)</sub> ≈ 16.63N<sub>60</sub>", "q<sub>net(all)</sub> ≈ 25N<sub>60</sub>", "q<sub>net(all)</sub> ≈ 33.5N<sub>60</sub>"],
       a: 2,
-      e: "(N<sub>60</sub>/0.08)(1)(50/25) = 25N<sub>60</sub>。12.5N<sub>60</sub> 是 S<sub>e</sub> = 25 mm；33.5N<sub>60</sub> 是 0.67N<sub>60</sub> × 50 的上限值。",
+      e: "<b>起點</b>是講義 p.39 的 Meyerhof 式（砂土、容許沉陷 25 mm 版本）：q<sub>net</sub> = (N<sub>60</sub>/0.08)[(B + 0.3)/B]<sup>2</sup>F<sub>d</sub>(S<sub>e</sub>/25)。<br>• N<sub>60</sub>：SPT 打擊數；1/0.08 = 12.5。<br>• [(B + 0.3)/B]<sup>2</sup>：寬度修正。筏基 B 有十幾公尺，(B + 0.3)/B ≈ 1，這項 ≈ 1。<br>• F<sub>d</sub> = 1 + 0.33D<sub>f</sub>/B ≤ 1.33：深度因子。講義的假設是取 F<sub>d</sub> = 1（不靠埋深加分，偏保守）。<br>• S<sub>e</sub>/25：公式是以沉陷 25 mm 為準寫的，容許沉陷改成 S<sub>e</sub> 就乘 S<sub>e</sub>/25。筏基可容許 50 mm（獨立基腳只容許 25 mm），所以乘 50/25 = 2。<br><b>代入</b>：12.5 × 1 × 1 × 2 = <b>25N<sub>60</sub></b>。<br><b>其他選項從哪來</b><br>• 12.5N<sub>60</sub>：忘了乘 S<sub>e</sub>/25 = 2，等於還用 25 mm 的容許沉陷。<br>• 16.63N<sub>60</sub>：講義 p.40「B 很大時」那一行，12.5 × 1.33 = 16.63，是把 F<sub>d</sub> 取上限 1.33、而且還沒乘 S<sub>e</sub>/25；講義假設 F<sub>d</sub> = 1，所以不對。<br>• 33.5N<sub>60</sub>：F<sub>d</sub> 取 1.33 又乘 2（16.63 × 2 ≈ 33），一樣錯在 F<sub>d</sub>。",
       src: "講義 Ch9 p.42"
     },
     {
