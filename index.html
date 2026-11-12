@@ -458,6 +458,67 @@ body.inmock main { padding-bottom: 96px; }
 @media (max-width: 640px) { header.top { position: static; } nav.tabs { flex-wrap: wrap; overflow: visible; } nav.tabs button, nav.tabs .tablink { flex: 1 0 25%; padding-inline: 4px; } }
 </style>
 
+<style id="plain">
+/* ===== 樸素版面（2026-11-12）：去掉圓角膠囊、彩色外框與多色強調，改成講義/筆記本風格 ===== */
+:root {
+  --bg: #161615; --panel: #161615; --panel-2: #1f1f1d; --line: #34332f;
+  --ink: #e8e5de; --muted: #9b978d; --accent: #8db2de;
+  --ch8: #9bb6d8; --ch9: #9cc3a8; --ch11: #b9abd6; --ch12: #d9a7b4;
+  --ok: #8fc39b; --bad: #e0907f; --ok-bg: rgba(143,195,155,.08); --bad-bg: rgba(224,144,127,.08);
+  --f-display: var(--f-body);
+}
+:root:not([data-theme="dark"]) {
+  --bg: #fbfaf6; --panel: #fbfaf6; --panel-2: #f1efe8; --line: #dcd8cd;
+  --ink: #1f1e1b; --muted: #6c685f; --accent: #1f4e8c;
+  --ch8: #2c5282; --ch9: #2f6b4f; --ch11: #574a86; --ch12: #8a3b52;
+  --ok: #2f6b3f; --bad: #a23b2a; --ok-bg: rgba(47,107,63,.07); --bad-bg: rgba(162,59,42,.07);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #161615; --panel: #161615; --panel-2: #1f1f1d; --line: #34332f;
+  --ink: #e8e5de; --muted: #9b978d; --accent: #8db2de;
+  --ch8: #9bb6d8; --ch9: #9cc3a8; --ch11: #b9abd6; --ch12: #d9a7b4;
+  --ok: #8fc39b; --bad: #e0907f; --ok-bg: rgba(143,195,155,.08); --bad-bg: rgba(224,144,127,.08);
+} }
+body { background: var(--bg); color: var(--ink); }
+/* 圓角一律收斂，膠囊改成直角小框或純文字 */
+.acct, .acctpanel, .card, .chip, .given, .opt, .weak, .fig, .params, .fc, .toc a, .rv, .tchip, .dstage, .slide .ex, .nitem .ex, .hwrap, .ngroup, .mopt, .mch, .btn, select, input[type=text], input[type=number], input:not([type]), .fch .lbadge, .fc .fk span, .ebadge, .sbadge, .guide .gsteps button, .gx, .gopen, .hint, .exp { border-radius: 3px !important; }
+.card { background: transparent; border: 0; border-top: 1px solid var(--line); padding-left: 0; padding-right: 0; }
+.acctpanel { background: var(--panel-2); border: 1px solid var(--line); }
+.guide.card { border: 1px solid var(--line); padding: 14px 16px; background: var(--panel-2); }
+/* 標籤：不用彩色膠囊，改成小號灰字以「·」分隔 */
+.chip { background: none !important; border: 0 !important; padding: 0 !important; color: var(--muted) !important; font-size: .82rem; font-weight: 500; }
+.chip + .chip::before { content: "·"; margin: 0 6px 0 -2px; color: var(--muted); }
+.chip.emph, .chip.exam, .chip.focus { color: var(--bad) !important; }
+/* 選項：細線列表，不用色塊大框 */
+.opt { background: transparent !important; border: 1px solid var(--line) !important; }
+.opt:hover { border-color: var(--muted) !important; }
+.opt.ok, .opt.correct { border-color: var(--ok) !important; background: var(--ok-bg) !important; }
+.opt.bad, .opt.wrong { border-color: var(--bad) !important; background: var(--bad-bg) !important; }
+/* 按鈕：平實的墨水藍，不用亮橘 */
+.btn { box-shadow: none !important; font-weight: 500; }
+.btn.primary { background: var(--accent) !important; color: var(--bg) !important; border: 1px solid var(--accent) !important; }
+.guide .gsteps button { background: none; color: var(--accent); border: 1px solid var(--accent); }
+/* 速記卡：拿掉整圈紅框，改左側細線；大字口訣改回內文色 */
+.fc { background: transparent !important; border: 0 !important; border-left: 2px solid var(--line) !important; padding-left: 14px !important; }
+.fc.emph { border-left-color: var(--bad) !important; }
+.fc.supp { border-left-color: var(--accent) !important; }
+.fc .fhook, .fc .hook, .fc h3 + p { color: var(--ink); }
+.ebadge, .sbadge, .fch .lbadge { background: none !important; border: 0 !important; padding: 0 !important; color: var(--bad) !important; font-weight: 600; margin-right: 8px; }
+.sbadge { color: var(--accent) !important; }
+/* 分頁列：底線式，選中只加粗加底線 */
+nav.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+nav.tabs .tablink { color: var(--muted); }
+/* 模擬考選項 */
+.mopt, .mch { background: transparent !important; }
+.mopt.on { border-color: var(--ink) !important; }
+.fc .hook { color: var(--ink) !important; font-weight: 600; }
+.fc .fk span { background: none !important; border: 0 !important; padding: 0 !important; color: var(--muted) !important; font-weight: 600; margin-right: 8px; }
+.fc .fk.trap span { color: var(--bad) !important; }
+.stars { color: var(--muted); letter-spacing: 1px; }
+.opt.right { border-color: var(--ok) !important; background: var(--ok-bg) !important; }
+.opt.picked { border-color: var(--ink) !important; }
+
+</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="context-stroke"/></marker></defs></svg>
@@ -485,7 +546,7 @@ body.inmock main { padding-bottom: 96px; }
     <div class="gh"><b>第一次來？照這個順序複習期末</b><button class="gx" id="guideX" aria-label="收起">收起</button></div>
     <p class="gsub">期末 11/16：選擇 15 題（每題 4 分），筏基只出幾題；其餘都是 Ch11，計算 2 題是「樁打入砂土」「樁打入黏土」；Ch12 不考。考試會附公式、圖、表，重點是懂觀念、會選公式、會查表。</p>
     <ol class="gsteps">
-      <li><button data-g="review">考前複習</button>先看紅框「老師說會考」與 ★ 多的速記卡，每張卡可以直接「練 10 題」。</li>
+      <li><button data-g="review">考前複習</button>先看左邊紅線、標「老師說會考」與 ★ 多的速記卡，每張卡可以直接「練 10 題」。</li>
       <li><button data-g="practice">練習</button>章節預設是期末範圍，選錯會看到詳解。</li>
       <li><button data-g="calc">計算題</button>練砂土樁（Meyerhof、L′ = 15D）和黏土樁（α、λ、β 法、Vesic），一步一步填。</li>
       <li><button data-g="mock">模擬考</button>照期末格式限時考一次，交卷才對答案。</li>
