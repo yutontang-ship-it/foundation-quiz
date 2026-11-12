@@ -165,6 +165,12 @@ M1001 80h400000v40h-400000z"></path></svg></span></span></span><span class="vlis
   
 </section>
 <script>
-function fit(){ var z = Math.min(1, document.documentElement.clientWidth / 1600); document.body.style.zoom = z; }
+function fit(){ var W = document.documentElement.clientWidth, z = Math.min(1, (W - 8) / 1592);
+  document.body.style.zoom = "";
+  document.querySelectorAll(".page").forEach(function (p) {
+    var w = p.parentNode;
+    if (!w.classList || !w.classList.contains("pgw")) { w = document.createElement("div"); w.className = "pgw"; p.parentNode.insertBefore(w, p); w.appendChild(p); }
+    p.style.transform = "scale(" + z + ")"; w.style.width = Math.floor(p.offsetWidth * z) + "px"; w.style.height = Math.floor(p.offsetHeight * z) + "px";
+  }); }
 fit(); addEventListener("resize", fit);
 </script></body></html>

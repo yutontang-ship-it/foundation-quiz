@@ -229,3 +229,9 @@ table.kw td { border-bottom: 0.8pt dashed #b9c3dc; } table.kw .path { color: #4d
 .webbar a { color: var(--ink-r); }
 body { background: #e9edf5; }
 .page { margin: 0 auto 18pt; box-shadow: 0 0 0 1pt #d3d9e6; }
+
+/* 手機：整頁等比例縮小（取代 body zoom，避免 iOS 文字放大造成重疊） */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+.pgw { margin: 0 auto 12px; overflow: hidden; }
+.pgw .page { transform-origin: 0 0; margin: 0; }
+@media (max-width: 700px) { .webbar { padding: 8px 12px; gap: 14px; font-size: 14px; flex-wrap: wrap; } }
