@@ -440,6 +440,11 @@ body.inmock main { padding-bottom: 96px; }
 .fch .ebadge { font-size: .72rem; font-weight: 700; color: #fff; background: var(--bad); border-radius: 6px; padding: 1px 7px; margin-right: 6px; }
 .efig { width: 100%; max-width: 420px; display: block; margin: 6px 0 4px; }
 .fsub.emph { color: var(--bad); }
+.fc.supp { border-style: solid; border-color: var(--line); }
+.fch .sbadge { font-size: .72rem; font-weight: 700; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; padding: 0 6px; margin-right: 6px; }
+.stbl { border-collapse: collapse; font-size: .85rem; margin: 6px 0; font-family: var(--f-mono); }
+.stbl th, .stbl td { border-bottom: 1px solid var(--line); padding: 3px 10px 3px 0; text-align: left; }
+.stbl th { color: var(--muted); font-weight: 500; }
 .estnote { display: block; margin-top: 4px; color: var(--accent); font-size: .85em; }
 </style>
 
@@ -2696,6 +2701,205 @@ const EMPH = {
    "calc": [],
    "pages": [
     85
+   ]
+  }
+ ]
+};
+const SUPP = {
+ "9": [
+  {
+   "concept": "筏基下黏土的壓密沉陷",
+   "hook": "S<sub>c</sub> = C<sub>c</sub>H<sub>c</sub>/(1+e<sub>0</sub>) · log[(σ′<sub>o</sub>+Δσ′<sub>av</sub>)/σ′<sub>o</sub>]",
+   "key": "σ′<sub>o</sub> 取黏土層中點；淨壓 q = Q/A − γD<sub>f</sub>；Δσ′<sub>av</sub> 用角點法（四塊矩形相加）配 Simpson 1:4:1 平均",
+   "trap": "Q/A 沒扣 γD<sub>f</sub>；σ′<sub>o</sub> 水位下沒用 γ′",
+   "source": "Example 9.6、作業 9.6／9.7（公式同 Ch8 8.9）",
+   "detail": "Example 9.6：q = 200000/(30×40) − 15.72×2 = 135.2 kPa，Δσ′<sub>av</sub> = 4 × 23.32 = 93.3 kPa，σ′<sub>o</sub> = 208 kPa，S<sub>c</sub> = 0.28×6/1.9 × log(301.3/208) ≈ 0.142 m = 142 mm。",
+   "mc": [],
+   "calc": [
+    "C-HW96",
+    "C-HW97"
+   ],
+   "pages": []
+  },
+  {
+   "concept": "K<sub>r</sub> 與差異沉陷比 δ",
+   "hook": "K<sub>r</sub> = E′I<sub>b</sub>/(E<sub>s</sub>B<sup>3</sup>)",
+   "key": "K<sub>r</sub> &gt; 0.5 → 剛性，δ = 0；K<sub>r</sub> = 0.5 → δ ≈ 0.1；K<sub>r</sub> = 0 → 方形 0.35、長條 0.5",
+   "trap": "δ 是「差異沉陷 ÷ 總沉陷」，不是 mm",
+   "source": "講義 Ch9 p.47–48（ACI 336）",
+   "detail": "講義只給這三個點。K<sub>r</sub> 介於 0 與 0.5 之間時，題目通常會直接問落在哪個區間（δ 介於 0.1 與 0.35 之間）；若要數字，可在兩點間線性內插估計。",
+   "mc": [
+    "M4-N1",
+    "M4-N2",
+    "M4-M1",
+    "M4-N4"
+   ],
+   "calc": [
+    "C-M4"
+   ],
+   "pages": [
+    40
+   ]
+  },
+  {
+   "concept": "砂土筏基要不要乘 [(B+0.3)/B]<sup>2</sup>",
+   "hook": "筏基 B 很大 → (B+0.3)/B ≈ 1，可省略",
+   "key": "q<sub>net</sub> = (N<sub>60</sub>/0.08)[(B+0.3)/B]<sup>2</sup>F<sub>d</sub>(S<sub>e</sub>/25)；B 大時 ≤ 16.63N<sub>60</sub>(S<sub>e</sub>/25)，講義簡化成 (N<sub>60</sub>/0.08)F<sub>d</sub>(S<sub>e</sub>/25)",
+   "trap": "上限 16.63N<sub>60</sub>(S<sub>e</sub>/25) 忘了檢查",
+   "source": "講義 Ch9 p.40–41",
+   "detail": "例如 B = 12 m 時 (12.3/12)<sup>2</sup> = 1.05，只差 5%，所以講義的筏基式子把它拿掉。題目若給的是小基腳就要乘。",
+   "mc": [
+    "M3-04",
+    "M3-M2"
+   ],
+   "calc": [
+    "C-M3b"
+   ],
+   "pages": [
+    36
+   ]
+  }
+ ],
+ "11": [
+  {
+   "concept": "黏土樁底：Vesic N<sub>c</sub>*",
+   "hook": "Q<sub>p</sub> = A<sub>p</sub>c<sub>u</sub>N<sub>c</sub>*",
+   "key": "N<sub>c</sub>* = (4/3)(ln I<sub>rr</sub> + 1) + π/2 + 1；φ = 0 時 I<sub>rr</sub> = I<sub>r</sub>，O′Neill &amp; Reese：I<sub>r</sub> = 347(c<sub>u</sub>/p<sub>a</sub>) + 33 ≤ 300",
+   "trap": "Meyerhof 法直接用 N<sub>c</sub>* = 9（Q<sub>p</sub> = 9c<sub>u</sub>A<sub>p</sub>），題目指定 Vesic 才用這條",
+   "source": "作業 11.7（課本 Vesic 法）",
+   "detail": "c<sub>u</sub> = 76.7 kPa：I<sub>r</sub> = 347×0.767 + 33 = 299，N<sub>c</sub>* = (4/3)(ln 299 + 1) + 2.571 = 11.51。I<sub>r</sub> 超過 300 就取 300，此時 N<sub>c</sub>* ≈ 11.5 是上限附近。",
+   "mc": [
+    "P3-05",
+    "P3-N1",
+    "P3-M2"
+   ],
+   "calc": [
+    "C-HW117"
+   ],
+   "pages": []
+  },
+  {
+   "concept": "α 表（Table 11.12）",
+   "hook": "c<sub>u</sub>/p<sub>a</sub> 越大，α 越小",
+   "key": "Q<sub>s</sub> = Σαc<sub>u</sub>pΔL，p<sub>a</sub> = 100 kPa；表中間的值線性內插",
+   "trap": "直接用 c<sub>u</sub> 查，忘了先除以 p<sub>a</sub>",
+   "source": "講義 Ch11 Table 11.12（作業 11.7、11.10 用的值）",
+   "fig": "<table class=\"stbl\"><tr><th>c<sub>u</sub>/p<sub>a</sub></th><th>α</th><th>c<sub>u</sub>/p<sub>a</sub></th><th>α</th></tr><tr><td>0.1</td><td>1.00</td><td>1.2</td><td>0.42</td></tr><tr><td>0.2</td><td>0.92</td><td>1.4</td><td>0.40</td></tr><tr><td>0.3</td><td>0.82</td><td>1.6</td><td>0.38</td></tr><tr><td>0.4</td><td>0.74</td><td>1.8</td><td>0.36</td></tr><tr><td>0.6</td><td>0.62</td><td>2.0</td><td>0.35</td></tr><tr><td>0.8</td><td>0.54</td><td>2.4</td><td>0.34</td></tr><tr><td>1.0</td><td>0.48</td><td>2.8</td><td>0.34</td></tr></table>",
+   "detail": "例：c<sub>u</sub> = 76.7 kPa → 0.767，介於 0.6（0.62）與 0.8（0.54），α = 0.62 − (0.167/0.2)(0.08) = 0.553。",
+   "mc": [
+    "P5-03",
+    "P5-N1",
+    "P5-X1",
+    "P5-M2"
+   ],
+   "calc": [
+    "C-HW117",
+    "C-HW1110"
+   ],
+   "pages": [
+    62
+   ]
+  },
+  {
+   "concept": "λ 表（Table 11.11）",
+   "hook": "樁越長，λ 越小",
+   "key": "Q<sub>s</sub> = λ(σ̄′<sub>o</sub> + 2c̄<sub>u</sub>)pL；σ̄′<sub>o</sub> = σ′–z 圖面積 ÷ L，c̄<sub>u</sub> 依厚度加權",
+   "trap": "λ 用的是「全樁長 L」查表，不是分層",
+   "source": "講義 Ch11 Table 11.11",
+   "fig": "<table class=\"stbl\"><tr><th>L (m)</th><th>λ</th><th>L (m)</th><th>λ</th></tr><tr><td>0</td><td>0.500</td><td>35</td><td>0.132</td></tr><tr><td>5</td><td>0.336</td><td>40</td><td>0.127</td></tr><tr><td>10</td><td>0.245</td><td>50</td><td>0.118</td></tr><tr><td>15</td><td>0.200</td><td>60</td><td>0.113</td></tr><tr><td>20</td><td>0.173</td><td>70</td><td>0.110</td></tr><tr><td>25</td><td>0.150</td><td>80</td><td>0.110</td></tr><tr><td>30</td><td>0.136</td><td>90</td><td>0.110</td></tr></table>",
+   "detail": "例：L = 18.3 m 在 15（0.200）與 20（0.173）之間，λ = 0.200 − (3.3/5)(0.027) = 0.182。",
+   "mc": [
+    "P5-04",
+    "P5-N2",
+    "P5-M3"
+   ],
+   "calc": [
+    "C-HW1110"
+   ],
+   "pages": [
+    62
+   ]
+  },
+  {
+   "concept": "Meyerhof N<sub>q</sub>*（Table 11.5）",
+   "hook": "Q<sub>p</sub> = A<sub>p</sub>q′N<sub>q</sub>* ≤ A<sub>p</sub>(0.5p<sub>a</sub>N<sub>q</sub>* tan φ′)",
+   "key": "兩者取小；砂土 φ′ 大時常由上限控制",
+   "trap": "忘了檢查上限 q<sub>l</sub>",
+   "source": "講義 Ch11 Table 11.5（作業 11.1、11.4 用的值）",
+   "fig": "<table class=\"stbl\"><tr><th>φ′</th><th>N<sub>q</sub>*</th><th>φ′</th><th>N<sub>q</sub>*</th></tr><tr><td>20°</td><td>12.4</td><td>35°</td><td>143</td></tr><tr><td>22°</td><td>15.5</td><td>36°</td><td>168</td></tr><tr><td>24°</td><td>21.4</td><td>37°</td><td>194</td></tr><tr><td>25°</td><td>26.0</td><td>38°</td><td>231</td></tr><tr><td>26°</td><td>29.5</td><td>39°</td><td>276</td></tr><tr><td>28°</td><td>39.7</td><td>40°</td><td>346</td></tr><tr><td>30°</td><td>56.7</td><td>41°</td><td>420</td></tr><tr><td>31°</td><td>68.2</td><td>42°</td><td>525</td></tr><tr><td>32°</td><td>81.0</td><td>43°</td><td>650</td></tr><tr><td>33°</td><td>96.0</td><td>44°</td><td>780</td></tr><tr><td>34°</td><td>115</td><td>45°</td><td>930</td></tr></table>",
+   "detail": "例：φ′ = 42° → 525；φ′ = 40° → 346。Coyle &amp; Castello 法的 N<sub>q</sub>*、K 要查圖（Figure 11.20、11.23），考試會給數值或附圖。",
+   "mc": [
+    "P3-01",
+    "P3-03",
+    "P3-N1",
+    "P3-M1",
+    "P3-M3"
+   ],
+   "calc": [
+    "C-HW111",
+    "C-HW114"
+   ],
+   "pages": [
+    57
+   ]
+  },
+  {
+   "concept": "應變計換算軸力",
+   "hook": "Q(z) = εE<sub>p</sub>A<sub>p</sub>",
+   "key": "各深度軸力相減 = 該段摩擦；f = ΔQ/(pΔL)；樁底剩下的軸力 = Q<sub>p</sub>",
+   "trap": "E 要用樁材料的彈性模數，A 用樁斷面積",
+   "source": "講義 Ch11 p.295–297（Load Test Instrumentation）",
+   "detail": "例：混凝土樁 E<sub>p</sub> = 30 GPa、A<sub>p</sub> = 0.16 m²，某深度量到 ε = 200 × 10<sup>−6</sup>，軸力 = 200×10<sup>−6</sup> × 30×10<sup>6</sup> kPa × 0.16 = 960 kN。",
+   "mc": [
+    "P2-N1",
+    "P7-03",
+    "P7-M4"
+   ],
+   "calc": [],
+   "pages": [
+    66
+   ]
+  },
+  {
+   "concept": "負摩擦兩種情況",
+   "hook": "填土在上沉、樁被往下拖",
+   "key": "(a) 黏性填土蓋在砂上（Fig. 11.50a）：Q<sub>n</sub> = pK′γ′<sub>f</sub>H<sub>f</sub><sup>2</sup>tan δ′/2（填土在水位以上用 γ<sub>f</sub>）；(b) 砂質填土蓋在黏土上（Fig. 11.50b）：負摩擦算到中性點 L<sub>1</sub>，Q<sub>n</sub> = pK′γ′<sub>f</sub>H<sub>f</sub>tan δ′·L<sub>1</sub> + pK′γ′L<sub>1</sub><sup>2</sup>tan δ′/2",
+   "trap": "K′ = 1 − sin φ′、δ′ ≈ 0.5–0.7φ′；中性點以下才是正摩擦",
+   "source": "講義 Ch11 11.24（作業 11.19 為 (a)）",
+   "detail": "中性點：L<sub>1</sub> = [(L − H<sub>f</sub>)/L<sub>1</sub>][(L − H<sub>f</sub>)/2 + γ′<sub>f</sub>H<sub>f</sub>/γ′] − 2γ′<sub>f</sub>H<sub>f</sub>/γ′（端承樁 L<sub>1</sub> = L − H<sub>f</sub>）。",
+   "mc": [
+    "P9-01",
+    "P9-02",
+    "P9-N1",
+    "P9-M1",
+    "P9-M2",
+    "P9-M3"
+   ],
+   "calc": [
+    "C-HW1119",
+    "C-P9"
+   ],
+   "pages": [
+    68
+   ]
+  },
+  {
+   "concept": "群樁效率為何可以大於 1",
+   "hook": "砂土打樁會擠密 → η 可 &gt; 1",
+   "key": "η = Q<sub>g(u)</sub>/ΣQ<sub>u</sub>；砂土中打入群樁，樁間土被擠密，群樁承載力可能大於單樁總和；黏土則取「單樁總和」與「塊體破壞」的較小值",
+   "trap": "以為 η 一定 ≤ 1",
+   "source": "講義 Ch11 11.25–11.26",
+   "detail": "Converse–Labarre 等公式算出的 η 都 ≤ 1，是保守估計；實測砂土中打入群樁常有 η &gt; 1。設計上通常保守取 η ≤ 1。",
+   "mc": [
+    "P10-03",
+    "P10-M3"
+   ],
+   "calc": [
+    "C-P10a",
+    "C-P10b"
+   ],
+   "pages": [
+    69
    ]
   }
  ]
@@ -10026,9 +10230,9 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   function fcard(f, c, i, kind) {
     const n = (f.mc || []).filter(id => QMAP[id]).length;
     const pg = (f.pages || []).filter(x => HANDOUT.pages[x]);
-    const badge = kind === "emph" ? '<span class="ebadge">老師說會考</span>' : kind === "lec" ? '<span class="lbadge">講義</span>' : `<span class="stars">${"★".repeat(f.star)}</span>`;
-    const where = kind === "emph" ? f.source : kind === "lec" ? `講義：${(f.lecture || "").replace(/^講義\s*/, "")}` : `考過：${(f.exam || []).map(e => e.replace("2025 ", "")).join("、")}`;
-    return `<article class="fc ${kind === "emph" ? "emph s3" : kind === "lec" ? "lec" : "s" + f.star}"><div class="fch">${badge}<b>${f.concept}</b></div>
+    const badge = kind === "supp" ? '<span class="sbadge">公式查表</span>' : kind === "emph" ? '<span class="ebadge">老師說會考</span>' : kind === "lec" ? '<span class="lbadge">講義</span>' : `<span class="stars">${"★".repeat(f.star)}</span>`;
+    const where = kind === "emph" || kind === "supp" ? f.source : kind === "lec" ? `講義：${(f.lecture || "").replace(/^講義\s*/, "")}` : `考過：${(f.exam || []).map(e => e.replace("2025 ", "")).join("、")}`;
+    return `<article class="fc ${kind === "supp" ? "supp" : kind === "emph" ? "emph s3" : kind === "lec" ? "lec" : "s" + f.star}"><div class="fch">${badge}<b>${f.concept}</b></div>
       ${f.hook ? `<div class="hook">${f.hook}</div>` : `<p>${f.detail}</p>`}${f.fig || ""}
       ${f.key ? `<p class="fk"><span>必背</span>${f.key}</p>` : ""}
       ${f.trap ? `<p class="fk trap"><span>陷阱</span>${f.trap}</p>` : ""}
@@ -10041,12 +10245,13 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   function renderFocus() {
     const chs = [8, 9, 11, 12].filter(c => revCh === "all" || String(c) === revCh);
     return chs.map(c => {
-      const L = FOCUS[c] || [], M = (typeof LECTURE !== "undefined" && LECTURE[c]) || [], E = EMPH[c] || [];
-      if (!L.length && !M.length && !E.length) return "";
+      const L = FOCUS[c] || [], M = (typeof LECTURE !== "undefined" && LECTURE[c]) || [], E = EMPH[c] || [], P = SUPP[c] || [];
+      if (!L.length && !M.length && !E.length && !P.length) return "";
       return `<section class="fcs"><h2 class="ctitle"><span class="chip c${c}">${CH_NAMES[c]}</span></h2>
         ${E.length ? `<h3 class="fsub emph">老師說會考／講義紅字</h3>${E.map((f, i) => fcard(f, c, i, "emph")).join("")}` : ""}
         ${L.length ? `<h3 class="fsub">考古重點</h3>${L.map((f, i) => fcard(f, c, i, "exam")).join("")}` : ""}
-        ${M.length ? `<h3 class="fsub">講義重點（考古還沒考）</h3>${M.map((f, i) => fcard(f, c, i, "lec")).join("")}` : ""}</section>`;
+        ${M.length ? `<h3 class="fsub">講義重點（考古還沒考）</h3>${M.map((f, i) => fcard(f, c, i, "lec")).join("")}` : ""}
+        ${P.length ? `<h3 class="fsub">公式與查表補充（計算題會用到）</h3>${P.map((f, i) => fcard(f, c, i, "supp")).join("")}` : ""}</section>`;
     }).join("") || '<p class="empty">這個範圍還沒有整理。</p>';
   }
   function startFocus(set, name) {
@@ -10056,7 +10261,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   }
   function bindFocus() {
     const box = $("#reviewArea");
-    box.querySelectorAll("[data-fq]").forEach(b => b.onclick = () => { const [c, i, k] = b.dataset.fq.split("|"); const f = (k === "lec" ? LECTURE : k === "emph" ? EMPH : FOCUS)[c][+i]; startFocus(new Set(f.mc), f.concept); });
+    box.querySelectorAll("[data-fq]").forEach(b => b.onclick = () => { const [c, i, k] = b.dataset.fq.split("|"); const f = (k === "lec" ? LECTURE : k === "emph" ? EMPH : k === "supp" ? SUPP : FOCUS)[c][+i]; startFocus(new Set(f.mc), f.concept); });
     box.querySelectorAll("[data-fp]").forEach(b => b.onclick = () => { const gi = +b.dataset.fp; revCh = "all"; revMode = "deck"; deckPos = gi; renderReview(); window.scrollTo({ top: 0 }); });
     box.querySelectorAll("[data-fc]").forEach(b => b.onclick = () => { show("calc"); const el = document.querySelector(`[data-cid="${b.dataset.fc}"]`); if (el) el.click(); });
   }
