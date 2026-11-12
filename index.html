@@ -435,6 +435,11 @@ body.inmock main { padding-bottom: 96px; }
 .msteps.res li.rok .mya { color: var(--ok); } .msteps.res li.rbad .mya { color: var(--bad); }
 .msteps.res .exp { margin-top: 4px; color: var(--muted); }
 .mr [data-copen] { margin-top: 12px; }
+.chip.emph { color: var(--bad); font-weight: 700; }
+.fc.emph { border: 2px solid var(--bad); }
+.fch .ebadge { font-size: .72rem; font-weight: 700; color: #fff; background: var(--bad); border-radius: 6px; padding: 1px 7px; margin-right: 6px; }
+.efig { width: 100%; max-width: 420px; display: block; margin: 6px 0 4px; }
+.fsub.emph { color: var(--bad); }
 .estnote { display: block; margin-top: 4px; color: var(--accent); font-size: .85em; }
 </style>
 
@@ -2571,6 +2576,132 @@ const LECTURE = {8: [
  {"star":0,"concept":"穩定液檢驗","hook":"漏斗量黏、比重計量重","key":"黏滯度：馬氏漏斗；含砂量：砂量測定瓶","trap":"把馬氏漏斗當成量比重","detail":"另驗比重（比重計）與酸鹼值（pH 試紙）。","lecture":"講義 p.108–109（12.3）","mc":["D1-06","D1-M7"],"calc":[],"pages":[79]}
 ]
 };
+const EMPH = {
+ "9": [
+  {
+   "concept": "淨容許承載力（紅字）",
+   "hook": "筏基砂土：q<sub>net(all)</sub> ≈ 25N<sub>60</sub>",
+   "key": "假設最大沉陷 50 mm、差異沉陷 19 mm、F<sub>d</sub> = 1；黏土 q<sub>net(all)</sub> = 1.713c<sub>u</sub>(1+0.195B/L)(1+0.4D<sub>f</sub>/B)",
+   "trap": "獨立基腳以 25 mm 為準，筏基放寬到 50 mm",
+   "source": "講義 Ch9 p.40–42 紅字標題 Net allowable bearing capacity",
+   "detail": "講義用紅字標出 Net allowable bearing capacity。砂土上的筏基可以允許較大沉陷，所以容許淨壓力比獨立基腳高，簡化成 25N<sub>60</sub>（kPa）。",
+   "mc": [
+    "M3-N7",
+    "M3-N8",
+    "M3-X3",
+    "M3-M6",
+    "M3-04",
+    "M3-M2",
+    "M3-N10"
+   ],
+   "calc": [
+    "C-HW94"
+   ],
+   "pages": [
+    34
+   ]
+  },
+  {
+   "concept": "飽和黏土用 c<sub>u</sub>（紅字）",
+   "hook": "短期最危險 → 用不排水剪力強度 c<sub>u</sub>",
+   "key": "φ = 0：q<sub>u</sub> = c<sub>u</sub>N<sub>c</sub>F<sub>cs</sub>F<sub>cd</sub> + q，N<sub>c</sub> = 5.14",
+   "trap": "誤用 c′、φ′ 或以為長期比較危險",
+   "source": "講義 Ch9 p.38 紅字 shear strength",
+   "detail": "講義在 c<sub>u</sub> = undrained shear strength 用紅字強調。飽和黏土剛蓋好時孔隙水來不及排出，強度最低，所以用 UU 試驗的 c<sub>u</sub>。",
+   "mc": [
+    "M2-05",
+    "M3-N11",
+    "M3-X1",
+    "M3-02",
+    "M3-N1"
+   ],
+   "calc": [
+    "C-HW91"
+   ],
+   "pages": [
+    34
+   ]
+  },
+  {
+   "concept": "完全補償深度（紅字）",
+   "hook": "挖掉的土重 = 建物重 → D<sub>f</sub> = Q/(Aγ)",
+   "key": "p<sub>net</sub> = Q/A − γD<sub>f</sub> = 0；FS = q<sub>net(u)</sub>/(Q/A − γD<sub>f</sub>)",
+   "trap": "忘了 Q 要含地下室自重；把淨壓算成 Q/A",
+   "source": "講義 Ch9 p.53 紅字 depth of a fully compensated foundation",
+   "detail": "講義用紅字標出完全補償基礎的深度。開挖移除的土重剛好抵銷建物總重時，基底淨增壓力為零，沉陷與承載力問題都大幅減輕。",
+   "mc": [
+    "M5-02",
+    "M5-M2",
+    "M5-03",
+    "M5-N1",
+    "M5-X1",
+    "M5-N2"
+   ],
+   "calc": [
+    "C-M5"
+   ],
+   "pages": [
+    42
+   ]
+  }
+ ],
+ "11": [
+  {
+   "concept": "Figure 11.36 樁周擾動區",
+   "hook": "重塑 0.5D、壓縮 1.5D，2D 以外是原狀土",
+   "key": "剛打完靠近樁身 c<sub>u</sub> 最低；孔壓消散後 c<sub>u</sub> 回升（set-up）；所以 EOID 後至少等 30 天才做載重試驗",
+   "trap": "把 1.5D 當重塑區；以為 c<sub>u</sub> 會越放越低",
+   "source": "老師上課說會考（講義 Ch11 p.300–304，Figure 11.36、11.37）",
+   "detail": "軟黏土中打入樁會把樁周土壤擠壓重模：緊貼樁身約 0.5D 是重塑區，再往外約 1.5D 是壓縮區。打樁產生的超額孔隙水壓讓強度暫時下降，之後孔壓消散、黏土觸變回復，c<sub>u</sub> 與樁身摩擦 Q<sub>s</sub> 隨時間升高到穩定值（Figure 11.37）。",
+   "fig": "<svg viewBox=\"0 0 340 120\" class=\"efig\" role=\"img\" aria-label=\"Figure 11.36 樁周重塑區與壓縮區\"><rect x=\"150\" y=\"10\" width=\"40\" height=\"60\" fill=\"var(--muted)\" opacity=\".55\"/><text x=\"170\" y=\"45\" font-size=\"11\" text-anchor=\"middle\" fill=\"var(--ink)\">樁 D</text><rect x=\"190\" y=\"10\" width=\"20\" height=\"60\" fill=\"var(--bad)\" opacity=\".35\"/><rect x=\"130\" y=\"10\" width=\"20\" height=\"60\" fill=\"var(--bad)\" opacity=\".35\"/><rect x=\"210\" y=\"10\" width=\"60\" height=\"60\" fill=\"var(--accent)\" opacity=\".28\"/><rect x=\"70\" y=\"10\" width=\"60\" height=\"60\" fill=\"var(--accent)\" opacity=\".28\"/><text x=\"200\" y=\"86\" font-size=\"11\" text-anchor=\"middle\" fill=\"var(--ink)\">0.5D</text><text x=\"240\" y=\"86\" font-size=\"11\" text-anchor=\"middle\" fill=\"var(--ink)\">1.5D</text><text x=\"200\" y=\"102\" font-size=\"10\" text-anchor=\"middle\" fill=\"var(--muted)\">重塑</text><text x=\"240\" y=\"102\" font-size=\"10\" text-anchor=\"middle\" fill=\"var(--muted)\">壓縮</text><text x=\"300\" y=\"45\" font-size=\"10\" text-anchor=\"middle\" fill=\"var(--muted)\">原狀土</text><text x=\"300\" y=\"60\" font-size=\"10\" text-anchor=\"middle\" fill=\"var(--muted)\">c<tspan font-size=\"8\" dy=\"2\">u</tspan><tspan dy=\"-2\"> 不變</tspan></text><text x=\"100\" y=\"86\" font-size=\"11\" text-anchor=\"middle\" fill=\"var(--ink)\">1.5D</text><text x=\"140\" y=\"86\" font-size=\"11\" text-anchor=\"middle\" fill=\"var(--ink)\">0.5D</text></svg>",
+   "mc": [
+    "P7-E1",
+    "P7-E2",
+    "P7-E3",
+    "P7-E4",
+    "P7-E5",
+    "P7-E6",
+    "P7-E7",
+    "P7-02",
+    "P7-X2",
+    "P7-F1"
+   ],
+   "calc": [],
+   "pages": [
+    66
+   ]
+  }
+ ],
+ "12": [
+  {
+   "concept": "Figure 12.8 荷重傳遞",
+   "hook": "側阻幾 mm 就用完，樁底要 25 mm 才發揮",
+   "key": "Reese et al. 黏土中場鑄樁 D = 762 mm、L = 6.94 m：總荷重 1246 kN，側阻約 800 kN，樁底約 446 kN；軸力–深度曲線往下遞減，剩下的是樁底阻力",
+   "trap": "以為樁底先發揮；把 800 kN 當成樁底",
+   "source": "投影片 12.5 標「概念重要，考試會考」（講義 Ch12 p.126–129，Figure 12.8）",
+   "detail": "圖 (b)：荷重增加時，側阻在沉陷約 6 mm 就達到最大，之後再加的荷重幾乎都由樁底承擔，樁底要約 25 mm 才接近極限。圖 (c)：每一階段的軸力從樁頂往下遞減，減少量是各段側阻，到樁底剩下的就是 Q<sub>p</sub>。這也是孔底沉泥要清乾淨的原因。",
+   "fig": "<svg viewBox=\"0 0 340 150\" class=\"efig\" role=\"img\" aria-label=\"Figure 12.8 荷重沉陷曲線\"><line x1=\"40\" y1=\"125\" x2=\"320\" y2=\"125\" stroke=\"var(--muted)\"/><line x1=\"40\" y1=\"125\" x2=\"40\" y2=\"10\" stroke=\"var(--muted)\"/><text x=\"320\" y=\"142\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--muted)\">樁頂沉陷 (mm) →</text><text x=\"36\" y=\"18\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--muted)\">kN</text><path d=\"M40,125 C55,40 80,28 300,22\" fill=\"none\" stroke=\"var(--ink)\" stroke-width=\"2\"/><text x=\"300\" y=\"16\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--ink)\">Total 1246</text><path d=\"M40,125 C48,50 60,48 300,52\" fill=\"none\" stroke=\"var(--ok)\" stroke-width=\"2\"/><text x=\"300\" y=\"66\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--ok)\">Sides ≈ 800（約 6 mm 就到頂）</text><path d=\"M40,125 C120,110 220,85 300,82\" fill=\"none\" stroke=\"var(--accent)\" stroke-width=\"2\"/><text x=\"300\" y=\"100\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--accent)\">Base ≈ 446（約 25 mm 才發揮）</text><line x1=\"62\" y1=\"125\" x2=\"62\" y2=\"50\" stroke=\"var(--muted)\" stroke-dasharray=\"3 3\"/><text x=\"62\" y=\"138\" font-size=\"9\" text-anchor=\"middle\" fill=\"var(--muted)\">6</text><line x1=\"270\" y1=\"125\" x2=\"270\" y2=\"84\" stroke=\"var(--muted)\" stroke-dasharray=\"3 3\"/><text x=\"270\" y=\"138\" font-size=\"9\" text-anchor=\"middle\" fill=\"var(--muted)\">25</text></svg>",
+   "mc": [
+    "D2-E1",
+    "D2-E2",
+    "D2-E3",
+    "D2-E4",
+    "D2-01",
+    "D2-N2",
+    "D2-M1",
+    "D2-M2",
+    "D2-M3",
+    "D2-X1"
+   ],
+   "calc": [],
+   "pages": [
+    85
+   ]
+  }
+ ]
+};
+const EMPH_OF = {}; Object.values(EMPH).forEach(L => L.forEach(f => (f.mc || []).forEach(id => { if (!EMPH_OF[id]) EMPH_OF[id] = f; })));
+function emphChip(id) { const f = EMPH_OF[id]; return f ? '<span class="chip emph">老師說會考｜' + f.concept + "</span>" : ""; }
 const FOCUS_OF = {}, FOCUS_PAGE = {};
 Object.values(FOCUS).forEach(L => L.forEach(f => { (f.mc || []).forEach(id => { if (!FOCUS_OF[id] || FOCUS_OF[id].star < f.star) FOCUS_OF[id] = f; }); (f.pages || []).forEach(p => { FOCUS_PAGE[p] = Math.max(FOCUS_PAGE[p] || 0, f.star); }); }));
 let FOCUS_PICK = null, FOCUS_PICK_NAME = "";
@@ -5427,6 +5558,31 @@ MC_PATCH.push({ ch: 11, add: [
  }
 ] });
 
+// 老師上課說會考：Figure 11.36（軟黏土中打入樁周圍的重塑區、壓縮區與 cu 隨時間變化）
+MC_PATCH.push({ ch: 11, add: [
+{ id: "P7-E1", t: "P7", k: "數字", q: "依 Figure 11.36，樁打入軟弱黏土後，緊貼樁身的「重塑區」（remolded zone）厚度約為多少？",
+  o: ["0.5D", "1.5D", "2D", "D"], a: 0,
+  e: "Fig. 11.36(a)：由樁表面往外，先是約 <b>0.5D</b> 的重塑區，再往外約 1.5D 的壓縮區，之後才是原狀土（intact zone）。1.5D 是壓縮區的寬度，2D 是兩區合計。", src: "講義 Ch11 p.300–302，Figure 11.36（老師說會考）" },
+{ id: "P7-E2", t: "P7", k: "數字", q: "依 Figure 11.36，重塑區外側的「壓縮區」（compressed zone）寬度約為多少？",
+  o: ["0.5D", "D", "1.5D", "3D"], a: 2,
+  e: "重塑區約 0.5D，壓縮區約 <b>1.5D</b>，兩者合計離樁表面約 2D 以外才是原狀土。0.5D 是重塑區。", src: "講義 Ch11 p.300–302，Figure 11.36（老師說會考）" },
+{ id: "P7-E3", t: "P7", k: "計算", q: "直徑 D = 0.4 m 的樁打入軟弱黏土。依 Figure 11.36，受打樁擾動（重塑區＋壓縮區）的土壤，從樁中心算起的半徑約為？",
+  o: ["0.8 m", "1.0 m", "0.6 m", "2.0 m"], a: 1,
+  e: "擾動範圍從樁「表面」往外 0.5D + 1.5D = 2D = 0.8 m；再加上樁半徑 0.2 m，從樁中心算起約 <b>1.0 m</b>。0.8 m 是忘了加樁半徑；2.0 m 是整個擾動區的「直徑」（D + 2 × 2D = 5D）。", src: "講義 Ch11 Figure 11.36（老師說會考）" },
+{ id: "P7-E4", t: "P7", k: "判讀", q: "Figure 11.36(b) 畫出樁周圍黏土 c<sub>u</sub> 與離樁距離的關係。比較「剛打完」與「打完一段時間後」兩條曲線，何者正確？",
+  o: ["剛打完時重塑區 c<sub>u</sub> 最高，之後隨時間下降", "剛打完時靠近樁身的 c<sub>u</sub> 最低，隨時間回升，但仍略低於原狀土", "兩條曲線相同，c<sub>u</sub> 不隨時間改變", "原狀區的 c<sub>u</sub> 會隨時間大幅增加，重塑區不變"], a: 1,
+  e: "打樁使緊鄰樁身的黏土重模並產生超額孔隙水壓，<b>剛打完時重塑區 c<sub>u</sub> 最低</b>；隨時間孔隙水壓消散、黏土觸變回復，c<sub>u</sub> 回升（set-up），越往外越接近原狀土強度。原狀區本來就沒被擾動，強度大致不變。", src: "講義 Ch11 p.301，Figure 11.36(b)（老師說會考）" },
+{ id: "P7-E5", t: "P7", k: "觀念", q: "Figure 11.36 中樁周黏土 c<sub>u</sub> 會隨時間回升，主要原因為何？",
+  o: ["樁身混凝土養護後強度增加", "樁身外表生鏽使摩擦角變大", "打樁產生的超額孔隙水壓逐漸消散，加上黏土觸變性使強度回復", "地下水位隨時間下降"], a: 2,
+  e: "打樁時重塑與擠壓使樁周黏土產生<b>超額孔隙水壓</b>，有效應力與強度降低；之後孔隙水壓消散（類似壓密）、黏土觸變回復，c<sub>u</sub> 與樁身摩擦隨時間增加，即 set-up。樁身養護與地下水位都不是這張圖要說明的。", src: "講義 Ch11 p.300–303，Figure 11.36、11.37（老師說會考）" },
+{ id: "P7-E6", t: "P7", k: "判讀", q: "Figure 11.37（Terzaghi &amp; Peck）畫出軟黏土中打入樁的 Q<sub>s</sub> 隨時間變化。它和 Figure 11.36 合起來告訴我們什麼？",
+  o: ["Q<sub>s</sub> 隨時間逐漸增加到一個穩定值，所以載重試驗要在打樁後等一段時間（講義建議至少 30 天）", "Q<sub>s</sub> 隨時間持續下降，載重試驗應在打完立刻做", "Q<sub>s</sub> 與時間無關，只和樁長有關", "Q<sub>s</sub> 先增加後歸零"], a: 0,
+  e: "樁周 c<sub>u</sub> 隨時間回升，樁身摩擦 Q<sub>s</sub> 也<b>隨時間增加，最後趨於穩定</b>。所以講義建議 EOID 後至少等 30 天再做載重試驗，否則會低估承載力。對應 2025 期中二第 19 題「承載力逐漸升高至特定程度」。", src: "講義 Ch11 p.293、p.304，Figure 11.36–11.37（老師說會考）" },
+{ id: "P7-E7", t: "P7", k: "觀念", q: "依 Figure 11.36，下列哪一個區域的土壤強度在打樁後「受影響最小」？",
+  o: ["重塑區（remolded zone）", "壓縮區（compressed zone）", "樁尖正下方 0.5D 範圍", "離樁表面約 2D 以外的原狀區（intact zone）"], a: 3,
+  e: "重塑區被打樁完全重模、壓縮區被擠壓，兩者強度都會改變；離樁表面約 0.5D + 1.5D = 2D 以外是<b>原狀區</b>，強度基本不受影響，也是 c<sub>u</sub> 回升的「目標值」。", src: "講義 Ch11 Figure 11.36（老師說會考）" },
+]});
+
 MC_PATCH.push({ ch: 12,
 remove: [],
 replace: {
@@ -5869,6 +6025,22 @@ MC_PATCH.push({ ch: 12, add: [
     e: "場鑄樁是先鑽孔再在孔內澆置混凝土，樁身品質無法在入土前檢查，所以施工要做沉泥處理，澆置後約一星期還要做完整性試驗。打樁噪音振動、樁長事先決定（不夠長要續接、太長要切）、樁徑受運輸吊裝限制，都是預鑄打擊樁的缺點，正好是場鑄樁的優勢。",
     src: "講義 Ch12 p.4、p.81（考前複習講義頁 77、81）；2025 期末 第 4 題延伸" }
 ] });
+
+// 老師上課標「概念重要，考試會考」：12.5 Load Transfer Mechanism（Figure 12.8，Reese et al. 1976）
+MC_PATCH.push({ ch: 12, add: [
+{ id: "D2-E1", t: "D2", k: "判讀", q: "Figure 12.8(b) 為黏土中場鑄樁（D = 762 mm、L = 6.94 m）的荷重–沉陷曲線。側阻（Sides）曲線大約在樁頂沉陷多少時就達到最大值？",
+  o: ["約 6 mm（不到樁徑的 1%）", "約 25 mm（約樁徑的 3%）", "約 76 mm（樁徑的 10%）", "側阻隨沉陷一直增加，沒有最大值"], a: 0,
+  e: "圖 (b) 中 Sides 曲線在沉陷約 <b>6 mm</b> 就到頂（約 800 kN），之後持平甚至略降；Base 曲線則要到約 25 mm 才接近最大。這就是「摩擦先發揮、端承後發揮」。", src: "講義 Ch12 p.126–128，Figure 12.8（老師說會考）" },
+{ id: "D2-E2", t: "D2", k: "計算", q: "Reese et al. 試驗樁極限總荷重 1246 kN，其中側阻約 800 kN。樁底（Base）分擔的荷重與比例約為？",
+  o: ["800 kN，64%", "1246 kN，100%", "446 kN，約 36%", "200 kN，約 16%"], a: 2,
+  e: "樁底 = 1246 − 800 = <b>446 kN</b>，446/1246 ≈ 36%。800 kN、64% 是側阻的份量。", src: "講義 Ch12 p.128（老師說會考）" },
+{ id: "D2-E3", t: "D2", k: "判讀", q: "Figure 12.8(c) 為不同加載階段的軸力–深度曲線。對同一條曲線而言，下列何者正確？",
+  o: ["曲線在樁頂的值是樁底荷重，在樁底的值是樁頂荷重", "軸力由樁頂的施加荷重往下遞減，減少的部分由側阻承擔，到樁底剩下的就是樁底阻力", "軸力沿深度不變，代表沒有側阻", "軸力往下遞增，因為樁自重累加"], a: 1,
+  e: "樁頂軸力 = 施加荷重；每往下一段，軸力的減少量 = 該段側阻（斜率 = pf）；到樁底剩下的軸力就是<b>樁底阻力 Q<sub>p</sub></b>。加載越大，整條曲線越往右移。", src: "講義 Ch12 p.126–129，Figure 12.8(c)（老師說會考）" },
+{ id: "D2-E4", t: "D2", k: "觀念", q: "由 Figure 12.8 的荷重傳遞行為，可以解釋為什麼場鑄樁澆置前一定要清除孔底沉泥。最主要的理由是？",
+  o: ["沉泥會讓側阻無法發揮", "沉泥會讓混凝土強度變高", "沉泥使樁身變長", "樁底阻力本來就要較大沉陷才能發揮，孔底有沉泥時所需沉陷更大，樁底阻力在容許沉陷內發揮不出來"], a: 3,
+  e: "Fig. 12.8 顯示側阻在幾 mm 就發揮完，荷重再增加主要靠樁底，而<b>樁底要較大沉陷才會完全發揮</b>。孔底有鬆軟沉泥時，樁底要先把沉泥壓密，所需沉陷更大，設計沉陷內得不到預期的 Q<sub>p</sub>。這正是 2025 期末第 5 題的觀念。", src: "講義 Ch12 p.126–128；2025 期末第 5 題延伸（老師說會考）" },
+]});
 
 DECK.push({ ch: 8, title: "Ch8 淺基礎沉陷", slides: [
 
@@ -9353,7 +9525,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
       return;
     }
     const id = queue[pos], q = QMAP[id], ord = orders[id], ans = answers[id], rec = store.rec[id];
-    const hist = (rec && rec.w > 0 ? `<span class="chip hist">曾錯 ${rec.w} 次</span>` : "") + examChip(id) + focusChip(id);
+    const hist = (rec && rec.w > 0 ? `<span class="chip hist">曾錯 ${rec.w} 次</span>` : "") + examChip(id) + emphChip(id) + focusChip(id);
     const opts = ord.map((oi, k) => {
       let cls = "";
       if (ans) { if (oi === q.a) cls = "right"; else if (oi === ans.pick) cls = "wrong"; }
@@ -9854,10 +10026,10 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   function fcard(f, c, i, kind) {
     const n = (f.mc || []).filter(id => QMAP[id]).length;
     const pg = (f.pages || []).filter(x => HANDOUT.pages[x]);
-    const badge = kind === "lec" ? '<span class="lbadge">講義</span>' : `<span class="stars">${"★".repeat(f.star)}</span>`;
-    const where = kind === "lec" ? `講義：${(f.lecture || "").replace(/^講義\s*/, "")}` : `考過：${(f.exam || []).map(e => e.replace("2025 ", "")).join("、")}`;
-    return `<article class="fc ${kind === "lec" ? "lec" : "s" + f.star}"><div class="fch">${badge}<b>${f.concept}</b></div>
-      ${f.hook ? `<div class="hook">${f.hook}</div>` : `<p>${f.detail}</p>`}
+    const badge = kind === "emph" ? '<span class="ebadge">老師說會考</span>' : kind === "lec" ? '<span class="lbadge">講義</span>' : `<span class="stars">${"★".repeat(f.star)}</span>`;
+    const where = kind === "emph" ? f.source : kind === "lec" ? `講義：${(f.lecture || "").replace(/^講義\s*/, "")}` : `考過：${(f.exam || []).map(e => e.replace("2025 ", "")).join("、")}`;
+    return `<article class="fc ${kind === "emph" ? "emph s3" : kind === "lec" ? "lec" : "s" + f.star}"><div class="fch">${badge}<b>${f.concept}</b></div>
+      ${f.hook ? `<div class="hook">${f.hook}</div>` : `<p>${f.detail}</p>`}${f.fig || ""}
       ${f.key ? `<p class="fk"><span>必背</span>${f.key}</p>` : ""}
       ${f.trap ? `<p class="fk trap"><span>陷阱</span>${f.trap}</p>` : ""}
       <p class="fx">${where}</p>
@@ -9869,9 +10041,10 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   function renderFocus() {
     const chs = [8, 9, 11, 12].filter(c => revCh === "all" || String(c) === revCh);
     return chs.map(c => {
-      const L = FOCUS[c] || [], M = (typeof LECTURE !== "undefined" && LECTURE[c]) || [];
-      if (!L.length && !M.length) return "";
+      const L = FOCUS[c] || [], M = (typeof LECTURE !== "undefined" && LECTURE[c]) || [], E = EMPH[c] || [];
+      if (!L.length && !M.length && !E.length) return "";
       return `<section class="fcs"><h2 class="ctitle"><span class="chip c${c}">${CH_NAMES[c]}</span></h2>
+        ${E.length ? `<h3 class="fsub emph">老師說會考／講義紅字</h3>${E.map((f, i) => fcard(f, c, i, "emph")).join("")}` : ""}
         ${L.length ? `<h3 class="fsub">考古重點</h3>${L.map((f, i) => fcard(f, c, i, "exam")).join("")}` : ""}
         ${M.length ? `<h3 class="fsub">講義重點（考古還沒考）</h3>${M.map((f, i) => fcard(f, c, i, "lec")).join("")}` : ""}</section>`;
     }).join("") || '<p class="empty">這個範圍還沒有整理。</p>';
@@ -9883,7 +10056,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   }
   function bindFocus() {
     const box = $("#reviewArea");
-    box.querySelectorAll("[data-fq]").forEach(b => b.onclick = () => { const [c, i, k] = b.dataset.fq.split("|"); const f = (k === "lec" ? LECTURE : FOCUS)[c][+i]; startFocus(new Set(f.mc), f.concept); });
+    box.querySelectorAll("[data-fq]").forEach(b => b.onclick = () => { const [c, i, k] = b.dataset.fq.split("|"); const f = (k === "lec" ? LECTURE : k === "emph" ? EMPH : FOCUS)[c][+i]; startFocus(new Set(f.mc), f.concept); });
     box.querySelectorAll("[data-fp]").forEach(b => b.onclick = () => { const gi = +b.dataset.fp; revCh = "all"; revMode = "deck"; deckPos = gi; renderReview(); window.scrollTo({ top: 0 }); });
     box.querySelectorAll("[data-fc]").forEach(b => b.onclick = () => { show("calc"); const el = document.querySelector(`[data-cid="${b.dataset.fc}"]`); if (el) el.click(); });
   }
@@ -9947,7 +10120,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   }
   /* ---------- 模擬考 ---------- */
   // 依 2025 期中二格式：選擇題每題 2.5 分、計算大題每題 20 分。各章題數比例參考考古題分量。
-  const MOCK_W = { 8: 7, 9: 4, 11: 8, 12: 5 };
+  const MOCK_W = { 8: 7, 9: 5, 11: 7, 12: 5 };
   const MOCK_MODES = {
     full: { name: "完整模擬", mc: 24, calc: 2, min: 100, desc: "選擇 24 題（每題 2.5 分）＋計算 2 大題（每題 20 分）" },
     mc: { name: "選擇題快考", mc: 24, calc: 0, min: 40, desc: "選擇 24 題，換算成 100 分" },
@@ -9955,7 +10128,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   };
   const MOCK_LETTER = /[（(][A-D][)）]|選項\s*[（(]?[A-D]|(^|[^A-Za-z0-9_\/])[A-D](?=\s*[錯對（(：:、]|\s*是|\s*為|\s*項)/;
   const LEC_IDS = new Set(); Object.values(LECTURE).forEach(L => L.forEach(f => (f.mc || []).forEach(id => LEC_IDS.add(id))));
-  let mockCfg = { mode: "full", chs: [8, 9, 11, 12], min: null };
+  let mockCfg = { mode: "full", chs: [9, 11], min: null }; // 期末考範圍：Ch9 筏基、Ch11 基樁
   let mock = null; // 進行中的考試
   let mockView = null; // 剛交卷的結果
   let mockTimer = null;
@@ -9968,6 +10141,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     let w = 1;
     const f = FOCUS_OF[q.id]; if (f) w += f.star;
     if (EXAM_TAGS[q.id]) w += 1.5;
+    if (EMPH_OF[q.id]) w += 3;
     if (LEC_IDS.has(q.id)) w += 0.8;
     return w;
   }
@@ -9996,7 +10170,16 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     if (!chs.length) return;
     const cnt = splitCount(chs, M.mc);
     let mc = [];
-    chs.forEach(c => { mc = mc.concat(wpick(QUESTIONS.filter(q => TOPICS[q.t] && TOPICS[q.t].ch === c), cnt[c], mockWeight, 3)); });
+    chs.forEach(c => {
+      const pool = QUESTIONS.filter(q => TOPICS[q.t] && TOPICS[q.t].ch === c);
+      let got = wpick(pool, cnt[c], mockWeight, 3);
+      // 老師說會考的觀念每章至少出 2 題（題數夠的話）
+      const want = Math.min(2, cnt[c], pool.filter(q => EMPH_OF[q.id]).length);
+      let have = got.filter(q => EMPH_OF[q.id]).length;
+      const extra = shuffle(pool.filter(q => EMPH_OF[q.id] && !got.includes(q)));
+      while (have < want && extra.length) { const i = got.findIndex(q => !EMPH_OF[q.id]); if (i < 0) break; got[i] = extra.pop(); have++; }
+      mc = mc.concat(got);
+    });
     // 依章節、講義順序排列，像正式考卷
     const order = Object.keys(TOPICS);
     mc.sort((a, b) => order.indexOf(a.t) - order.indexOf(b.t));
@@ -10092,7 +10275,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     const curMin = mockCfg.min == null ? M.min : mockCfg.min;
     box.innerHTML = `<div class="card mock-setup">
       <h2 class="mh">模擬考</h2>
-      <p class="muted">照 2025 期中二的格式出一份考卷：選擇題每題 2.5 分、計算大題每題 20 分。題目從題庫抽，考古題常考的觀念出現機率比較高。考試中看不到詳解，交卷後才對答案，答錯的選擇題會自動加進錯題本。</p>
+      <p class="muted">預設範圍是期末考的 Ch9 筏基與 Ch11 基樁，照 2025 期中二的格式出一份考卷：選擇題每題 2.5 分、計算大題每題 20 分。題目從題庫抽，考古題常考的觀念與老師說會考的觀念出現機率比較高，講義標不考的範圍不會出。考試中看不到詳解，交卷後才對答案，答錯的選擇題會自動加進錯題本。</p>
       <div class="mrow"><span class="ml">題型</span><div class="mopts">${Object.entries(MOCK_MODES).map(([k, v]) => `<label class="mopt${k === mockCfg.mode ? " on" : ""}"><input type="radio" name="mmode" value="${k}"${k === mockCfg.mode ? " checked" : ""}><b>${v.name}</b><small>${v.desc}</small></label>`).join("")}</div></div>
       <div class="mrow"><span class="ml">範圍</span><div class="mchs">${[8, 9, 11, 12].map(c => `<label class="mch"><input type="checkbox" value="${c}"${mockCfg.chs.includes(c) ? " checked" : ""}> ${chName[c]}</label>`).join("")}</div></div>
       <div class="mrow"><span class="ml">時間</span><select id="mMin">${mins.map(v => `<option value="${v}"${v === curMin ? " selected" : ""}>${v ? v + " 分鐘" : "不限時"}</option>`).join("")}</select></div>
@@ -10167,7 +10350,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     <h3 class="msec">選擇題：錯 ${wrongMc.length} 題${wrongMc.length ? "（已加進錯題本）" : ""}</h3>
     ${m.mc.map((x, n) => { const q = QMAP[x.id]; if (!q) return ""; const ok = x.pick === q.a; const t = TOPICS[q.t];
       return `<details class="card mr ${ok ? "rok" : "rbad"}"${ok ? "" : " open"}><summary><b class="mno">${n + 1}.</b> <span class="mark">${ok ? "✓" : x.pick == null ? "未答" : "✗"}</span> <span class="mrq">${q.q}</span></summary>
-        <div class="meta"><span class="chip c${t.ch}">${t.sec} ${t.name}</span>${examChip(q.id)}${focusChip(q.id)}</div>
+        <div class="meta"><span class="chip c${t.ch}">${t.sec} ${t.name}</span>${examChip(q.id)}${emphChip(q.id)}${focusChip(q.id)}</div>
         <div class="opts">${x.ord.map((oi, k) => `<div class="opt${oi === q.a ? " right" : ""}${oi === x.pick && oi !== q.a ? " wrong" : ""}"><span class="L">(${"ABCD"[k]})</span><span>${q.o[oi]}</span></div>`).join("")}</div>
         <div class="exp"><p>${q.e}</p>${q.src ? `<p class="src">${q.src}</p>` : ""}</div></details>`; }).join("")}
     ${m.calc.length ? `<h3 class="msec">計算題</h3>` + m.calc.map((x, n) => { const c = CMAP[x.id]; if (!c) return ""; const r = s.calcRes[n];
