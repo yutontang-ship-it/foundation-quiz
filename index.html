@@ -2684,13 +2684,16 @@ const EMPH = {
    "key": "Reese et al. 黏土中場鑄樁 D = 762 mm、L = 6.94 m：總荷重 1246 kN，側阻約 800 kN，樁底約 446 kN；軸力–深度曲線往下遞減，剩下的是樁底阻力",
    "trap": "以為樁底先發揮；把 800 kN 當成樁底",
    "source": "投影片 12.5 標「概念重要，考試會考」（講義 Ch12 p.126–129，Figure 12.8）",
-   "detail": "圖 (b)：荷重增加時，側阻在沉陷約 6 mm 就達到最大，之後再加的荷重幾乎都由樁底承擔，樁底要約 25 mm 才接近極限。圖 (c)：每一階段的軸力從樁頂往下遞減，減少量是各段側阻，到樁底剩下的就是 Q<sub>p</sub>。這也是孔底沉泥要清乾淨的原因。",
+   "detail": "圖 (b)：荷重增加時，側阻在沉陷約 6 mm 就達到最大，之後再加的荷重幾乎都由樁底承擔，樁底要約 25 mm 才接近極限。圖 (c)：每一階段的軸力從樁頂往下遞減，減少量是各段側阻，到樁底剩下的就是 Q<sub>p</sub>。這也是孔底沉泥要清乾淨的原因。 圖 (c) 會考樁身阻抗：Q<sub>s</sub> = 樁頂軸力 − 樁底軸力（最後階段 1246 − 446 = 800 kN），平均 f ≈ 800/(π × 0.762 × 6.94) ≈ 48 kPa；曲線越斜的深度側阻越大，頂部 1.5 m 和樁底附近幾乎垂直。",
    "fig": "<svg viewBox=\"0 0 340 150\" class=\"efig\" role=\"img\" aria-label=\"Figure 12.8 荷重沉陷曲線\"><line x1=\"40\" y1=\"125\" x2=\"320\" y2=\"125\" stroke=\"var(--muted)\"/><line x1=\"40\" y1=\"125\" x2=\"40\" y2=\"10\" stroke=\"var(--muted)\"/><text x=\"320\" y=\"142\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--muted)\">樁頂沉陷 (mm) →</text><text x=\"36\" y=\"18\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--muted)\">kN</text><path d=\"M40,125 C55,40 80,28 300,22\" fill=\"none\" stroke=\"var(--ink)\" stroke-width=\"2\"/><text x=\"300\" y=\"16\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--ink)\">Total 1246</text><path d=\"M40,125 C48,50 60,48 300,52\" fill=\"none\" stroke=\"var(--ok)\" stroke-width=\"2\"/><text x=\"300\" y=\"66\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--ok)\">Sides ≈ 800（約 6 mm 就到頂）</text><path d=\"M40,125 C120,110 220,85 300,82\" fill=\"none\" stroke=\"var(--accent)\" stroke-width=\"2\"/><text x=\"300\" y=\"100\" font-size=\"10\" text-anchor=\"end\" fill=\"var(--accent)\">Base ≈ 446（約 25 mm 才發揮）</text><line x1=\"62\" y1=\"125\" x2=\"62\" y2=\"50\" stroke=\"var(--muted)\" stroke-dasharray=\"3 3\"/><text x=\"62\" y=\"138\" font-size=\"9\" text-anchor=\"middle\" fill=\"var(--muted)\">6</text><line x1=\"270\" y1=\"125\" x2=\"270\" y2=\"84\" stroke=\"var(--muted)\" stroke-dasharray=\"3 3\"/><text x=\"270\" y=\"138\" font-size=\"9\" text-anchor=\"middle\" fill=\"var(--muted)\">25</text></svg>",
    "mc": [
     "D2-E1",
     "D2-E2",
     "D2-E3",
     "D2-E4",
+    "D2-E5",
+    "D2-E6",
+    "D2-E7",
     "D2-01",
     "D2-N2",
     "D2-M1",
@@ -6244,6 +6247,15 @@ MC_PATCH.push({ ch: 12, add: [
 { id: "D2-E4", t: "D2", k: "觀念", q: "由 Figure 12.8 的荷重傳遞行為，可以解釋為什麼場鑄樁澆置前一定要清除孔底沉泥。最主要的理由是？",
   o: ["沉泥會讓側阻無法發揮", "沉泥會讓混凝土強度變高", "沉泥使樁身變長", "樁底阻力本來就要較大沉陷才能發揮，孔底有沉泥時所需沉陷更大，樁底阻力在容許沉陷內發揮不出來"], a: 3,
   e: "Fig. 12.8 顯示側阻在幾 mm 就發揮完，荷重再增加主要靠樁底，而<b>樁底要較大沉陷才會完全發揮</b>。孔底有鬆軟沉泥時，樁底要先把沉泥壓密，所需沉陷更大，設計沉陷內得不到預期的 Q<sub>p</sub>。這正是 2025 期末第 5 題的觀念。", src: "講義 Ch12 p.126–128；2025 期末第 5 題延伸（老師說會考）" },
+{ id: "D2-E5", t: "D2", k: "計算", q: "Figure 12.8(c) 最後一個加載階段：樁頂軸力約 1246 kN，樁底剩約 446 kN。樁徑 D = 0.762 m、樁長 L = 6.94 m，整支樁身的平均單位側阻 f<sub>av</sub> 約為？",
+  o: ["約 26 kPa", "約 48 kPa", "約 75 kPa", "約 980 kPa"], a: 1,
+  e: "樁身阻抗 Q<sub>s</sub> = 樁頂軸力 − 樁底軸力 = 1246 − 446 = 800 kN。側表面積 = πDL = π × 0.762 × 6.94 ≈ 16.6 m²，f<sub>av</sub> = 800 / 16.6 ≈ <b>48 kPa</b>。26 kPa 是誤用 446 kN；980 kPa 是把 800 kN 除以樁底面積。", src: "講義 Ch12 p.126–129，Figure 12.8(c)（老師說會考）" },
+{ id: "D2-E6", t: "D2", k: "判讀", q: "Figure 12.8(c) 第一個（最小）加載階段，樁頂軸力約 460 kN、樁底只剩約 60 kN。這代表什麼？",
+  o: ["荷重小時幾乎全由樁身側阻承擔（約 87%），樁底幾乎還沒出力", "荷重小時主要由樁底承擔", "側阻與樁底各承擔一半", "樁身沒有側阻"], a: 0,
+  e: "側阻 ≈ 460 − 60 = 400 kN，佔 400/460 ≈ <b>87%</b>。側阻只要很小的沉陷就發揮，所以低荷重時幾乎都靠樁身；到最後階段樁底才分擔到約 36%。", src: "講義 Ch12 Figure 12.8(c)（老師說會考）" },
+{ id: "D2-E7", t: "D2", k: "判讀", q: "Figure 12.8(c) 的軸力–深度曲線在樁頂約 1.5 m 內和樁底附近幾乎是垂直線。這說明了什麼？",
+  o: ["這兩段的側阻最大", "這兩段幾乎沒有側阻，對應設計時黏土中鑽掘樁不計頂部 1.5 m 與底部 1D 的側阻", "樁身在這兩段斷掉", "這兩段軸力最大，所以要加大斷面"], a: 1,
+  e: "曲線斜率 = 單位長度側阻；垂直表示軸力不減，<b>那段幾乎沒有側阻</b>。頂部是乾縮裂縫、擾動，底部受樁底沉陷影響，所以 12.10 節計算黏土中鑽掘樁 Q<sub>s</sub> 時不計頂部 1.5 m 與底部 1D。側阻主要發生在約 1.5–5 m，那段曲線最斜。", src: "講義 Ch12 Figure 12.8(c)、12.10 節（老師說會考）" },
 ]});
 
 DECK.push({ ch: 8, title: "Ch8 淺基礎沉陷", slides: [
@@ -10051,15 +10063,15 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     const known = allCards.filter(x => (revMark(x.k) || {}).ok === 1).length;
     const weak = allCards.filter(x => (revMark(x.k) || {}).ok === 0).length;
     const head = `<div class="filters"><label>章節<select id="rCh">${chOptions()}</select></label>
-      <label>模式<select id="rMode"><option value="focus">考古速記卡</option><option value="deck">總複習投影片</option><option value="numbers">必背數字表</option><option value="notes">分節重點筆記</option><option value="flash">閃卡自我測驗</option></select></label></div>
-      <p class="lead">${revMode === "focus" ? "每章先列考古題考過的觀念（★ 越多考得越重），再列講義強調但考古還沒考的觀念。先背口訣，再看必背和陷阱。" : revMode === "deck" ? (HAS_HO ? "點主題按鈕直接跳到那一段，用 ← → 鍵、左右滑動或下方按鈕翻頁。" : "用 ← → 鍵、左右滑動或下方按鈕翻頁。") : revMode === "numbers" ? "必背數字依主題分組，每個數字都寫出它是什麼、什麼時候用。打開「遮住數值」可以自我測驗，點一下數值才會顯示。" : revMode === "flash" ? `閃卡共 ${allCards.length} 張，記得 ${known} 張、不熟 ${weak} 張。答不出來的標「不熟」，下次可以只練不熟的卡。` : "依講義每一節整理的重點、公式、數字與陷阱。"}</p>`;
+      <label>模式<select id="rMode"><option value="focus">考古速記卡</option><option value="deck">總複習投影片</option><option value="numbers">關鍵數字表</option><option value="notes">分節重點筆記</option><option value="flash">閃卡自我測驗</option></select></label></div>
+      <p class="lead">${revMode === "focus" ? "每章先列考古題考過的觀念（★ 越多考得越重），再列講義強調但考古還沒考的觀念。考試會附公式、圖、表，不用背公式本身；重點是懂觀念、知道什麼情況用哪個公式、會查表讀圖。" : revMode === "deck" ? (HAS_HO ? "點主題按鈕直接跳到那一段，用 ← → 鍵、左右滑動或下方按鈕翻頁。" : "用 ← → 鍵、左右滑動或下方按鈕翻頁。") : revMode === "numbers" ? "必背數字依主題分組，每個數字都寫出它是什麼、什麼時候用。打開「遮住數值」可以自我測驗，點一下數值才會顯示。" : revMode === "flash" ? `閃卡共 ${allCards.length} 張，記得 ${known} 張、不熟 ${weak} 張。答不出來的標「不熟」，下次可以只練不熟的卡。` : "依講義每一節整理的重點、公式、數字與陷阱。"}</p>`;
     let body = "";
     if (revMode === "notes") {
       body = `<nav class="toc">${list.map((r, i) => `<a href="#rv-${i}">${r.sec} ${r.title}</a>`).join("")}</nav>` + list.map((r, i) => `
         <article class="rv" id="rv-${i}"><div class="qhead"><span class="chip c${r.ch}">${CH_NAMES[r.ch]}</span><span class="chip k">${r.sec}</span></div>
         <h2 class="ctitle">${r.title}</h2>
         ${r.points && r.points.length ? `<h3>重點觀念</h3><ul>${r.points.map(p => `<li>${p}</li>`).join("")}</ul>` : ""}
-        ${r.formulas && r.formulas.length ? `<h3>必背公式</h3><div class="fl">${r.formulas.map(f => `<div class="fm"><span>${f[0]}</span><div>${f[1]}</div></div>`).join("")}</div>` : ""}
+        ${r.formulas && r.formulas.length ? `<h3>公式（考試會附，懂怎麼用即可）</h3><div class="fl">${r.formulas.map(f => `<div class="fm"><span>${f[0]}</span><div>${f[1]}</div></div>`).join("")}</div>` : ""}
         ${r.numbers && r.numbers.length ? `<h3>必背數字</h3><table class="nt">${r.numbers.map(n => `<tr><td>${n[0]}</td><td class="v">${n[1]}</td><td>${n[2] || ""}</td></tr>`).join("")}</table>` : ""}
         ${r.traps && r.traps.length ? `<h3>常見陷阱</h3><ul class="tr">${r.traps.map(p => `<li>${p}</li>`).join("")}</ul>` : ""}
         ${r.cards && r.cards.length ? `<h3>自我檢查</h3>${r.cards.map((c, j) => `<details class="qa"><summary>${c[0]}</summary><div>${c[1]}</div></details>`).join("")}` : ""}
@@ -10234,7 +10246,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     const where = kind === "emph" || kind === "supp" ? f.source : kind === "lec" ? `講義：${(f.lecture || "").replace(/^講義\s*/, "")}` : `考過：${(f.exam || []).map(e => e.replace("2025 ", "")).join("、")}`;
     return `<article class="fc ${kind === "supp" ? "supp" : kind === "emph" ? "emph s3" : kind === "lec" ? "lec" : "s" + f.star}"><div class="fch">${badge}<b>${f.concept}</b></div>
       ${f.hook ? `<div class="hook">${f.hook}</div>` : `<p>${f.detail}</p>`}${f.fig || ""}
-      ${f.key ? `<p class="fk"><span>必背</span>${f.key}</p>` : ""}
+      ${f.key ? `<p class="fk"><span>重點</span>${f.key}</p>` : ""}
       ${f.trap ? `<p class="fk trap"><span>陷阱</span>${f.trap}</p>` : ""}
       <p class="fx">${where}</p>
       <div class="fbtn">${n ? `<button class="btn primary" data-fq="${c}|${i}|${kind}">練 ${n} 題</button>` : ""}
@@ -10324,11 +10336,11 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     deck.focus({ preventScroll: true });
   }
   /* ---------- 模擬考 ---------- */
-  // 依 2025 期中二格式：選擇題每題 2.5 分、計算大題每題 20 分。各章題數比例參考考古題分量。
-  const MOCK_W = { 8: 7, 9: 5, 11: 7, 12: 5 };
+  // 期末格式（使用者 2026-11-12 轉述）：選擇 15 題每題 4 分、計算 2 題每題 20 分，計算全是 Ch11。
+  const MOCK_W = { 8: 2, 9: 1, 11: 3, 12: 2 }; // 期末：筏基只出少量選擇，Ch11 佔八成以上
   const MOCK_MODES = {
-    full: { name: "完整模擬", mc: 24, calc: 2, min: 100, desc: "選擇 24 題（每題 2.5 分）＋計算 2 大題（每題 20 分）" },
-    mc: { name: "選擇題快考", mc: 24, calc: 0, min: 40, desc: "選擇 24 題，換算成 100 分" },
+    full: { name: "完整模擬", mc: 15, calc: 2, pts: 4, min: 100, desc: "選擇 15 題（每題 4 分）＋計算 2 大題（每題 20 分：樁打入砂土、樁打入黏土）" },
+    mc: { name: "選擇題快考", mc: 15, calc: 0, min: 30, desc: "選擇 15 題，換算成 100 分" },
     short: { name: "15 分鐘小考", mc: 10, calc: 0, min: 15, desc: "選擇 10 題，換算成 100 分" },
   };
   const MOCK_LETTER = /[（(][A-D][)）]|選項\s*[（(]?[A-D]|(^|[^A-Za-z0-9_\/])[A-D](?=\s*[錯對（(：:、]|\s*是|\s*為|\s*項)/;
@@ -10385,16 +10397,29 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
       while (have < want && extra.length) { const i = got.findIndex(q => !EMPH_OF[q.id]); if (i < 0) break; got[i] = extra.pop(); have++; }
       mc = mc.concat(got);
     });
+    // 老師說會考的軸力分布圖（Figure 12.8，Ch11 也會用到）：考 Ch11 時固定放一題
+    if (chs.includes(11) && !chs.includes(12) && mc.length) {
+      const figQ = shuffle(QUESTIONS.filter(q => /^D2-E\d/.test(q.id)))[0];
+      const i = mc.map((q, j) => j).filter(j => TOPICS[mc[j].t].ch === 11 && !EMPH_OF[mc[j].id]).pop();
+      if (figQ && i != null) mc[i] = figQ;
+    }
     // 依章節、講義順序排列，像正式考卷
     const order = Object.keys(TOPICS);
     mc.sort((a, b) => order.indexOf(a.t) - order.indexOf(b.t));
     let calc = [];
     if (M.calc) {
-      const cl = CALCS.filter(c => TOPICS[c.t] && chs.includes(TOPICS[c.t].ch));
+      let cl = CALCS.filter(c => TOPICS[c.t] && chs.includes(TOPICS[c.t].ch));
       const cw = c => (EXAM_TAGS[c.id] ? 4 : /^C-HW11/.test(c.id) ? 2.5 : 1);
-      const first = wpick(cl, 1, cw);
-      const rest = cl.filter(c => !first.includes(c) && (chs.length === 1 || TOPICS[c.t].ch !== TOPICS[first[0].t].ch));
-      calc = first.concat(wpick(rest.length ? rest : cl.filter(c => !first.includes(c)), M.calc - 1, cw));
+      if (chs.includes(11)) {
+        // 期末計算題只考 Ch11：樁打入砂土層、樁打入黏土層
+        const sand = CALCS.filter(c => c.t === "P3" || c.t === "P4"), clay = CALCS.filter(c => c.t === "P5");
+        calc = wpick(sand, 1, cw).concat(wpick(clay, 1, cw));
+        calc = calc.concat(wpick(sand.concat(clay).filter(c => !calc.includes(c)), M.calc - calc.length, cw)).slice(0, M.calc);
+      } else {
+        const first = wpick(cl, 1, cw);
+        const rest = cl.filter(c => !first.includes(c) && (chs.length === 1 || TOPICS[c.t].ch !== TOPICS[first[0].t].ch));
+        calc = first.concat(wpick(rest.length ? rest : cl.filter(c => !first.includes(c)), M.calc - 1, cw));
+      }
     }
     const min = mockCfg.min == null ? M.min : mockCfg.min;
     mock = {
@@ -10407,7 +10432,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
 
   function mockScore(m) {
     const M = MOCK_MODES[m.mode];
-    const mcPts = M.calc ? 2.5 : 100 / m.mc.length;
+    const mcPts = M.calc ? (M.pts || 2.5) : 100 / m.mc.length;
     let mcGot = 0, mcRight = 0;
     const byCh = {};
     m.mc.forEach(x => {
@@ -10430,7 +10455,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
       calcGot += got;
       return { ok, got };
     });
-    return { total: Math.round((mcGot + calcGot) * 10) / 10, mcGot: Math.round(mcGot * 10) / 10, mcRight, calcGot: Math.round(calcGot * 10) / 10, calcRes, byCh, mcMax: M.calc ? m.mc.length * 2.5 : 100 };
+    return { total: Math.round((mcGot + calcGot) * 10) / 10, mcGot: Math.round(mcGot * 10) / 10, mcRight, calcGot: Math.round(calcGot * 10) / 10, calcRes, byCh, mcMax: M.calc ? m.mc.length * (M.pts || 2.5) : 100 };
   }
 
   function submitMock(auto) {
@@ -10475,12 +10500,12 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   function renderMockSetup(box) {
     const M = MOCK_MODES[mockCfg.mode];
     const hist = Object.values(store.mock || {}).sort((a, b) => b.ts - a.ts).slice(0, 8);
-    const chName = { 8: "Ch8 淺基礎沉陷", 9: "Ch9 筏式基礎", 11: "Ch11 基樁", 12: "Ch12 場鑄樁" };
+    const chName = { 8: "Ch8 淺基礎沉陷", 9: "Ch9 筏式基礎", 11: "Ch11 基樁", 12: "Ch12 場鑄樁（期末不考）" };
     const mins = [15, 30, 40, 60, 80, 100, 120, 0];
     const curMin = mockCfg.min == null ? M.min : mockCfg.min;
     box.innerHTML = `<div class="card mock-setup">
       <h2 class="mh">模擬考</h2>
-      <p class="muted">預設範圍是期末考的 Ch9 筏基與 Ch11 基樁，照 2025 期中二的格式出一份考卷：選擇題每題 2.5 分、計算大題每題 20 分。題目從題庫抽，考古題常考的觀念與老師說會考的觀念出現機率比較高，講義標不考的範圍不會出。考試中看不到詳解，交卷後才對答案，答錯的選擇題會自動加進錯題本。</p>
+      <p class="muted">預設範圍是期末考的 Ch9 筏基與 Ch11 基樁，依老師說的期末配分出卷：筏基只出幾題選擇、不考計算，其餘都是 Ch11（八成以上分數），計算題全是樁打入砂土層與樁打入黏土層；Ch12 不考。選擇 15 題每題 4 分、計算 2 大題每題 20 分，另外固定放一題 Figure 12.8(c) 軸力分布圖判讀（老師說會考）。考試會附公式、圖、表。題目從題庫抽，考古題常考的觀念與老師說會考的觀念出現機率比較高，講義標不考的範圍不會出。考試中看不到詳解，交卷後才對答案，答錯的選擇題會自動加進錯題本。</p>
       <div class="mrow"><span class="ml">題型</span><div class="mopts">${Object.entries(MOCK_MODES).map(([k, v]) => `<label class="mopt${k === mockCfg.mode ? " on" : ""}"><input type="radio" name="mmode" value="${k}"${k === mockCfg.mode ? " checked" : ""}><b>${v.name}</b><small>${v.desc}</small></label>`).join("")}</div></div>
       <div class="mrow"><span class="ml">範圍</span><div class="mchs">${[8, 9, 11, 12].map(c => `<label class="mch"><input type="checkbox" value="${c}"${mockCfg.chs.includes(c) ? " checked" : ""}> ${chName[c]}</label>`).join("")}</div></div>
       <div class="mrow"><span class="ml">時間</span><select id="mMin">${mins.map(v => `<option value="${v}"${v === curMin ? " selected" : ""}>${v ? v + " 分鐘" : "不限時"}</option>`).join("")}</select></div>
@@ -10501,7 +10526,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
 
   function renderMockPaper(box) {
     const M = MOCK_MODES[mock.mode];
-    const mcPts = M.calc ? "每題 2.5 分" : "共 " + mock.mc.length + " 題，換算 100 分";
+    const mcPts = M.calc ? "每題 " + (M.pts || 2.5) + " 分" : "共 " + mock.mc.length + " 題，換算 100 分";
     box.innerHTML = `<div class="mock-paper">
       <div class="mock-title"><h2>${M.name}</h2><p class="muted">範圍 ${mock.chs.map(c => "Ch" + c).join("、")}${mock.min ? "　時間 " + mock.min + " 分鐘，時間到自動交卷" : "　不限時"}。可以隨時離開這頁，回來會接著考。</p></div>
       <h3 class="msec">一、選擇題（${mcPts}）</h3>
