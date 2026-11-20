@@ -456,6 +456,24 @@ body.inmock main { padding-bottom: 96px; }
 .guide .gsteps button { background: var(--accent); color: #fff; border: 0; border-radius: 6px; font-size: .82rem; padding: 2px 10px; margin-right: 6px; cursor: pointer; }
 .guide .gnote { font-size: .8rem; color: var(--muted); margin: 4px 0 0; }
 @media (max-width: 640px) { header.top { position: static; } nav.tabs { flex-wrap: wrap; overflow: visible; } nav.tabs button, nav.tabs .tablink { flex: 1 0 25%; padding-inline: 4px; } }
+.modeseg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 4px 0 10px; }
+.modeseg button { background: var(--panel); color: var(--muted); border: 0; padding: 8px 14px; font: inherit; font-size: .9rem; cursor: pointer; }
+.modeseg button.on { background: var(--accent); color: #1a1206; font-weight: 600; }
+.runbar .modeseg { margin: 0 0 0 auto; }
+.runbar .modeseg button { padding: 5px 10px; font-size: .82rem; }
+.ask { list-style: none; padding: 0; margin: 12px 0; }
+.ask li { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 8px 0; background: var(--panel); }
+.ask li.ok { border-color: var(--ok); background: var(--ok-bg); }
+.ask li.bad { border-color: var(--bad); background: var(--bad-bg); }
+.ask .aq { margin: 0 0 8px; }
+.ask .arow { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ask input, .ask select { background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font: inherit; min-width: 0; }
+.ask input { width: 9em; }
+.ask select { max-width: 100%; }
+.ask .ares { margin-top: 6px; font-size: .92rem; }
+textarea.workpad { width: 100%; box-sizing: border-box; min-height: 260px; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font: inherit; line-height: 1.7; resize: vertical; }
+.examsol { margin-top: 18px; }
+.examsol h3 { margin: 0 0 6px; }
 </style>
 
 <style id="plain">
@@ -7969,6 +7987,8 @@ MC_PATCH.forEach(p => {
   const order = QUESTIONS.map(q => q.t);
   (p.add || []).forEach(q => { let i = -1; QUESTIONS.forEach((x, k) => { if (x.t === q.t) i = k; }); if (i >= 0) QUESTIONS.splice(i + 1, 0, q); else QUESTIONS.push(q); });
 });
+/* 同題型只留一題（2026-11-20） */
+{ const DEDUP_REMOVE = new Set(["S2-M3", "S3-01", "S3-F2", "S3-M1", "S4-06", "S4-N2", "S4-01", "S4-N3", "S5-M1", "S5-04", "S5-N2", "S5-N1", "S6-M1", "S7-M3", "S8-04", "S8-03", "S8-N3", "S8-X1", "S8-05", "S9-N4", "M1-M1", "M2-F1", "M2-F2", "M2-05", "M3-X2", "M3-X3", "M3-M2", "M4-N2", "M4-N3", "M4-M1", "M4-03", "M4-M5", "M5-03", "M5-M2", "M5-M1", "M5-M5", "P1-M1", "P1-F1", "P3-N3", "P4-N1", "P4-F1", "P4-N2", "P6-M1", "P7-F2", "P7-F1", "P7-M4", "P9-M3", "P10-M1", "D4-01", "D4-N2"]); for (let i = QUESTIONS.length - 1; i >= 0; i--) if (DEDUP_REMOVE.has(QUESTIONS[i].id)) QUESTIONS.splice(i, 1); }
 const EDU = {};
 Object.assign(EDU, {
   "C-S2": {
@@ -10030,6 +10050,18 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   const CMAP = Object.fromEntries(CALCS.map(c => [c.id, c]));
   let cur = null; // { id, step, tries:[], res:[] }  res: 1 first-try, 0 needed retry, -1 revealed
   let calcFilter = "9,11";
+  let calcMode = "step";
+  try { calcMode = localStorage.getItem("fq-calc-mode") === "exam" ? "exam" : "step"; } catch (e) {}
+  function setCalcMode(m) { calcMode = m; try { localStorage.setItem("fq-calc-mode", m); } catch (e) {} }
+  const CALC_ASK = {"C-S2":[2],"C-S3":[3],"C-S4":[6],"C-S5":[2],"C-S6a":[2],"C-S6b":[3],"C-S6c":[6],"C-S7":[3],"C-S8":[0,2],"C-S9":[1,2],
+    "C-M1a":[2,3,4],"C-M1b":[3,4],"C-M3a":[2,3],"C-M3b":[1],"C-HW91":[3],"C-M4":[1,2],"C-HW96":[7],"C-HW97":[7],"C-M5":[1,4],"C-M5b":[1,3],"C-HW94":[1,3],
+    "C-P3a":[4],"C-P3b":[3],"C-HW111":[4,9,10],"C-HW114":[2,4,5,7],"C-P4":[3],"C-HW112":[2,4],"C-HW113":[2],"C-HW115":[2,4,5],
+    "C-P5":[0,2,4,6],"C-HW117":[2,4,5],"C-HW1110":[2,6,7],"C-P6":[2],"C-P8":[4],"C-P9":[2],"C-HW1119":[2],"C-P10a":[1,2],"C-P10b":[4],
+    "C-D3":[4],"C-D4a":[3],"C-D4b":[4]};
+  function askOf(c) { const a = (CALC_ASK[c.id] || []).filter(i => i < c.steps.length); return a.length ? a : [c.steps.length - 1]; }
+  const isBadRes = x => x === 0 || x === -1;
+  function modeSeg() { return `<div class="modeseg" role="group" aria-label="計算題模式"><button data-cmode="step" class="${calcMode === "step" ? "on" : ""}">一步一步帶算</button><button data-cmode="exam" class="${calcMode === "exam" ? "on" : ""}">直接作答</button></div>`; }
+  function bindModeSeg(root, after) { root.querySelectorAll("[data-cmode]").forEach(b => b.onclick = () => { if (b.dataset.cmode === calcMode) return; setCalcMode(b.dataset.cmode); after(); }); }
 
   function fmt(x) {
     const a = Math.abs(x);
@@ -10051,8 +10083,8 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     const r = crec(id);
     if (!r || !r.last) return { cls: "", txt: "未做" };
     if (!r.last.done) return { cls: "", txt: "做到一半" };
-    const bad = r.last.res.filter(x => x !== 1).length;
-    return bad ? { cls: "bad", txt: `${bad} 步有錯` } : { cls: "ok", txt: "全部一次答對" };
+    const bad = r.last.res.filter(isBadRes).length;
+    return bad ? { cls: "bad", txt: `${bad} ${r.last.exam ? "格答錯" : "步有錯"}` } : { cls: "ok", txt: r.last.exam ? "直接作答全對" : "全部一次答對" };
   }
   function saveCalc(done) {
     store.calc = store.calc || {};
@@ -10072,21 +10104,25 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   function renderCalcList() {
     const area = $("#calcArea");
     const list = CALCS.filter(c => calcFilter === "all" || ("," + calcFilter + ",").includes("," + (TOPICS[c.t].ch) + ","));
-    area.innerHTML = `<div class="filters"><label>章節<select id="cCh">${chOptions()}</select></label></div>
-      <p class="lead">每一題都是完整的大題，網站帶你一步一步算到最後答案。每題附示意圖和參數說明，每一步都附上要用的公式和為什麼這樣算，把數字填進空格後按「檢查」；答錯可以再算一次，連錯兩次會出現「看解答」。答案容許 ±2% 的四捨五入誤差，後面的步驟一律用正確的前一步數值接著算。</p>
+    const lead = calcMode === "exam"
+      ? `<p class="lead">直接作答：只給題目、已知和圖，像考試一樣自己算。下方有作答區可以寫計算過程（自動存在這台裝置），把要求的答案填進空格後按「對答案」，網站會標出對錯並顯示完整詳解。答案容許 ±2% 誤差。</p>`
+      : "";
+    area.innerHTML = `<div class="filters"><label>章節<select id="cCh">${chOptions()}</select></label></div>${modeSeg()}${lead}
+      <p class="lead"${calcMode === "exam" ? ' hidden' : ""}>每一題都是完整的大題，網站帶你一步一步算到最後答案。每題附示意圖和參數說明，每一步都附上要用的公式和為什麼這樣算，把數字填進空格後按「檢查」；答錯可以再算一次，連錯兩次會出現「看解答」。答案容許 ±2% 的四捨五入誤差，後面的步驟一律用正確的前一步數值接著算。</p>
       <div class="rows">${list.map(c => {
         const t = TOPICS[c.t], st = calcStatus(c.id);
         return `<button class="crow" data-cid="${c.id}"><span class="name"><span class="chip c${t.ch}">${t.sec} ${t.name}</span>${examChip(c.id)}<br>${c.title}</span>
-          <span class="nums">${c.steps.length} 步<br><span class="${st.cls}">${st.txt}</span></span></button>`;
+          <span class="nums">${calcMode === "exam" ? `求 ${askOf(c).length} 項` : `${c.steps.length} 步`}<br><span class="${st.cls}">${st.txt}</span></span></button>`;
       }).join("")}</div>`;
     $("#cCh").value = calcFilter;
     $("#cCh").onchange = e => { calcFilter = e.target.value; renderCalcList(); };
+    bindModeSeg(area, renderCalcList);
     area.querySelectorAll("[data-cid]").forEach(b => b.onclick = () => openCalc(b.dataset.cid));
   }
 
   function openCalc(id) {
     const c = CMAP[id];
-    cur = { id, step: 0, tries: c.steps.map(() => 0), res: c.steps.map(() => null), hint: {}, msg: "" };
+    cur = { id, step: 0, tries: c.steps.map(() => 0), res: c.steps.map(() => null), hint: {}, msg: "", mode: calcMode, ex: { vals: {}, checked: false } };
     const r = crec(id); if (r) { r.runs = (r.runs || 0) + 1; }
     renderCalc();
     window.scrollTo({ top: 0 });
@@ -10108,6 +10144,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
   }
   function whyHtml(c, i) { const e = EDU[c.id]; return e && e.why && e.why[i] ? `<div class="why"><b>為什麼這樣算</b>${e.why[i]}</div>` : ""; }
   function renderCalc() {
+    if (cur.mode === "exam") return renderCalcExam();
     const c = CMAP[cur.id], t = TOPICS[c.t], area = $("#calcArea");
     const total = c.steps.length, finished = cur.step >= total;
     let cur$ = "";
@@ -10127,13 +10164,14 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
       end = `<div class="done calc-done"><h2>本題完成</h2><div class="big">${first} / ${total}</div><p>${first === total ? "每一步都一次答對。" : `有 ${total - first} 步需要訂正或看了解答，已記到錯題本。`}</p>
         <div class="nav"><button class="btn" id="btnRedo">重做這題</button><button class="btn primary" id="btnNextCalc">${nextCalcId() ? "下一題" : "回題目列表"}</button></div></div>`;
     }
-    area.innerHTML = `<div class="runbar"><button class="linkbtn" id="btnBackList">← 回計算題列表</button><span class="meta">${c.id}</span></div>
+    area.innerHTML = `<div class="runbar"><button class="linkbtn" id="btnBackList">← 回計算題列表</button><span class="meta">${c.id}</span>${modeSeg()}</div>
       <article class="card"><div class="qhead"><span class="chip c${t.ch}">${t.sec} ${t.name}</span><span class="chip k">計算填空</span>${examChip(c.id)}</div>
       <h2 class="ctitle">${c.title}</h2>
       <div class="given"><h3>已知</h3><p>${c.given}</p></div>${eduTop(c)}
       <ol class="steps">${c.steps.slice(0, Math.min(cur.step, total)).map(stepDoneHtml).join("")}${cur$}</ol>
       ${end}<div class="src">出處：${c.src}</div></article>`;
     $("#btnBackList").onclick = () => { cur = null; renderCalcList(); };
+    bindModeSeg(area.querySelector(".runbar"), () => openCalc(cur.id));
     area.querySelectorAll("[data-more]").forEach(b => b.onclick = () => { const li = b.closest(".step"); li.classList.toggle("open"); b.textContent = li.classList.contains("open") ? "收起" : "看這步的原因與公式"; });
     if (finished) {
       $("#btnRedo").onclick = () => openCalc(cur.id);
@@ -10156,6 +10194,67 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     }
   }
 
+
+  /* 直接作答模式 */
+  function workKey(id) { return "fq-calc-work-" + id; }
+  function loadWork(id) { try { return localStorage.getItem(workKey(id)) || ""; } catch (e) { return ""; } }
+  function saveWork(id, v) { try { localStorage.setItem(workKey(id), v); } catch (e) {} }
+  function escHtml(x) { return String(x).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function renderCalcExam() {
+    const c = CMAP[cur.id], t = TOPICS[c.t], area = $("#calcArea"), e = EDU[c.id], ex = cur.ex, ask = askOf(c);
+    const fig = e && e.fig ? `<figure class="fig"><div class="swipe">← 左右滑動看完整圖 →</div>${e.fig}${e.figCap ? `<figcaption>${e.figCap}</figcaption>` : ""}</figure>` : "";
+    const items = ask.map((i, n) => {
+      const s = c.steps[i], v = ex.vals[i], st = ex.checked ? (ex.ok[i] ? "ok" : "bad") : "";
+      const inp = s.choice
+        ? `<select data-ai="${i}" ${ex.checked ? "disabled" : ""}><option value="">請選擇</option>${s.choice.map((o, k) => `<option value="${k}" ${String(v) === String(k) ? "selected" : ""}>${o.replace(/<[^>]+>/g, "")}</option>`).join("")}</select>`
+        : `<input data-ai="${i}" inputmode="decimal" placeholder="填入數值" value="${v == null ? "" : escHtml(v)}" ${ex.checked ? "disabled" : ""} aria-label="第 ${n + 1} 小題答案"><span class="unit">${s.unit || ""}</span>`;
+      const ansTxt = s.choice ? s.choice[s.ans] : `${fmt(s.ans)} ${s.unit || ""}`;
+      const res = ex.checked ? `<div class="ares">${ex.ok[i] ? '<span class="ok">✓ 正確</span>' : '<span class="bad">✗ 不對</span>'}　正確答案：<b>${ansTxt}</b></div>` : "";
+      return `<li class="${st}"><p class="aq"><b>(${n + 1})</b> ${s.q}</p><div class="arow">${inp}</div>${res}</li>`;
+    }).join("");
+    let sol = "";
+    if (ex.checked) {
+      const nOk = ask.filter(i => ex.ok[i]).length;
+      sol = `<div class="done calc-done"><h2>${nOk === ask.length ? "全部答對" : `答對 ${nOk} / ${ask.length}`}</h2><p>${nOk === ask.length ? "可以對照下面的詳解檢查計算過程。" : "答錯的已記到錯題本，對照下面的詳解看哪一步出錯。"}</p>
+        <div class="nav"><button class="btn" id="btnRedo">重做這題</button><button class="btn primary" id="btnNextCalc">${nextCalcId() ? "下一題" : "回題目列表"}</button></div></div>
+        <div class="examsol"><h3>完整詳解</h3>${e && e.idea ? `<div class="idea"><b>這題在算什麼</b>${e.idea}</div>` : ""}<ol class="steps">${c.steps.map((s, i) => {
+          const val = s.choice ? s.choice[s.ans] : `${fmt(s.ans)} ${s.unit || ""}`;
+          return `<li class="step done open"><div class="sh"><span class="sn">步驟 ${i + 1}</span>${ask.includes(i) ? (ex.ok[i] ? '<span class="ok">你答對</span>' : '<span class="bad">你答錯</span>') : ""}</div>
+            <p class="sq">${s.q}</p>${whyHtml(c, i)}${s.hint ? `<div class="hint"><b>公式</b>${s.hint}</div>` : ""}<div class="sv">= <b>${val}</b></div><div class="exp"><p>${s.exp}</p></div></li>`;
+        }).join("")}</ol></div>`;
+    }
+    area.innerHTML = `<div class="runbar"><button class="linkbtn" id="btnBackList">← 回計算題列表</button><span class="meta">${c.id}</span>${modeSeg()}</div>
+      <article class="card"><div class="qhead"><span class="chip c${t.ch}">${t.sec} ${t.name}</span><span class="chip k">直接作答</span>${examChip(c.id)}</div>
+      <h2 class="ctitle">${c.title}</h2>
+      <div class="given"><h3>已知</h3><p>${c.given}</p></div>${fig}
+      <h3>求</h3><ol class="ask">${items}</ol>
+      ${ex.checked ? "" : `<p class="fb" id="exMsg">${cur.msg || ""}</p><div class="nav"><button class="btn primary" id="btnExamCheck">對答案</button></div>`}
+      <h3>作答區（計算過程）</h3><textarea class="workpad" id="workpad" placeholder="在這裡寫計算過程，內容會自動存在這台裝置。">${escHtml(loadWork(c.id))}</textarea>
+      ${sol}<div class="src">出處：${c.src}</div></article>`;
+    $("#btnBackList").onclick = () => { cur = null; renderCalcList(); };
+    bindModeSeg(area.querySelector(".runbar"), () => openCalc(cur.id));
+    const wp = $("#workpad"); wp.oninput = () => saveWork(c.id, wp.value);
+    area.querySelectorAll("[data-ai]").forEach(el => { el.oninput = el.onchange = () => { ex.vals[el.dataset.ai] = el.value; }; });
+    if (ex.checked) {
+      $("#btnRedo").onclick = () => openCalc(cur.id);
+      $("#btnNextCalc").onclick = () => { const n = nextCalcId(); if (n) openCalc(n); else { cur = null; renderCalcList(); } };
+      return;
+    }
+    $("#btnExamCheck").onclick = () => {
+      const miss = ask.filter(i => { const v = ex.vals[i]; return v == null || String(v).trim() === ""; });
+      if (miss.length) { cur.msg = `還有 ${miss.length} 格沒填。`; renderCalcExam(); return; }
+      const bad = ask.find(i => !c.steps[i].choice && !isFinite(parseNum(ex.vals[i])));
+      if (bad != null) { cur.msg = "請填入數字，例如 18.4、0.69 或 1.2e-4。"; renderCalcExam(); return; }
+      ex.ok = {};
+      ask.forEach(i => { const s = c.steps[i]; ex.ok[i] = s.choice ? +ex.vals[i] === s.ans : close(parseNum(ex.vals[i]), s.ans); countStep(i, ex.ok[i]); });
+      ex.checked = true; cur.msg = "";
+      cur.res = c.steps.map((_, i) => ask.includes(i) ? (ex.ok[i] ? 1 : -1) : null);
+      store.calc = store.calc || {};
+      const r = store.calc[cur.id] || { runs: 0, stepN: 0, stepW: 0, miss: {}, ts: 0, last: null };
+      r.last = { res: cur.res.slice(), done: true, exam: true }; r.ts = Date.now(); store.calc[cur.id] = r;
+      save(); updateBadge(); renderCalcExam();
+    };
+  }
   function check(ok, v) {
     const c = CMAP[cur.id], s = c.steps[cur.step], i = cur.step;
     if (ok) { cur.res[i] = cur.tries[i] === 0 ? 1 : 0; advance(); return; }
@@ -10189,7 +10288,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     return k >= 0 && k < list.length - 1 ? list[k + 1].id : null;
   }
   function calcWrongIds() {
-    return CALCS.filter(c => { const r = crec(c.id); return r && r.last && r.last.done && r.last.res.some(x => x !== 1); }).map(c => c.id);
+    return CALCS.filter(c => { const r = crec(c.id); return r && r.last && r.last.done && r.last.res.some(isBadRes); }).map(c => c.id);
   }
   function renderCalcWrong() {
     const ids = CALCS.filter(c => { const r = crec(c.id); return r && r.stepW > 0; });
@@ -10197,7 +10296,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     if (!ids.length) { box.innerHTML = ""; return; }
     box.innerHTML = `<h2 class="sec">計算題錯步<small>依你最後一次作答標示</small></h2>` + ids.map(c => {
       const r = crec(c.id), t = TOPICS[c.t];
-      const lastBad = r.last && r.last.done ? r.last.res.map((x, i) => x !== 1 ? i : -1).filter(i => i >= 0) : null;
+      const lastBad = r.last && r.last.done ? r.last.res.map((x, i) => isBadRes(x) ? i : -1).filter(i => i >= 0) : null;
       const steps = Object.keys(r.miss || {}).map(Number).sort((a, b) => a - b);
       return `<details class="wb"><summary><div class="t"><div class="sub"><span class="chip c${t.ch}">${t.sec} ${t.name}</span> <span class="chip k">計算填空</span></div>${c.title}</div>
         <div class="n">${lastBad == null ? '<span>未完成</span>' : lastBad.length ? `<span class="bad">上次 ${lastBad.length} 步錯</span>` : '<span class="ok">已訂正</span>'}</div></summary>
@@ -10213,7 +10312,7 @@ CALCS.forEach(c => Object.entries(HINT_FIX[c.id] || {}).forEach(([i, h]) => { c.
     CALCS.forEach(c => {
       const r = crec(c.id); if (!r) return;
       n += r.stepN || 0; w += r.stepW || 0;
-      if (r.last && r.last.done) { doneCnt++; if (r.last.res.every(x => x === 1)) clean++; }
+      if (r.last && r.last.done) { doneCnt++; if (!r.last.res.some(isBadRes)) clean++; }
       const k = c.t; byTopic[k] = byTopic[k] || { n: 0, w: 0 }; byTopic[k].n += r.stepN || 0; byTopic[k].w += r.stepW || 0;
     });
     const pct = x => x == null ? "—" : Math.round(x * 100) + "%";
